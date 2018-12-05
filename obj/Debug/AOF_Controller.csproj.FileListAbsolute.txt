@@ -1,0 +1,8 @@
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\obj\Debug\AOF_Controller.csprojResolveAssemblyReference.cache
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\obj\Debug\AOF_Controller.Form1.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\obj\Debug\AOF_Controller.Properties.Resources.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\obj\Debug\AOF_Controller.csproj.GenerateResource.Cache
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\bin\Debug\AOF_Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\bin\Debug\AOF_Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\obj\Debug\AOF_Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\Все для АО спектрометра\Новые АО\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\obj\Debug\AOF_Controller.pdb
