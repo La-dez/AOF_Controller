@@ -35,7 +35,6 @@
             this.ChB_Power = new System.Windows.Forms.CheckBox();
             this.label18 = new System.Windows.Forms.Label();
             this.L_RealDevName = new System.Windows.Forms.Label();
-            this.ChB_ActivateAOFSimulator = new System.Windows.Forms.CheckBox();
             this.BDevOpen = new System.Windows.Forms.Button();
             this.L_RequiredDevName = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -54,6 +53,7 @@
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.Pan_SweepControls = new System.Windows.Forms.Panel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.NUD_FreqDeviation = new System.Windows.Forms.NumericUpDown();
@@ -64,7 +64,6 @@
             this.ChB_SweepEnabled = new System.Windows.Forms.CheckBox();
             this.LBConsole = new System.Windows.Forms.ListBox();
             this.B_Quit = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -78,9 +77,9 @@
             this.tableLayoutPanel5.SuspendLayout();
             this.Pan_SweepControls.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -124,7 +123,6 @@
             this.tableLayoutPanel30.Controls.Add(this.ChB_Power, 3, 0);
             this.tableLayoutPanel30.Controls.Add(this.label18, 0, 2);
             this.tableLayoutPanel30.Controls.Add(this.L_RealDevName, 2, 2);
-            this.tableLayoutPanel30.Controls.Add(this.ChB_ActivateAOFSimulator, 0, 0);
             this.tableLayoutPanel30.Controls.Add(this.BDevOpen, 1, 0);
             this.tableLayoutPanel30.Controls.Add(this.L_RequiredDevName, 1, 1);
             this.tableLayoutPanel30.Controls.Add(this.label17, 0, 1);
@@ -175,20 +173,6 @@
             this.L_RealDevName.Size = new System.Drawing.Size(31, 13);
             this.L_RealDevName.TabIndex = 80;
             this.L_RealDevName.Text = "none";
-            // 
-            // ChB_ActivateAOFSimulator
-            // 
-            this.ChB_ActivateAOFSimulator.Appearance = System.Windows.Forms.Appearance.Button;
-            this.ChB_ActivateAOFSimulator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChB_ActivateAOFSimulator.Location = new System.Drawing.Point(1, 1);
-            this.ChB_ActivateAOFSimulator.Margin = new System.Windows.Forms.Padding(1);
-            this.ChB_ActivateAOFSimulator.Name = "ChB_ActivateAOFSimulator";
-            this.ChB_ActivateAOFSimulator.Size = new System.Drawing.Size(301, 23);
-            this.ChB_ActivateAOFSimulator.TabIndex = 26;
-            this.ChB_ActivateAOFSimulator.Text = "Эмулятор АОФ";
-            this.ChB_ActivateAOFSimulator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ChB_ActivateAOFSimulator.UseVisualStyleBackColor = true;
-            this.ChB_ActivateAOFSimulator.CheckedChanged += new System.EventHandler(this.ChBActivateAOFSimulator_CheckedChanged);
             // 
             // BDevOpen
             // 
@@ -340,8 +324,14 @@
             // NUD_CurWL
             // 
             this.NUD_CurWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_CurWL.DecimalPlaces = 2;
             this.NUD_CurWL.Location = new System.Drawing.Point(100, 20);
             this.NUD_CurWL.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_CurWL.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.NUD_CurWL.Name = "NUD_CurWL";
             this.NUD_CurWL.Size = new System.Drawing.Size(261, 20);
             this.NUD_CurWL.TabIndex = 83;
@@ -378,6 +368,7 @@
             // 
             this.TrB_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TrB_CurrentWL.Location = new System.Drawing.Point(3, 3);
+            this.TrB_CurrentWL.Maximum = 100000;
             this.TrB_CurrentWL.Name = "TrB_CurrentWL";
             this.TrB_CurrentWL.Size = new System.Drawing.Size(950, 24);
             this.TrB_CurrentWL.TabIndex = 34;
@@ -417,7 +408,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             this.tableLayoutPanel4.Controls.Add(this.trackBar1, 0, 2);
             this.tableLayoutPanel4.Controls.Add(this.label9, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.label10, 3, 1);
@@ -437,13 +428,28 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(1011, 160);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.SetColumnSpan(this.trackBar1, 3);
+            this.trackBar1.Location = new System.Drawing.Point(3, 97);
+            this.trackBar1.Maximum = 150000;
+            this.trackBar1.Minimum = 40000;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(942, 45);
+            this.trackBar1.TabIndex = 35;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar1.Value = 40000;
+            this.trackBar1.Visible = false;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
             // label9
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(954, 13);
+            this.label9.Location = new System.Drawing.Point(951, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 13);
+            this.label9.Size = new System.Drawing.Size(57, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -452,10 +458,10 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(955, 53);
+            this.label10.Location = new System.Drawing.Point(952, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 13);
+            this.label10.Size = new System.Drawing.Size(56, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "мс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -464,10 +470,15 @@
             // 
             this.NUD_FreqDeviation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FreqDeviation.DecimalPlaces = 3;
-            this.NUD_FreqDeviation.Location = new System.Drawing.Point(317, 10);
+            this.NUD_FreqDeviation.Location = new System.Drawing.Point(316, 10);
             this.NUD_FreqDeviation.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_FreqDeviation.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(634, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(632, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.ValueChanged += new System.EventHandler(this.NUD_FreqDeviation_ValueChanged);
             // 
@@ -475,10 +486,15 @@
             // 
             this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(317, 50);
+            this.NUD_TimeFdev.Location = new System.Drawing.Point(316, 50);
             this.NUD_TimeFdev.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_TimeFdev.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(634, 20);
+            this.NUD_TimeFdev.Size = new System.Drawing.Size(632, 20);
             this.NUD_TimeFdev.TabIndex = 2;
             this.NUD_TimeFdev.ValueChanged += new System.EventHandler(this.NUD_TimeFdev_ValueChanged);
             // 
@@ -486,7 +502,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(241, 13);
+            this.label8.Location = new System.Drawing.Point(240, 13);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(73, 13);
             this.label8.TabIndex = 1;
@@ -509,7 +525,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 13);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(232, 13);
+            this.label6.Size = new System.Drawing.Size(231, 13);
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
             // 
@@ -549,21 +565,6 @@
             this.B_Quit.UseVisualStyleBackColor = true;
             this.B_Quit.Click += new System.EventHandler(this.B_Quit_Click);
             // 
-            // trackBar1
-            // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel4.SetColumnSpan(this.trackBar1, 3);
-            this.trackBar1.Location = new System.Drawing.Point(3, 97);
-            this.trackBar1.Maximum = 150000;
-            this.trackBar1.Minimum = 40000;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(945, 45);
-            this.trackBar1.TabIndex = 35;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar1.Value = 40000;
-            this.trackBar1.Visible = false;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -594,9 +595,9 @@
             this.Pan_SweepControls.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -609,7 +610,6 @@
         private System.Windows.Forms.CheckBox ChB_Power;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label L_RealDevName;
-        private System.Windows.Forms.CheckBox ChB_ActivateAOFSimulator;
         private System.Windows.Forms.Button BDevOpen;
         private System.Windows.Forms.Label L_RequiredDevName;
         private System.Windows.Forms.Label label17;

@@ -929,7 +929,7 @@ namespace LDZ_Code
                 int codeerr = 0; int num = 0;
                 try
                 {
-                    int devs_to_open = LDZ_Code.AO.ListUnopenDevices();
+                   /* int devs_to_open = LDZ_Code.AO.ListUnopenDevices();
                     if (devs_to_open > 0)
                     {
                         LDZ_Code.AO.List_and_open_Devices();
@@ -939,7 +939,7 @@ namespace LDZ_Code
                     {
                         result = false;
                         LogError_del("Подключенные АОФ не найдены");
-                    }
+                    }*/
                 }
                 catch (Exception exc)
                 {
@@ -966,7 +966,7 @@ namespace LDZ_Code
             }
             public static void PowerAOF(bool isSimulator, dynamic D_mess, dynamic D_err, ref bool isPowerOn)
             {
-                var LogError_del = D_err;
+               /* var LogError_del = D_err;
                 var LogMessage_del = D_mess;
                 try
                 {
@@ -986,7 +986,7 @@ namespace LDZ_Code
                 catch (Exception ex)
                 {
                     LogError_del(ex.Message);
-                }
+                }*/
             }
         }
         public static class UI

@@ -9,89 +9,89 @@ using static LDZ_Code.ServiceFunctions;
 namespace AOF_Controller
 {
     public partial class Form1
-    {        
- 
+    {
+        private void tests()
+        {
+            
+            Filter.Read_dev_file("ampl_avm1-011-3.dev");
+            Filter.PowerOn();
+            Filter.Set_Wl(Filter.WL_Max);
+            Filter.Set_Wl((Filter.WL_Max + Filter.WL_Min) / 2);
+            Filter.Set_Wl(Filter.WL_Min);
+            Filter.Set_Hz((Filter.HZ_Min + Filter.HZ_Max) / 2);
+            float delta = 5;
+            Filter.Set_Sweep_on((Filter.HZ_Max + Filter.HZ_Min) / 2 - delta, 2 * delta, 1, true);
+            System.Threading.Thread.Sleep(2000);
+            Filter.Set_Sweep_off();
+            //  Filter.PowerOff();
+        }
         private void InitializeComponents_byVariables()
         {
-            ChB_ActivateAOFSimulator.Checked = AO_IsEmulator;
-            ChB_Power.Checked = AO_TurnedON;
-            ChB_AutoSetWL.Checked = AO_WL_Controlled_byslider;
-
-            L_RequiredDevName.Text = /*AO_DEV_required*/AO_DEV_loaded.ToLower();
-            L_RealDevName.Text = AO_DEV_loaded;
-
-            float data_curL = AO_CurrentWL; // В противном случае значение заменяется минимальной длиной волны
-            
-            NUD_CurWL.Minimum  = TrB_CurrentWL.Minimum = (int)AO_MinWL;
-            NUD_CurWL.Maximum  = TrB_CurrentWL.Maximum  = (int)AO_MaxWL;
-
-            AO_CurrentWL = data_curL;
-            NUD_CurWL.Value = TrB_CurrentWL.Value = (int)AO_CurrentWL;
-
-
-            ChB_SweepEnabled.Checked = AO_Sweep_On;
-            Pan_SweepControls.Enabled = AO_Sweep_On;
-
-            var AOFWind_FreqDeviation_bkp = AO_FreqDeviation;
-            NUD_FreqDeviation.Minimum = (decimal)AO_FreqDeviation_Min;
-            NUD_FreqDeviation.Maximum = (decimal)
-                (AO_FreqDeviation_Max_byTime < AO_FreqDeviation_Max_byRange ? AO_FreqDeviation_Max_byTime : AO_FreqDeviation_Max_byRange);
-
-            var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
-            NUD_TimeFdev.Minimum = (decimal)AO_TimeDeviation_Min;
-            NUD_TimeFdev.Maximum = (decimal)AO_TimeDeviation_Max;
-
-            NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
-            NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
-        }
-
-        private void This_onQuit_AOM_OFF()
-        {
-            if (AO_TurnedON || LDZ_Code.AO.m_hPort != 0)
+            try
             {
-                Thread.Sleep(100);
-                LDZ_Code.AO.Sweep_Alternative_off();
-                Thread.Sleep(100);
-                LDZ_Code.AO.AOM_PowerOff_new2();
-                LDZ_Code.AO.Deinit_Device();
-                Thread.Sleep(100);
-                LDZ_Code.AO.m_hPort = 0;
+                ChB_Power.Checked = false;
+
+                ChB_AutoSetWL.Checked = AO_WL_Controlled_byslider;
+
+                L_RequiredDevName.Text = Filter.Ask_required_dev_file();
+                L_RealDevName.Text = Filter.Ask_loaded_dev_file();
+                float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
+                Filter.Set_Wl(data_CurWL);
+
+                NUD_CurWL.Minimum = (decimal)Filter.WL_Min;
+                TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
+                NUD_CurWL.Maximum = (decimal)Filter.WL_Max;
+                TrB_CurrentWL.Maximum = (int)(Filter.WL_Max * AO_WL_precision);
+                NUD_CurWL.Value = (decimal)data_CurWL;
+                TrB_CurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
+
+                ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
+                Pan_SweepControls.Enabled = Filter.is_inSweepMode;
+
+                var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
+                NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
+                NUD_FreqDeviation.Maximum = (decimal)
+                    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
+
+                var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
+                NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
+                NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
+
+                NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
+                NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
+
+                ChB_Power.Enabled = true;
+
+                Log.Message("Инициализация элементов управления прошла успешно!");
+            }
+            catch(Exception exc)
+            {
+                Log.Error("Инициализация элементов управления завершилась с ошибкой.");
             }
         }
+
         private void SetWL_everywhere(int pwl)
         {
             NUD_CurWL.Value = pwl;
             TrB_CurrentWL.Value = pwl;
         }
-        private bool Activate_alltheAOF()
+        private void ReSweep(float p_data_CurrentWL)
         {
-            string AO_Dev_forLoad = null;
-            bool AOF_Loaded_without_fails;
-            if (AO_IsEmulator) AO_Dev_forLoad = "avm1-011.dev";
-            else
-            {
-                if (!String.IsNullOrEmpty(AO_DEV_loaded)) AO_Dev_forLoad = AO_DEV_loaded;
-                else { Log.Message("Не выбран конфигурационный .dev файл!"); return false; }
-            }
+            Filter.Set_Sweep_off();
+            float HZ_toset = Filter.Get_HZ_via_WL(p_data_CurrentWL);
+            System.Drawing.PointF data_for_sweep = Filter.Sweep_Recalculate_borders(HZ_toset, (float)AO_FreqDeviation);
+
+            Log.Message(String.Format("ЛЧМ Параметры: ДВ:{0} / Частота:{1} / Девиация частоты:{2}", p_data_CurrentWL, HZ_toset, AO_FreqDeviation));
+            Log.Message(String.Format("Доступные для установки ЛЧМ параметры:  ДВ: {0} / Частота:{1} / Девиация частоты: {2} ",
+                p_data_CurrentWL, HZ_toset, data_for_sweep.Y / 2));
+            Log.Message(String.Format("Пересчет:  {0}+{1}", data_for_sweep.X, data_for_sweep.Y));
+
             
-            float AO_StartWL = 0;
-            float AO_EndWL = 0;
 
-            AOF_Loaded_without_fails = ServiceFunctions.AO.ConnectAOF(AO_Dev_forLoad, ref TrB_CurrentWL, ref NUD_CurWL,
-                AO_IsEmulator, new UI.Log.Logger.Log_del(Log.Message), new UI.Log.Logger.Log_del(Log.Error),
-                ref AO_MinWL, ref AO_MaxWL, ref AO_StartWL, ref AO_EndWL, ref AO_CurrentWL,
-                ref AO_DEV_required);
-
-            if (!AOF_Loaded_without_fails)
-            {
-                //TLP_SaveGroup_C2.Enabled = false;
-                Log.Message("ПРЕДУПРЕЖДЕНИЕ: перестройка АОФ может привести к необходимости перезапуска программы, " +
-                    "так как библиотека контроллера была загружена некорректно");
-            }
-            return AOF_Loaded_without_fails;
-
+            var state = Filter.Set_Sweep_on(data_for_sweep.X, data_for_sweep.Y, AO_TimeDeviation, true);
+            if (state != 0) throw new Exception(Filter.Implement_Error(state));
+            Log.Message("Режим ЛЧМ около длины волны " + p_data_CurrentWL.ToString() + " нм запущен!");
         }
-       
         private DialogResult OpenDevSearcher(ref string CfgToLoad, ref string CfgToLoad_fullPath)
         {
 

@@ -8,77 +8,212 @@ using FT_HANDLE = System.UInt32;
 
 namespace LDZ_Code
 {
-    class AO
+    public static class AO_Devices
     {
-        abstract public class Filter
+        abstract public class AO_Filter : IDisposable
         {
-            public abstract string FilterDescriptor_or_name { set; get; }
-            public abstract string FilterCfgName { set; get; }
-            public abstract string FilterCfgPath { set; get; }
-            public abstract string DllName { set; get; }
+            public abstract FilterTypes FilterType { get; }
 
-            public abstract float[] HZs { set; get; }
-            public abstract float[] WLs { set; get; }
-            public abstract float[] Intensity { set; get; }
-            public abstract bool AOF_Loaded_without_fails { set; get; }
+            //Все о фильтре: дескриптор(имя), полное и краткое имя dev файла и управляющая dll
+            protected abstract string FilterDescriptor_or_name { set; get; }
+            protected abstract string FilterCfgName { set; get; }
+            protected abstract string FilterCfgPath { set; get; }
+            protected abstract string DllName { set; get; }
 
-            public abstract float WL_Max { set; get; }
-            public abstract float WL_Min { set; get; }
+            protected abstract float[] HZs { set; get; }
+            protected abstract float[] WLs { set; get; }
+            protected abstract float[] Intensity { set; get; }
+            //
+            protected abstract bool AOF_Loaded_without_fails { set; get; }
+            protected abstract bool sAOF_isPowered { set; get; }
+            public virtual bool isPowered { get { return sAOF_isPowered; } }
+            //базовые поля для получения диапазонов по перестройке
+            public abstract float WL_Max { get; }
+            public abstract float WL_Min { get; }
+            public abstract float HZ_Max { get; }
+            public abstract float HZ_Min { get; }
+            protected virtual float sHZ_Current { set; get; }
+            protected virtual float sWL_Current { set; get; }
+            public float WL_Current { get { return sWL_Current; } }
+            public float HZ_Current { get { return sHZ_Current; } }
+      
 
-            public abstract int Set_Wl(int pWL);
+            //все о свипе
+            protected abstract bool sAO_Sweep_On { set; get; }
+            public bool is_inSweepMode { get { return sAO_Sweep_On; } }
+
+            public virtual float AO_FreqTuneSpeed { get { return 1.0f; } } //[1 MHz/s]   
+            public virtual float AO_TimeDeviation_Min { get { return 1; } }   // [мс]     
+            public virtual float AO_TimeDeviation_Max { get { return 2500; } } // [мс]
+            public virtual float AO_FreqDeviation_Min { get { return AO_FreqTuneSpeed * AO_TimeDeviation_Min; } } // [МГц]
+            public virtual float AO_FreqDeviation_Max { get { return HZs[0] - HZs[HZs.Length - 1]; } }
+
+
+
+            //функционал
+
+            //перестройка ДВ пропускания
+            public abstract int Set_Wl(float pWL);
             public abstract int Set_Hz(float freq);
+
+            public abstract int Set_OutputPower(byte percentage);
+
             public abstract int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat);
             public abstract int Set_Sweep_off();
-            public abstract int Set_OutputPower(byte percentage);
-            public abstract int Init_device(uint number);
-            public abstract int Deinit_device();
+
             public abstract string Ask_required_dev_file();
+            public virtual string Ask_loaded_dev_file() { return FilterCfgName; }
             public abstract int Read_dev_file(string path);
+
+            protected abstract int Init_device(uint number);
+            protected abstract int Deinit_device();
+
             public abstract int PowerOn();
             public abstract int PowerOff();
+            public abstract string Implement_Error(int pCode_of_error);
 
+            public abstract void Dispose();
+
+            public virtual float Get_HZ_via_WL(float pWL)
+            {
+                float distance = (pWL - WL_Min);
+                if ((distance < (WLs.Length)) && (distance >= 0))
+                {
+                    int a = (int)distance;
+                    if ((distance - a) < 1e6f)  { return HZs[a]; }
+                    else { return (float)LDZ_Code.ServiceFunctions.Math.Interpolate_value(WLs[a], HZs[a], WLs[a+1], HZs[a+1], pWL); }
+                }
+                else
+                {
+                    if (distance < 0) return HZs[0];
+                    else return HZs[HZs.Length - 1];
+                }
+                
+            }
+            public virtual float Get_WL_via_HZ(float pHZ)
+            {
+                int num = HZs.Length;
+                int rem_pos = -1;
+                for (int i = 0; i < num - 1; i++)
+                {
+                    if ((HZs[i] >= pHZ) && (HZs[i + 1] <= pHZ)) { rem_pos = i; break; }
+                }
+                if (rem_pos != -1)
+                {
+                    if (pHZ == HZs[rem_pos]) return WLs[rem_pos];
+                    else if (pHZ == HZs[rem_pos + 1]) return WLs[rem_pos + 1];
+                    else
+                    {
+                        return (float)ServiceFunctions.Math.Interpolate_value(HZs[rem_pos], WLs[rem_pos], HZs[rem_pos + 1], WLs[rem_pos + 1], pHZ);
+                    }
+                }
+                else
+                {
+                    return WLs[0];
+                }
+
+            }
+            protected virtual float Get_Intensity_via_WL(int pWL)
+            {
+                float distance = (pWL - WL_Min);
+                if ((distance < (WLs.Length)) && (distance >= 0))
+                {
+                    int a = (int)distance;
+                    if ((distance - a) < 1e6f) { return Intensity[a]; }
+                    else { return (float)LDZ_Code.ServiceFunctions.Math.Interpolate_value(WLs[a], Intensity[a], WLs[a + 1], Intensity[a + 1], pWL); }
+                }
+                else
+                {
+                    if (distance < 0) return Intensity[0];
+                    else return Intensity[Intensity.Length - 1];
+                }
+            }
+            protected virtual float Get_Intensity_via_HZ(float pHZ)
+            {
+                int num = HZs.Length;
+                int rem_pos = -1;
+                for (int i = 0; i < num - 1; i++)
+                {
+                    if ((HZs[i] >= pHZ) && (HZs[i + 1] <= pHZ)) { rem_pos = i; break; }
+                }
+                if (rem_pos != -1)
+                {
+                    if (pHZ == HZs[rem_pos]) return Intensity[rem_pos];
+                    else if (pHZ == HZs[rem_pos + 1]) return Intensity[rem_pos + 1];
+                    else
+                    {
+                        return (float)ServiceFunctions.Math.Interpolate_value(HZs[rem_pos], Intensity[rem_pos], HZs[rem_pos + 1], Intensity[rem_pos + 1], pHZ);
+                    }
+                }
+                else
+                {
+                    return Intensity[0];
+                }
+            }
+            public virtual System.Drawing.PointF Sweep_Recalculate_borders(float pHZ_needed,float pHZ_Radius)
+            {
+                return Find_freq_borders_mass(new List<float> { pHZ_needed },pHZ_Radius, HZ_Min, HZ_Max)[0];
+            }
         }
-        public class Emulator : Filter
+        public class Emulator : AO_Filter
         {
-            public override string FilterDescriptor_or_name { set; get; }
-            public override string FilterCfgName { set; get; }
-            public override string FilterCfgPath { set; get; }
-            public override string DllName { set; get; }
+            public override FilterTypes FilterType { get { return FilterTypes.Emulator; } }
 
-            public override float[] HZs { set; get; }
-            public override float[] WLs { set; get; }
-            public override float[] Intensity { set; get; }
-            public override bool AOF_Loaded_without_fails { set; get; }
+            protected override string FilterDescriptor_or_name { set; get; }
+            protected override string FilterCfgName { set; get; }
+            protected override string FilterCfgPath { set; get; }
+            protected override string DllName { set; get; }
 
-            public override float WL_Max { set; get; }
-            public override float WL_Min { set; get; }
+            protected override float[] HZs { set; get; }
+            protected override float[] WLs { set; get; }
+            protected override float[] Intensity { set; get; }
+            protected override bool AOF_Loaded_without_fails { set; get; }
+            protected override bool sAOF_isPowered { set; get; }
+
+            public override float WL_Max { get { return WLs[WLs.Length - 1]; } }
+            public override float WL_Min { get { return WLs[0]; } }
+            public override float HZ_Max { get { return HZs[0]; } }
+            public override float HZ_Min { get { return HZs[WLs.Length - 1]; } }
+
+            protected override bool sAO_Sweep_On { set; get; }
 
             public Emulator()
             {
 
             }
-            public override int Set_Wl(int pWL)
+            ~Emulator()
             {
+                this.PowerOff();
+                this.Dispose();
+            }
+            public override int Set_Wl(float pWL)
+            {
+                sWL_Current = pWL;
+                sHZ_Current = Get_HZ_via_WL(pWL);
                 return 0;
             }
             public override int Set_Hz(float freq)
             {
+                sWL_Current = Get_WL_via_HZ(freq);
+                sHZ_Current = freq;
                 return 0;
             }
             public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
             {
+                sAO_Sweep_On = true;
                 return 0;
             }
             public override int Set_Sweep_off()
             {
+                sAO_Sweep_On = false;
                 return 0;
             }
-            public override int Init_device(uint number)
+            protected override int Init_device(uint number)
             {
                 return 0;
             }
 
-            public override int Deinit_device()
+            protected override int Deinit_device()
             {
                 return 0;
             }
@@ -90,65 +225,119 @@ namespace LDZ_Code
             {
                 return 0;
             }
+            
             public override int Read_dev_file(string path)
             {
+                try
+                {
+                    var Data_from_dev = ServiceFunctions.Files.Read_txt(path);
+                    FilterCfgPath = path;
+                    FilterCfgName = System.IO.Path.GetFileName(path);
+                    float[] pWLs, pHZs, pCoefs;
+                    ServiceFunctions.Files.Get_WLData_byKnownCountofNumbers(3, Data_from_dev.ToArray(), out pWLs, out pHZs, out pCoefs);
+
+                    float[] pData = new float[pWLs.Length];
+                    pWLs.CopyTo(pData, 0);
+
+                    ServiceFunctions.Math.Interpolate_curv(ref pWLs,ref pHZs);
+                    ServiceFunctions.Math.Interpolate_curv(ref pData,ref pCoefs);
+                    WLs = pWLs;
+                    HZs = pHZs;
+                    Intensity = pCoefs;
+                }
+                catch
+                {
+                    return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR;
+                }
                 return 0;
             }
 
             public override int PowerOn()
             {
+                sAOF_isPowered = true;
                 return 0;
             }
             public override int PowerOff()
             {
+                sAOF_isPowered = false;
                 return 0;
             }
+
+            public override void Dispose()
+            {
+                
+            }
+
             public static int Search_Devices()
             {
-                return 0;
+                return 1;
+            }
+
+            public override string Implement_Error(int pCode_of_error)
+            {
+                return "Common error";
             }
         }
-        public class VNIIFTRI_Filter_v15 : Filter
+        public class VNIIFTRI_Filter_v15 : AO_Filter //идея: сделать 2 класса чисто на импорт, а обвязку оставить общую
         {
-            public override string FilterDescriptor_or_name { set; get; }
-            public override string FilterCfgName { set; get; }
-            public override string FilterCfgPath { set; get; }
-            public override string DllName { set; get; }
+            public override FilterTypes FilterType { get { return FilterTypes.VNIIFTRI_Filter_v15; } }
 
-            public override float[] HZs { set; get; }
-            public override float[] WLs { set; get; }
-            public override float[] Intensity { set; get; }
-            public override bool AOF_Loaded_without_fails { set; get; }
+            protected override string FilterDescriptor_or_name { set; get; }
+            protected override string FilterCfgName { set; get; }
+            protected override string FilterCfgPath { set; get; }
+            protected override string DllName { set; get; }
 
-            public override float WL_Max { set; get; }
-            public override float WL_Min { set; get; }
+            protected override float[] HZs { set; get; }
+            protected override float[] WLs { set; get; }
+            protected override float[] Intensity { set; get; }
+            protected override bool AOF_Loaded_without_fails { set; get; }
+            protected override bool sAOF_isPowered { set; get; }
+
+            public override float WL_Max { get { return WLs[WLs.Length - 1]; } }
+            public override float WL_Min { get { return WLs[0]; } }
+            public override float HZ_Max { get { return HZs[0]; } }
+            public override float HZ_Min { get { return HZs[WLs.Length - 1]; } }
+
+            protected override bool sAO_Sweep_On { set; get; }
 
             public VNIIFTRI_Filter_v15()
             {
-
+                Init_device(0);
             }
-            public override int Set_Wl(int pWL)
+            ~VNIIFTRI_Filter_v15()
             {
+                this.PowerOff();
+                this.Dispose();
+            }
+
+            public override int Set_Wl(float pWL)
+            {
+                sWL_Current = pWL;
+                sHZ_Current = Get_HZ_via_WL(pWL);
                 return AOM_SetWL(pWL);
             }
             public override int Set_Hz(float freq)
             {
-                return 0;
+                sWL_Current = Get_WL_via_HZ(freq);
+                sHZ_Current = freq;
+                return AOM_SetWL((int)Math.Round(sWL_Current));
             }
             public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
             {
-                return -1;
+                sAO_Sweep_On = false;
+                return (int)Status.AOM_OTHER_ERROR;
             }
             public override int Set_Sweep_off()
             {
-                return -1;
+                sAO_Sweep_On = false;
+                return (int)Status.AOM_OTHER_ERROR;
             }
-            public override int Init_device(uint number)
+            protected override int Init_device(uint number)
             {
                 AOM_Init((int)number);
                 return 0;
             }
-            public override int Deinit_device()
+            protected override int Deinit_device()
             {
                 return AOM_Close();
             }
@@ -175,10 +364,10 @@ namespace LDZ_Code
                     WLs = pWLs;
                     HZs = pHZs;
                     Intensity = pCoefs;
-                    WL_Min = WLs[0];
-                    WL_Max = WLs[WLs.Length - 1];
-                    AOM_LoadSettings(path,ref min, ref max);
-                    if ((min != WL_Min) || (max != WL_Max)) throw new Exception();
+                    int state = AOM_LoadSettings(path,ref min, ref max);
+                    FilterCfgPath = path;
+                    FilterCfgName = System.IO.Path.GetFileName(path);
+                    if ((min != WL_Min) || (max != WL_Max)|| (state!=0)) throw new Exception();
                 }
                 catch
                 {
@@ -189,17 +378,30 @@ namespace LDZ_Code
 
             public override int PowerOn()
             {
-                return AOM_PowerOn();
+                var retval = AOM_PowerOn();
+                if (retval == 0) sAOF_isPowered = true;
+                else sAOF_isPowered = false;
+                return retval;
             }
             public override int PowerOff()
             {
-                return AOM_PowerOff();
+                var retval = AOM_PowerOff();
+                if (retval == 0) sAOF_isPowered = false;
+                else sAOF_isPowered = true;
+                return retval;
+            }
+            public override void Dispose()
+            {
+                Deinit_device();
             }
             public static int Search_Devices()
             {
                 return AOM_GetNumDevices();
             }
-
+            public override string Implement_Error(int pCode_of_error)
+            {
+                return ((Status)pCode_of_error).ToString();
+            }
 
             #region DllFunctions
             public const string basepath = "aom_old.dll";
@@ -242,67 +444,45 @@ namespace LDZ_Code
             [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
             public static extern int AOM_PowerOff();
 
-            public static string AOM_IntErr(int i)
+            private enum Status
             {
-                string answer = null;
-                switch (i)
-                {
-                    case 0:
-                        answer = "AOM_OK";
-                        break;
-                    case 1:
-                        answer = "AOM_ALREADY_INITIALIZED";
-                        break;
-                    case 2:
-                        answer = "AOM_ALREADY_LOADED";
-                        break;
-                    case 3:
-                        answer = "AOM_NOT_INITIALIZED";
-                        break;
-                    case 4:
-                        answer = "AOM_DEVICE_NOTFOUND";
-                        break;
-                    case 5:
-                        answer = "AOM_BAD_RESPONSE";
-                        break;
-                    case 6:
-                        answer = "AOM_NULL_POINTER";
-                        break;
-                    case 7:
-                        answer = "AOM_FILE_NOTFOUND";
-                        break;
-                    case 8:
-                        answer = "AOM_FILE_READ_ERROR";
-                        break;
-                    case 9:
-                        answer = "AOM_WINUSB_INIT_FAIL";
-                        break;
-                    case 10:
-                        answer = "AOM_NOT_LOADED";
-                        break;
-                    case 11:
-                        answer = "AOM_RANGE_ERROR";
-                        break;
-                }
-
-                return answer;
-            }
+                AOM_OK = 0,
+                AOM_ALREADY_INITIALIZED,
+                AOM_ALREADY_LOADED,
+                AOM_NOT_INITIALIZED,
+                AOM_DEVICE_NOTFOUND,
+                AOM_BAD_RESPONSE,
+                AOM_NULL_POINTER,
+                AOM_FILE_NOTFOUND,
+                AOM_FILE_READ_ERROR,
+                AOM_WINUSB_INIT_FAIL,
+                AOM_NOT_LOADED,
+                AOM_RANGE_ERROR,
+                AOM_OTHER_ERROR
+            }            
             #endregion
         }
-        public class STC_Filter : Filter
+        public class STC_Filter : AO_Filter
         {
-            public override string FilterDescriptor_or_name { set; get; }
-            public override string FilterCfgName { set; get; }
-            public override string FilterCfgPath { set; get; }
-            public override string DllName { set; get; }
+            public override FilterTypes FilterType { get { return FilterTypes.STC_Filter; } }
 
-            public override float[] HZs { set; get; }
-            public override float[] WLs { set; get; }
-            public override float[] Intensity { set; get; }
-            public override bool AOF_Loaded_without_fails { set; get; }
+            protected override string FilterDescriptor_or_name { set; get; }
+            protected override string FilterCfgName { set; get; }
+            protected override string FilterCfgPath { set; get; }
+            protected override string DllName { set; get; }
 
-            public override float WL_Max { set; get; }
-            public override float WL_Min { set; get; }
+            protected override float[] HZs { set; get; }
+            protected override float[] WLs { set; get; }
+            protected override float[] Intensity { set; get; }
+            protected override bool AOF_Loaded_without_fails { set; get; }
+            protected override bool sAOF_isPowered { set; get; }
+
+            public override float WL_Max { get { return WLs[WLs.Length - 1]; } }
+            public override float WL_Min { get { return WLs[0]; } }
+            public override float HZ_Max { get { return HZs[0]; } }
+            public override float HZ_Min { get { return HZs[WLs.Length - 1]; } }
+
+            protected override bool sAO_Sweep_On { set; get; }
 
             private byte[] Own_UsbBuf = new byte[5000];
             private UInt32 Own_dwListDescFlags = 0;
@@ -312,60 +492,32 @@ namespace LDZ_Code
             {
                 Own_dwListDescFlags = ListFlag;
                 FilterDescriptor_or_name = Descriptor;
-                Init_device(number);
+                try
+                {
+                    Init_device(number);
+                    AOF_Loaded_without_fails = true;
+                }
+                catch
+                {
+                    AOF_Loaded_without_fails = false;
+                }
             }
-            public override int Set_Wl(int wl)
+            ~STC_Filter()
+            {
+                this.PowerOff();
+                this.Dispose();
+            }
+
+            public override int Set_Wl(float pWL)
             {
                 if (AOF_Loaded_without_fails)
                 {
                     try
                     {
-                        float fvspom; short MSB, LSB; ulong lvspom;
-                        float freq_ret = 0;
-                        uint ivspom;
-                        //DWORD ret_bytes;
-                        int i = 0; float freq = 0;
-                        List<System.Drawing.PointF> PtsFinal = ServiceFunctions.Math.Interpolate_curv(WLs, HZs);
-
-                        int max_count = PtsFinal.Count;
-                        for (i = 0; i < max_count; i++)//Search freq by WL
-                        {
-                            if (PtsFinal[i].X == wl)
-                            {
-                                freq_ret = freq = PtsFinal[i].Y;
-                            }
-                        }
-                        freq = (3.2f + freq); //little mistake in calculations
-                        ivspom = 2800;
-                        if (freq >= 125) { ivspom = 2800; }
-                        if (freq < 125 && freq >= 120) { ivspom = 2800; }
-                        if (freq < 120 && freq >= 100) { ivspom = 2800; }
-                        if (freq < 100 && freq >= 90) { ivspom = 2900; }
-                        if (freq < 90 && freq >= 85) { ivspom = 2900; }
-                        if (freq < 85 && freq >= 80) { ivspom = 3100; }
-                        if (freq < 80 && freq >= 75) { ivspom = 3150; }
-                        if (freq < 75 && freq >= 60) { ivspom = 3200; }
-                        if (freq < 60 && freq >= 40) { ivspom = 3300; }
-
-                        freq = (float)freq * (float)1e6;
-                        fvspom = (float)freq / (float)400e6;
-                        lvspom = (ulong)(fvspom * 0xffffffff);
-                        MSB = (short)(0x0000ffFF & (lvspom >> 16));
-                        LSB = (short)lvspom;
-
-                        Own_UsbBuf[0] = 0x03; //it means, we will send wavelength
-                        Own_UsbBuf[1] = (byte)(0x00ff & (MSB >> 8));
-                        Own_UsbBuf[2] = (byte)MSB;
-                        Own_UsbBuf[3] = (byte)(0x00ff & (LSB >> 8));
-                        Own_UsbBuf[4] = (byte)LSB;
-                        Own_UsbBuf[5] = (byte)(0x00ff & (ivspom >> 8)); Own_UsbBuf[6] = (byte)ivspom;
-                        int b2w = 7;
-                        for(i = 0; i< b2w; i++)
-                        {
-                            Own_UsbBuf[i] = (byte)AO.FTDIController.Bit_reverse(Own_UsbBuf[i]);
-                        }                          
-                        WriteUsb(7);
-                        return 0;
+                        float freq = Get_HZ_via_WL(pWL);
+                        sWL_Current = pWL;
+                        sHZ_Current = Get_HZ_via_WL(pWL);
+                        return (this.Set_Hz(freq));
                     }
                     catch
                     {
@@ -386,22 +538,29 @@ namespace LDZ_Code
                         float fvspom; short MSB, LSB; ulong lvspom;
                         uint ivspom;
                         //DWORD ret_bytes;
-                        float freqwas = freq;
-                        freq = (3.2f + freq); //little mistake in calculations
-                        ivspom = 2800;
-                        if (freq >= 125) { ivspom = 2800; }
-                        if (freq < 125 && freq >= 120) { ivspom = 2800; }
-                        if (freq < 120 && freq >= 100) { ivspom = 2800; }
-                        if (freq < 100 && freq >= 90) { ivspom = 2900; }
-                        if (freq < 90 && freq >= 85) { ivspom = 2900; }
-                        if (freq < 85 && freq >= 80) { ivspom = 3100; }
-                        if (freq < 80 && freq >= 75) { ivspom = 3150; }
-                        if (freq < 75 && freq >= 60) { ivspom = 3200; }
-                        if (freq < 60 && freq >= 40) { ivspom = 3300; }
+                        float freq_was = freq;
+                        ivspom = 3400;
 
-                        freq = (float)freq * (float)1e6;
-                        fvspom = (float)freq / (float)400e6;
-                        lvspom = (ulong)(fvspom * 0xffffffff);
+                        ivspom = (uint)Get_Intensity_via_HZ(freq);
+                       /* if (freq >= 125) { ivspom = 3100; }
+                        if (freq < 125 && freq >= 120) { ivspom = 3000; }
+                        if (freq < 120 && freq >= 110) { ivspom = 3100; }//3000
+                        if (freq < 110 && freq >= 100) { ivspom = 3150; }//3000
+                        if (freq < 100 && freq >= 90) { ivspom = 3200; }//3150
+                        if (freq < 90 && freq >= 85) { ivspom = 3150; }
+                        if (freq < 85 && freq >= 80) { ivspom = 3200; }
+                        if (freq < 80 && freq >= 75) { ivspom = 3250; }
+                        if (freq < 75 && freq >= 65) { ivspom = 3250; }
+                        if (freq < 65 && freq >= 50) { ivspom = 3400; }
+                        if (freq < 50 && freq >= 30) { ivspom = 3450; }*/
+                        freq = (freq_was) / 1.17f; //in MHz
+                                                 //set init freq
+                        freq = ((freq_was) * 1e6f) / 1.17f; //in Hz
+
+                        fvspom = freq / 300e6f;
+                        lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6));
+                        //fvspom*pow(2.0,32.0);
+                        //lvspom=freq;
                         MSB = (short)(0x0000ffFF & (lvspom >> 16));
                         LSB = (short)lvspom;
 
@@ -411,21 +570,22 @@ namespace LDZ_Code
                         Own_UsbBuf[2] = (byte)MSB;
                         Own_UsbBuf[3] = (byte)(0x00ff & (LSB >> 8));
                         Own_UsbBuf[4] = (byte)LSB;
-
                         Own_UsbBuf[5] = (byte)(0x00ff & (ivspom >> 8));
                         Own_UsbBuf[6] = (byte)ivspom;
 
                         int b2w = 7;
                         for (int i = 0; i < b2w; i++)
                         {
-                            Own_UsbBuf[i] = (byte)AO.FTDIController.Bit_reverse(Own_UsbBuf[i]);
+                            Own_UsbBuf[i] = (byte)AO_Devices.FTDIController.Bit_reverse(Own_UsbBuf[i]);
                         }
                         WriteUsb(7);
-                 
+                        sWL_Current = Get_WL_via_HZ(freq);
+                        sHZ_Current = freq;
                         return 0;
                     }
-                    catch
+                    catch(Exception exc)
                     {
+
                         return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR;
                     }
                 }
@@ -434,7 +594,7 @@ namespace LDZ_Code
                     return (int)FTDIController.FT_STATUS.FT_DEVICE_NOT_FOUND;
                 }
             }
-            public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
+            private int Set_Sweep_on_old(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
             {
                 //здесь MHz_start = m_f0 - начальна частота в МГц    
                 //Sweep_range_MHz = m_deltaf - девиация частоты в МГц
@@ -502,7 +662,7 @@ namespace LDZ_Code
                     Own_UsbBuf[5] = (byte)Convert.ToInt16(OnRepeat); //default repeate
                     for (i = 0; i < count; i++)
                     {
-                        Own_UsbBuf[i] = (byte)AO.FTDIController.Bit_reverse(Own_UsbBuf[i]);
+                        Own_UsbBuf[i] = (byte)AO_Devices.FTDIController.Bit_reverse(Own_UsbBuf[i]);
                     }
                     //  AOF.FT_Purge(AOF.m_hPort, AOF.FT_PURGE_RX | AOF.FT_PURGE_TX); // Purge(FT_PURGE_RX || FT_PURGE_TX);
                     // AOF.FT_ResetDevice(AOF.m_hPort); //ResetDevice();
@@ -515,7 +675,7 @@ namespace LDZ_Code
                 }
                 catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
             }
-            public int Set_Sweep_on2(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
+            public  int Set_Sweep_on_notime(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
             {
                 //здесь MHz_start = m_f0 - начальна частота в МГц    
                 //Sweep_range_MHz = m_deltaf - девиация частоты в МГц
@@ -533,8 +693,7 @@ namespace LDZ_Code
                     int i;
                     float freqMCU = 74.99e6f;
                     float inp_freq = 5000; //in Hz, max 5000Hz
-
-                    freq = (3.2f + MHz_start);
+                    
                     count = 5;
                     steps = (int)Math.Floor(Sweep_range_MHz * 5); // number of the steps
                     Own_UsbBuf[0] = 0x08; //it means, we will send sweep
@@ -546,8 +705,9 @@ namespace LDZ_Code
                     for (i = 0; i <= steps; i++)//перепроверить цикл
                     {
                         ivspom = 3400;
-                        freq = ((m_f0) * 1e6 + i * 2e5);
-                        if (freq >= 125e6) { ivspom = 3100; }
+                        freq = (float)((MHz_start) * 1e6 + i * 2e5);
+                        ivspom = (uint)Get_Intensity_via_HZ(freq / 1e6f);
+                      /*  if (freq >= 125e6) { ivspom = 3100; }
                         if (freq < 125e6 && freq >= 120e6) { ivspom = 3000; }
                         if (freq < 120e6 && freq >= 110e6) { ivspom = 3100; }
                         if (freq < 110e6 && freq >= 100e6) { ivspom = 3150; }
@@ -557,11 +717,11 @@ namespace LDZ_Code
                         if (freq < 80e6 && freq >= 75e6) { ivspom = 3250; }
                         if (freq < 75e6 && freq >= 65e6) { ivspom = 3250; }
                         if (freq < 65e6 && freq >= 50e6) { ivspom = 3400; }
-                        if (freq < 50e6 && freq >= 30e6) { ivspom = 3450; }
+                        if (freq < 50e6 && freq >= 30e6) { ivspom = 3450; }*/
 
-                        freq = ((MHz_start) * 1e6f + i * 2e5) / 1.17;//1.17 коррекция частоты
+                        freq = (float)(((MHz_start) * 1e6f + i * 2e5) / 1.17f);//1.17 коррекция частоты
                                                                //fvspom=freq/300e6;
-                        lvspom = (freq) * (pow(2.0, 32.0) / 300e6); //расчет управляющего слова для частоты
+                        lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
                         MSB = (short)(0x0000ffFF & (lvspom >> 16));
                         LSB = (short)lvspom;
                         Own_UsbBuf[count + 1] = (byte)(0x00ff & (MSB >> 8));
@@ -572,47 +732,22 @@ namespace LDZ_Code
                         Own_UsbBuf[count + 6] = (byte)(ivspom);
                         count += 6;
                     }
-                    for (i = 0; i <= steps; i++)
-                    {
-                        ivspom = 3000;
-                        freq = (3.2f + MHz_start) * 1e6f + i * 1e5f;
-                        if (freq >= 125e6) { ivspom = 2800; }
-                        else if (freq < 125e6 && freq >= 120e6) { ivspom = 2800; }
-                        else if (freq < 120e6 && freq >= 100e6) { ivspom = 2800; }
-                        else if (freq < 100e6 && freq >= 90e6) { ivspom = 2900; }
-                        else if (freq < 90e6 && freq >= 85e6) { ivspom = 2900; }
-                        else if (freq < 85e6 && freq >= 80e6) { ivspom = 3100; }
-                        else if (freq < 80e6 && freq >= 75e6) { ivspom = 3150; }
-                        else if (freq < 75e6 && freq >= 60e6) { ivspom = 3200; }
-                        else if (freq < 60e6 && freq >= 40e6) { ivspom = 3300; }
 
-
-                        fvspom = freq / 400e6f;
-                        lvspom = (ulong)(fvspom * Math.Pow(2.0, 32.0));
-                        MSB = (short)(0x0000ffFF & (lvspom >> 16));
-                        LSB = (short)lvspom;
-                        Own_UsbBuf[count + 1] = (byte)(0x00ff & (MSB >> 8));
-                        Own_UsbBuf[count + 2] = (byte)(MSB);
-                        Own_UsbBuf[count + 3] = (byte)(0x00ff & (LSB >> 8));
-                        Own_UsbBuf[count + 4] = (byte)(LSB);
-                        Own_UsbBuf[count + 5] = (byte)(0x00ff & (ivspom >> 8));
-                        Own_UsbBuf[count + 6] = (byte)(ivspom);
-                        count += 6;
-                    }
-                    count -= 6; //компенсация последнего смещения
-                    Own_UsbBuf[0] = 0x08;
+                    count -= 6;//компенсация последнего смещения
                     Own_UsbBuf[1] = (byte)(0x00ff & (count >> 8));
-                    Own_UsbBuf[2] = (byte)count;
+                    Own_UsbBuf[2] = (byte)(count);
                     //timer calculations
-                    ivspom = (uint)(Math.Pow(2, 16) - (freqMCU / (2 * 12 * inp_freq)));
-                    Own_UsbBuf[3] = (byte)(0x00ff & (ivspom >> 8));
+                    ivspom = (uint)(65536 - freqMCU / (2 * 2 * inp_freq));
+                    Own_UsbBuf[3] = (byte)(0x00ff & (ivspom >> 8)); ;
                     Own_UsbBuf[4] = (byte)ivspom;
                     //
                     Own_UsbBuf[5] = (byte)Convert.ToInt16(OnRepeat); //default repeate
-                    for (i = 0; i < count; i++)
+                    for (i = 0; i < 5000; i++)
                     {
-                        Own_UsbBuf[i] = (byte)AO.FTDIController.Bit_reverse(Own_UsbBuf[i]);
+                        Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(Own_UsbBuf[i]);
                     }
+
+                    // AOF.FT_ResetDevice(AOF.m_hPort); //ResetDevice();
                     //  AOF.FT_Purge(AOF.m_hPort, AOF.FT_PURGE_RX | AOF.FT_PURGE_TX); // Purge(FT_PURGE_RX || FT_PURGE_TX);
                     // AOF.FT_ResetDevice(AOF.m_hPort); //ResetDevice();
                     try
@@ -624,20 +759,204 @@ namespace LDZ_Code
                 }
                 catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
             }
+            public int Set_Sweep_on_noadapt(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков,минимум 1]*/, bool OnRepeat)
+            {
+                //здесь MHz_start = m_f0 - начальна частота в МГц    
+                //Sweep_range_MHz = m_deltaf - девиация частоты в МГц
+                try
+                {
+                    float freq, fvspom;
+                    short MSB, LSB;
+                    ulong lvspom;
+                    Own_UsbBuf = new byte[5000];
+                    uint ivspom;
+                    float delta;
+                    int steps;
+                    int count;
+                    int i;
+                    float freqMCU = 74.99e6f;
+                    float inp_freq = 5000; //in Hz, max 5000Hz //дефолт от Алексея
+
+                    double New_Freq_byTime =  (Sweep_range_MHz * 1e3f / Period); // [kHz/s]
+                    double Step_kHZs = 200;
+                    double Steps_by1MHz = 1e3f / Step_kHZs;
+                    inp_freq = (float)(Steps_by1MHz * New_Freq_byTime);
+
+                    count = 5;
+                    steps = (int)Math.Floor(Sweep_range_MHz * 5); // number of the steps
+                    Own_UsbBuf[0] = 0x08; //it means, we will send sweep
+
+                    for (i = 1; i < 5000; i++)
+                    {
+                        Own_UsbBuf[i] = 0;
+                    }
+                    for (i = 0; i <= steps; i++)//перепроверить цикл
+                    {
+                        ivspom = 3400;
+                        freq = (float)((MHz_start) * 1e6 + i * 2e5);
+                        ivspom = (uint)Get_Intensity_via_HZ(freq / 1e6f);
+                        /*  if (freq >= 125e6) { ivspom = 3100; }
+                          if (freq < 125e6 && freq >= 120e6) { ivspom = 3000; }
+                          if (freq < 120e6 && freq >= 110e6) { ivspom = 3100; }
+                          if (freq < 110e6 && freq >= 100e6) { ivspom = 3150; }
+                          if (freq < 100e6 && freq >= 90e6) { ivspom = 3200; }
+                          if (freq < 90e6 && freq >= 85e6) { ivspom = 3150; }
+                          if (freq < 85e6 && freq >= 80e6) { ivspom = 3200; }
+                          if (freq < 80e6 && freq >= 75e6) { ivspom = 3250; }
+                          if (freq < 75e6 && freq >= 65e6) { ivspom = 3250; }
+                          if (freq < 65e6 && freq >= 50e6) { ivspom = 3400; }
+                          if (freq < 50e6 && freq >= 30e6) { ivspom = 3450; }*/
+
+                        freq = (float)(((MHz_start) * 1e6f + i * 2e5) / 1.17f);//1.17 коррекция частоты
+                                                                               //fvspom=freq/300e6;
+                        lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
+                        MSB = (short)(0x0000ffFF & (lvspom >> 16));
+                        LSB = (short)lvspom;
+                        Own_UsbBuf[count + 1] = (byte)(0x00ff & (MSB >> 8));
+                        Own_UsbBuf[count + 2] = (byte)(MSB);
+                        Own_UsbBuf[count + 3] = (byte)(0x00ff & (LSB >> 8));
+                        Own_UsbBuf[count + 4] = (byte)(LSB);
+                        Own_UsbBuf[count + 5] = (byte)(0x00ff & (ivspom >> 8));
+                        Own_UsbBuf[count + 6] = (byte)(ivspom);
+                        count += 6;
+                    }
+
+                    count -= 6;//компенсация последнего смещения
+                    Own_UsbBuf[1] = (byte)(0x00ff & (count >> 8));
+                    Own_UsbBuf[2] = (byte)(count);
+                    //timer calculations
+                    ivspom = (uint)(65536 - freqMCU / (2 * 2 * inp_freq));
+                    Own_UsbBuf[3] = (byte)(0x00ff & (ivspom >> 8)); ;
+                    Own_UsbBuf[4] = (byte)ivspom;
+                    //
+                    Own_UsbBuf[5] = (byte)Convert.ToInt16(OnRepeat); //default repeate
+                    for (i = 0; i < 5000; i++)
+                    {
+                        Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(Own_UsbBuf[i]);
+                    }
+
+                    // AOF.FT_ResetDevice(AOF.m_hPort); //ResetDevice();
+                    //  AOF.FT_Purge(AOF.m_hPort, AOF.FT_PURGE_RX | AOF.FT_PURGE_TX); // Purge(FT_PURGE_RX || FT_PURGE_TX);
+                    // AOF.FT_ResetDevice(AOF.m_hPort); //ResetDevice();
+                    try
+                    {
+                        WriteUsb(count);
+                    }
+                    catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
+                    sAO_Sweep_On = true;
+                    return (int)FTDIController.FT_STATUS.FT_OK;
+                }
+                catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
+            }
+            public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков,минимум 1]*/, bool OnRepeat)
+            {
+                //здесь MHz_start = m_f0 - начальна частота в МГц    
+                //Sweep_range_MHz = m_deltaf - девиация частоты в МГц
+                try
+                {
+                    float freq, fvspom;
+                    short MSB, LSB;
+                    ulong lvspom;
+                    Own_UsbBuf = new byte[5000];
+                    uint ivspom;
+                    float delta;
+                    int steps;
+                    int count;
+                    int i;
+                    float freqMCU = 74.99e6f;
+                    float inp_freq = 5000; //in Hz, max 5000Hz //дефолт от Алексея
+
+                    double New_Freq_byTime = (Sweep_range_MHz * 1e3f / Period); // [kHz/ms] , 57.4 и более
+                    double Step_kHZs = 200;
+                    double Steps_by1MHz = 1e3f / Step_kHZs;
+
+                    if ((float)(Steps_by1MHz * New_Freq_byTime) < 287)
+                    {
+                        Steps_by1MHz = 287.0 / New_Freq_byTime;
+                        Step_kHZs = 1e3 / Steps_by1MHz;
+                    }
+                    else inp_freq = (float)(Steps_by1MHz * New_Freq_byTime);//287 и более
+
+                    count = 5;
+                    steps = (int)Math.Floor(Sweep_range_MHz * Steps_by1MHz); // number of the steps
+                    Own_UsbBuf[0] = 0x08; //it means, we will send sweep
+                    double Step_HZs = Step_kHZs * 1000;
+                    for (i = 1; i < 5000; i++)
+                    {
+                        Own_UsbBuf[i] = 0;
+                    }
+                    for (i = 0; i <= steps; i++)//перепроверить цикл
+                    {
+                        ivspom = 3400;
+                        freq = (float)((MHz_start) * 1e6 + i * Step_HZs);
+                        ivspom = (uint)Get_Intensity_via_HZ(freq / 1e6f);
+                        /*  if (freq >= 125e6) { ivspom = 3100; }
+                          if (freq < 125e6 && freq >= 120e6) { ivspom = 3000; }
+                          if (freq < 120e6 && freq >= 110e6) { ivspom = 3100; }
+                          if (freq < 110e6 && freq >= 100e6) { ivspom = 3150; }
+                          if (freq < 100e6 && freq >= 90e6) { ivspom = 3200; }
+                          if (freq < 90e6 && freq >= 85e6) { ivspom = 3150; }
+                          if (freq < 85e6 && freq >= 80e6) { ivspom = 3200; }
+                          if (freq < 80e6 && freq >= 75e6) { ivspom = 3250; }
+                          if (freq < 75e6 && freq >= 65e6) { ivspom = 3250; }
+                          if (freq < 65e6 && freq >= 50e6) { ivspom = 3400; }
+                          if (freq < 50e6 && freq >= 30e6) { ivspom = 3450; }*/
+
+                        freq = (float)(((MHz_start) * 1e6f + i * Step_HZs) / 1.17f);//1.17 коррекция частоты
+                                                                               //fvspom=freq/300e6;
+                        lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
+                        MSB = (short)(0x0000ffFF & (lvspom >> 16));
+                        LSB = (short)lvspom;
+                        Own_UsbBuf[count + 1] = (byte)(0x00ff & (MSB >> 8));
+                        Own_UsbBuf[count + 2] = (byte)(MSB);
+                        Own_UsbBuf[count + 3] = (byte)(0x00ff & (LSB >> 8));
+                        Own_UsbBuf[count + 4] = (byte)(LSB);
+                        Own_UsbBuf[count + 5] = (byte)(0x00ff & (ivspom >> 8));
+                        Own_UsbBuf[count + 6] = (byte)(ivspom);
+                        count += 6;
+                    }
+
+                    count -= 6;//компенсация последнего смещения
+                    Own_UsbBuf[1] = (byte)(0x00ff & (count >> 8));
+                    Own_UsbBuf[2] = (byte)(count);
+                    //timer calculations
+                    ivspom = (uint)(65536 - freqMCU / (2 * 2 * inp_freq));
+                    Own_UsbBuf[3] = (byte)(0x00ff & (ivspom >> 8)); ;
+                    Own_UsbBuf[4] = (byte)ivspom;
+                    //
+                    Own_UsbBuf[5] = (byte)Convert.ToInt16(OnRepeat); //default repeate
+                    for (i = 0; i < 5000; i++)
+                    {
+                        Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(Own_UsbBuf[i]);
+                    }
+
+                     FTDIController.FT_ResetDevice(Own_m_hPort); //ResetDevice();
+                    FTDIController.FT_Purge(Own_m_hPort, FTDIController.FT_PURGE_RX | FTDIController.FT_PURGE_TX); // Purge(FT_PURGE_RX || FT_PURGE_TX);
+                    FTDIController.FT_ResetDevice(Own_m_hPort); //ResetDevice();
+                    try
+                    {
+                        WriteUsb(count);
+                    }
+                    catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
+                    sAO_Sweep_On = true;
+                    return (int)FTDIController.FT_STATUS.FT_OK;
+                }
+                catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
+            }
             public override int Set_Sweep_off()
             {
                 try
                 {
-                    Own_UsbBuf = new byte[2];
                     //DWORD ret_bytes;
                     Own_UsbBuf[0] = 0x0a;
-                    Own_UsbBuf[0] = (byte)AO.FTDIController.Bit_reverse(Own_UsbBuf[0]);
+                    Own_UsbBuf[0] = (byte)AO_Devices.FTDIController.Bit_reverse(Own_UsbBuf[0]);
 
                     try { WriteUsb(1); }
                     catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
                 }
                 catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
-                return 0;
+                sAO_Sweep_On = false;
+                return (int)FTDIController.FT_STATUS.FT_OK;
 
             }
             public override int Set_OutputPower(byte Percentage)
@@ -652,20 +971,20 @@ namespace LDZ_Code
                 catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
                 return 0;
             }
-            public override int Init_device(uint number)
+            protected override int Init_device(uint number)
             {
-                LDZ_Code.AO.FTDIController.FT_STATUS ftStatus = LDZ_Code.AO.FTDIController.FT_STATUS.FT_OTHER_ERROR;
+                LDZ_Code.AO_Devices.FTDIController.FT_STATUS ftStatus = LDZ_Code.AO_Devices.FTDIController.FT_STATUS.FT_OTHER_ERROR;
                 UInt32 dwOpenFlag;
 
                 if (Own_m_hPort == 0)
                 {
-                    dwOpenFlag = Own_dwListDescFlags & ~LDZ_Code.AO.FTDIController.FT_LIST_BY_INDEX;
-                    dwOpenFlag = Own_dwListDescFlags & ~LDZ_Code.AO.FTDIController.FT_LIST_ALL;
+                    dwOpenFlag = Own_dwListDescFlags & ~LDZ_Code.AO_Devices.FTDIController.FT_LIST_BY_INDEX;
+                    dwOpenFlag = Own_dwListDescFlags & ~LDZ_Code.AO_Devices.FTDIController.FT_LIST_ALL;
                     dwOpenFlag = 0;
                     if (dwOpenFlag == 0)
                     {
                         //uiCurrentIndex = (uint)cmbDevList.SelectedIndex;
-                        ftStatus = LDZ_Code.AO.FTDIController.FT_Open((uint)number, ref Own_m_hPort);
+                        ftStatus = LDZ_Code.AO_Devices.FTDIController.FT_Open((uint)number, ref Own_m_hPort);
                     }
                     else
                     {
@@ -674,7 +993,7 @@ namespace LDZ_Code
                     }
                 }
 
-                if (ftStatus == LDZ_Code.AO.FTDIController.FT_STATUS.FT_OK)
+                if (ftStatus == LDZ_Code.AO_Devices.FTDIController.FT_STATUS.FT_OK)
                 {
                     // Set up the port
                     FTDIController.FT_SetBaudRate(Own_m_hPort, 9600);
@@ -690,10 +1009,10 @@ namespace LDZ_Code
                 catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
                 return 0;
             }
-            public override int Deinit_device()
+            protected override int Deinit_device()
             {
                 System.Threading.Thread.Sleep(100);
-                int result = Convert.ToInt16(LDZ_Code.AO.FTDIController.FT_Close(Own_m_hPort));
+                int result = Convert.ToInt16(LDZ_Code.AO_Devices.FTDIController.FT_Close(Own_m_hPort));
                 return result;
             }
             public override string Ask_required_dev_file()
@@ -750,9 +1069,15 @@ namespace LDZ_Code
                 data_FilterDescriptor_or_name = datastring;
                 return countofdevs_to_return;
             }
+            public override string Implement_Error(int pCode_of_error)
+            {
+                return ((FTDIController.FT_STATUS)pCode_of_error).ToString();
+            }
             public override int PowerOn()
             {
-                return 0;
+                var state = Set_Hz((HZ_Max + HZ_Min) / 2);
+                sAOF_isPowered = true;
+                return state;
             }
             public override int PowerOff()
             {
@@ -765,7 +1090,7 @@ namespace LDZ_Code
                     catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
                 }
                 catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
-
+                sAOF_isPowered = false;
                 return 0;
             }
             public override int Read_dev_file(string path)
@@ -775,31 +1100,38 @@ namespace LDZ_Code
                     var Data_from_dev = ServiceFunctions.Files.Read_txt(path);
                     float[] pWLs, pHZs, pCoefs;
                     ServiceFunctions.Files.Get_WLData_byKnownCountofNumbers(3, Data_from_dev.ToArray(), out pWLs, out pHZs, out pCoefs);
-                    ServiceFunctions.Math.Interpolate_curv(pWLs, pHZs);
-                    ServiceFunctions.Math.Interpolate_curv(pWLs, pCoefs);
+                    float[] pData = new float[pWLs.Length];
+                    pWLs.CopyTo(pData,0);
+                    ServiceFunctions.Math.Interpolate_curv(ref pWLs,ref  pHZs);
+                    ServiceFunctions.Math.Interpolate_curv(ref pData, ref pCoefs);
                     WLs = pWLs;
                     HZs = pHZs;
                     Intensity = pCoefs;
-                    WL_Min = WLs[0];
-                    WL_Max = WLs[WLs.Length - 1];
+                    FilterCfgPath = path;
+                    FilterCfgName = System.IO.Path.GetFileName(path);
                 }
                 catch
                 {
                     return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR;
                 }
-                return 0;
+                return (int)FTDIController.FT_STATUS.FT_OK;
             }
+            public override void Dispose()
+            {
+                Deinit_device();
+            }
+           
             #region Перегрузки WriteUsb
             //Перегрузки, которую можно юзать
             public unsafe bool WriteUsb()
             {
                 int count_in = Own_UsbBuf.Length;
-                return AO.FTDIController.WriteUsb(Own_m_hPort,count_in, Own_UsbBuf);
+                return AO_Devices.FTDIController.WriteUsb(Own_m_hPort,count_in, Own_UsbBuf);
             }
 
             //Перегрузка, которую юзаем везде
             public unsafe bool WriteUsb(int count)
-            { return AO.FTDIController.WriteUsb(Own_m_hPort, count, Own_UsbBuf); }
+            { return AO_Devices.FTDIController.WriteUsb(Own_m_hPort, count, Own_UsbBuf); }
             #endregion
         }
         private static class FTDIController
@@ -930,7 +1262,7 @@ namespace LDZ_Code
             [DllImport(ftdi_dllname)]
             static extern unsafe FT_STATUS FT_SetEventNotification(FT_HANDLE ftHandle, UInt32 dwEventMask, void* pvArg);
             [DllImport(ftdi_dllname)]
-            static extern unsafe FT_STATUS FT_ResetDevice(FT_HANDLE ftHandle);
+            public static extern unsafe FT_STATUS FT_ResetDevice(FT_HANDLE ftHandle);
             [DllImport(ftdi_dllname)]
             static extern unsafe FT_STATUS FT_SetDivisor(FT_HANDLE ftHandle, char usDivisor);
             [DllImport(ftdi_dllname)]
@@ -964,7 +1296,7 @@ namespace LDZ_Code
             public static unsafe bool WriteUsb(uint pm_hPort, byte[] pUsbBuf)
             {
                 int count_in = pUsbBuf.Length;
-                return AO.FTDIController.WriteUsb(pm_hPort, count_in, pUsbBuf);
+                return AO_Devices.FTDIController.WriteUsb(pm_hPort, count_in, pUsbBuf);
             }
 
             public static int Bit_reverse(int input)
@@ -982,8 +1314,14 @@ namespace LDZ_Code
 
         }
         
+        public enum FilterTypes
+        {
+            Emulator = 0,
+            VNIIFTRI_Filter_v15,
+            STC_Filter
+        }
         //Функция пытается обнаружить хоть какой-то фильтр, который подключен к системе
-        public static Filter Find_and_connect_AnyFilter(bool IsEmulator = false)
+        public static AO_Filter Find_and_connect_AnyFilter(bool IsEmulator = false)
         {
             if (IsEmulator) return (new Emulator());
 
@@ -995,7 +1333,7 @@ namespace LDZ_Code
             Devices_per_type[1] = VNIIFTRI_Filter_v15.Search_Devices();
             if (Devices_per_type[0] != 0) return (new STC_Filter(Descriptor_forSTCFilter, (uint)(Devices_per_type[0]-1), Flag_forSTC_filter));
             else if (Devices_per_type[1] != 0) return (new VNIIFTRI_Filter_v15());
-            else return null;
+            else return (new Emulator());
 
         }
         public static List<float> Find_freq_mass_by_Wls(float[] Wls, float[] Hzs, List<float> Wls_needed)
@@ -1017,7 +1355,7 @@ namespace LDZ_Code
             return result;
         }
         //для каждого значения в ГЦ возвращает массив с точками формата (левая граница, расстояние до правой границы)
-        public static List<System.Drawing.PointF> Find_freq_borders_mass(List<float> Hzs_needed, float HZs_radius, float HZs_min, float HZs_max)
+        private static List<System.Drawing.PointF> Find_freq_borders_mass(List<float> Hzs_needed, float HZs_radius, float HZs_min, float HZs_max)
         {
             List<System.Drawing.PointF> result = new List<System.Drawing.PointF>(); // for each point: X is LeftBorder, Y is Width
             int max_count = Hzs_needed.Count;
@@ -1028,7 +1366,7 @@ namespace LDZ_Code
                 preMax = Hzs_needed[i] + HZs_radius;
                 preMin = preMin < HZs_min ? HZs_min : preMin;
                 preMax = preMax > HZs_max ? HZs_max : preMax;
-                result.Add(new System.Drawing.PointF(preMin, preMax - preMin));
+                result.Add(new System.Drawing.PointF(preMin, (float)((double)preMax - (double)preMin)));
             }
             return result;
         }
@@ -1135,11 +1473,11 @@ namespace LDZ_Code
             tx[5] = (byte)Convert.ToInt16(OnRepeat); //default repeate
             for (i = 0; i < 5000; i++)
             {
-                tx[i] = (byte)AO.FTDIController.Bit_reverse(tx[i]);
+                tx[i] = (byte)AO_Devices.FTDIController.Bit_reverse(tx[i]);
             }
           //  AOF.FT_Purge(AOF.m_hPort, AOF.FT_PURGE_RX | AOF.FT_PURGE_TX); // Purge(FT_PURGE_RX || FT_PURGE_TX);
            // AOF.FT_ResetDevice(AOF.m_hPort); //ResetDevice();
-            AO.FTDIController.WriteUsb(0,count,tx);
+            AO_Devices.FTDIController.WriteUsb(0,count,tx);
 
         }
 
