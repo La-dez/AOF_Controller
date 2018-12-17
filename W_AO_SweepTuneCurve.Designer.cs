@@ -328,7 +328,7 @@
             this.NUD_WN_0.Size = new System.Drawing.Size(108, 20);
             this.NUD_WN_0.TabIndex = 6;
             this.NUD_WN_0.Value = new decimal(new int[] {
-            10000,
+            10000000,
             0,
             0,
             0});
@@ -369,6 +369,7 @@
             // NUD_WL_0
             // 
             this.NUD_WL_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_WL_0.DecimalPlaces = 2;
             this.NUD_WL_0.Location = new System.Drawing.Point(42, 3);
             this.NUD_WL_0.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_WL_0.Maximum = new decimal(new int[] {

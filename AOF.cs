@@ -1134,6 +1134,7 @@ namespace LDZ_Code
             { return AO_Devices.FTDIController.WriteUsb(Own_m_hPort, count, Own_UsbBuf); }
             #endregion
         }
+
         private static class FTDIController
         {
             const string ftdi_dllname = "FTD2XX.dll";
