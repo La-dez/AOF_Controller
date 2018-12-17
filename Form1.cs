@@ -49,6 +49,8 @@ namespace AOF_Controller
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
             ChB_Power.Enabled = false;
             GB_AllAOFControls.Enabled = false;
+            W_AO_SweepTuneCurve Window = new W_AO_SweepTuneCurve();
+            Window.ShowDialog();
             //tests();
         }
      
@@ -237,6 +239,11 @@ namespace AOF_Controller
             float realval = ((float)trackBar1.Value/1000.0f);
            /* string message = LDZ_Code.AO.Set_new_freq_byFreq(realval, true);
             Log.Message(message);*/
+        }
+
+        private void TSMI_CreateCurve_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
