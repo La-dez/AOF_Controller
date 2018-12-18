@@ -12,34 +12,56 @@ namespace AOF_Controller
 {
     public partial class W_AO_SweepTuneCurve : Form
     {
+
+        delegate void SaveToMain_del(float[,] Mass_from_window, bool IsCurveEnabled);
+        delegate void QuitToMain_del(W_AO_SweepTuneCurve childForm);
         float W_WL_Max = 1000;
         float W_WL_Min = 1;
         float[,] Mass_of_vals = new float[0, 0];
+        bool W_isCurveEnabled = false;
         int Num_of_Vars = 7;
 
         LDZ_Code.AO_Devices.AO_Filter W_Filter;
+       // SaveToMain_del SaveToMain;
+        Action<float[,], bool> SaveToMain;
+        Action<W_AO_SweepTuneCurve> QuitToMain;
 
-        public W_AO_SweepTuneCurve(float[,] loaded_mass,LDZ_Code.AO_Devices.AO_Filter pFilter)
+        public W_AO_SweepTuneCurve(float[,] loaded_mass,LDZ_Code.AO_Devices.AO_Filter pFilter,bool pAO_Sweep_CurveTuning_isEnabled,
+            Action<float[,], bool> DelForSave, Action<W_AO_SweepTuneCurve> DelForQuit)
         {
             InitializeComponent();
             Mass_of_vals = loaded_mass;
             W_Filter = pFilter;
+            W_isCurveEnabled = pAO_Sweep_CurveTuning_isEnabled;
+            SaveToMain = new Action<float[,], bool>(DelForSave);
+            QuitToMain = new Action<W_AO_SweepTuneCurve>(DelForQuit);
         }
 
         private void W_AO_SweepTuneCurve_Load(object sender, EventArgs e)
         {
+            ChB_ActivateCurveTuning.Checked = W_isCurveEnabled;
+            panel1.Enabled = W_isCurveEnabled;
+            RecreateTable(Mass_of_vals.GetLength(0));
+            NUD_NumOfIntervals.Value = Mass_of_vals.GetLength(0);
 
+         /*   float[,] testMass = new float[1, 7] { { 1, 10000000, 0, 0, 0, 0, 0 } };
+            SaveToMain(testMass, isCurveEnabled);
+            testMass = new float[1, 7] { { 2, 5000000, 0, 0, 0, 0, 0 } };
+            SaveToMain(testMass, isCurveEnabled);
+            QuitToMain(this);*/
         }
         private void TSMI_Save_Click(object sender, EventArgs e)
         {
-
+            SaveToMain(Mass_of_vals, W_isCurveEnabled);
         }
         private void TSMI_SaveAndQuit_Click(object sender, EventArgs e)
         {
+            SaveToMain(Mass_of_vals, W_isCurveEnabled);
+            QuitToMain(this);
         }
         private void TSMI_Quit_nosave_Click(object sender, EventArgs e)
         {
-
+            QuitToMain(this);
         }
         private void TLP_Main_Paint(object sender, PaintEventArgs e)
         {
@@ -115,9 +137,10 @@ namespace AOF_Controller
             Mass_of_vals[nameNumber, 5] = (float)ctrl.Value;
         }
 
-        private void B_ActivateCurveTuning_CheckedChanged(object sender, EventArgs e)
+        private void ChB_ActivateCurveTuning_CheckedChanged(object sender, EventArgs e)
         {
-
+            W_isCurveEnabled = ChB_ActivateCurveTuning.Checked;
+            panel1.Enabled = W_isCurveEnabled;
         }
 
 
@@ -128,7 +151,9 @@ namespace AOF_Controller
             // 
             // TLP_DataTable
             // старая<новая
-            int i_max = (Mass_of_vals.GetLength(0)) < number_of_Values ? Mass_of_vals.GetLength(0): number_of_Values;
+            //не читаются девиации, не записывается время 
+            float[] InitLine = new float[7] { 1000, 10000, 0, 0, 0, 0, 0 };
+                int i_max = (Mass_of_vals.GetLength(0)) < number_of_Values ? Mass_of_vals.GetLength(0): number_of_Values;
             {
                 float[,] datamass = new float[i_max, Num_of_Vars];
                 for (int i = 0; i < i_max; i++)
@@ -137,11 +162,19 @@ namespace AOF_Controller
                         datamass[i, j] = Mass_of_vals[i, j];
                     }
                 Mass_of_vals = new float[number_of_Values, Num_of_Vars];
-                for (int i = 0; i < i_max; i++)
-                    for (int j = 0; j < Num_of_Vars; j++)
-                    {
-                        Mass_of_vals[i, j] = datamass[i, j];
-                    }
+                for (int i = 0; i < number_of_Values; i++)
+                {
+                    if(i<i_max)
+                        for (int j = 0; j < Num_of_Vars; j++)
+                        {
+                            Mass_of_vals[i, j] = datamass[i, j];
+                        }
+                    else
+                        for (int j = 0; j < Num_of_Vars; j++)
+                        {
+                            Mass_of_vals[i, j] = InitLine[j];
+                        }
+                }
             }
             panel1.Controls.Remove(this.TLP_DataTable) ;
             TLP_DataTable.Controls.Clear();
@@ -210,7 +243,7 @@ namespace AOF_Controller
                 NUD_NumberOfd_N.Name = "NUD_NumberOfd_"+i.ToString();
                 NUD_NumberOfd_N.Size = new System.Drawing.Size(85, 20);
                 NUD_NumberOfd_N.TabIndex = 12;
-                NUD_dTime_N.Value = (decimal)(Mass_of_vals[i,5]);
+                NUD_NumberOfd_N.Value = (decimal)(Mass_of_vals[i,5]);
                 NUD_NumberOfd_N.ValueChanged += new System.EventHandler(NUD_NumberOfd_N_ValueChanged);
                 // 
                 // NUD_dTime_N
@@ -237,7 +270,7 @@ namespace AOF_Controller
                 NUD_dFreq_N.Name = "NUD_dFreq_" + i.ToString();
                 NUD_dFreq_N.Size = new System.Drawing.Size(90, 20);
                 NUD_dFreq_N.TabIndex = 10;
-                NUD_dTime_N.Value = (decimal)Mass_of_vals[i, 3];
+                NUD_dFreq_N.Value = (decimal)Mass_of_vals[i, 3];
                 NUD_dFreq_N.ValueChanged += new System.EventHandler(NUD_dFreq_N_ValueChanged);
                 // 
                 // NUD_WN_N

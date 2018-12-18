@@ -33,7 +33,9 @@ namespace AOF_Controller
         AO_Filter Filter = null;
         System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
 
-        string version = "1.6b";
+        float[,] AO_All_CurveSweep_Params = new float[0,0];
+        bool AO_Sweep_CurveTuning_isEnabled = false;
+        string version = "1.7";
         public Form1()
         {
             InitializeComponent();
@@ -242,7 +244,19 @@ namespace AOF_Controller
 
         private void TSMI_CreateCurve_Click(object sender, EventArgs e)
         {
-            W_AO_SweepTuneCurve Window = new W_AO_SweepTuneCurve(new float[1, 7] { { 1, 10000000, 0, 0, 0, 0, 0 } }, Filter);
+
+            W_AO_SweepTuneCurve Window = new W_AO_SweepTuneCurve(AO_All_CurveSweep_Params, Filter, AO_Sweep_CurveTuning_isEnabled,
+            (Action<float[,],bool>)delegate(float[,] Mass_from_window, bool IsCurveEnabled)
+            {
+                AO_All_CurveSweep_Params = new float[Mass_from_window.GetLength(0), Mass_from_window.GetLength(1)];
+                AO_All_CurveSweep_Params = Mass_from_window;
+                AO_Sweep_CurveTuning_isEnabled = IsCurveEnabled;
+            },
+            (Action<W_AO_SweepTuneCurve>)delegate(W_AO_SweepTuneCurve ChildWindow)
+            {
+                ChildWindow.Close();
+            }
+            );
             Window.ShowDialog();
         }
     }

@@ -52,7 +52,7 @@
             this.L_Number_0 = new System.Windows.Forms.Label();
             this.L_AOFreq_0 = new System.Windows.Forms.Label();
             this.NUD_WL_0 = new System.Windows.Forms.NumericUpDown();
-            this.B_ActivateCurveTuning = new System.Windows.Forms.CheckBox();
+            this.ChB_ActivateCurveTuning = new System.Windows.Forms.CheckBox();
             this.L_Int = new System.Windows.Forms.Label();
             this.NUD_NumOfIntervals = new System.Windows.Forms.NumericUpDown();
             this.B_CreateTable = new System.Windows.Forms.Button();
@@ -241,7 +241,6 @@
             // 
             // TLP_DataTable
             // 
-            this.TLP_DataTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetDouble;
             this.TLP_DataTable.ColumnCount = 8;
             this.TLP_DataTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.TLP_DataTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
@@ -271,7 +270,7 @@
             // NUD_NumberOfd_0
             // 
             this.NUD_NumberOfd_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_NumberOfd_0.Location = new System.Drawing.Point(561, 3);
+            this.NUD_NumberOfd_0.Location = new System.Drawing.Point(560, 3);
             this.NUD_NumberOfd_0.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_NumberOfd_0.Maximum = new decimal(new int[] {
             1000,
@@ -279,14 +278,14 @@
             0,
             0});
             this.NUD_NumberOfd_0.Name = "NUD_NumberOfd_0";
-            this.NUD_NumberOfd_0.Size = new System.Drawing.Size(72, 20);
+            this.NUD_NumberOfd_0.Size = new System.Drawing.Size(75, 20);
             this.NUD_NumberOfd_0.TabIndex = 11;
             this.NUD_NumberOfd_0.ValueChanged += new System.EventHandler(this.NUD_NumberOfd_N_ValueChanged);
             // 
             // NUD_dTime_0
             // 
             this.NUD_dTime_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_dTime_0.Location = new System.Drawing.Point(450, 3);
+            this.NUD_dTime_0.Location = new System.Drawing.Point(448, 3);
             this.NUD_dTime_0.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_dTime_0.Maximum = new decimal(new int[] {
             1000,
@@ -294,17 +293,17 @@
             0,
             0});
             this.NUD_dTime_0.Name = "NUD_dTime_0";
-            this.NUD_dTime_0.Size = new System.Drawing.Size(108, 20);
+            this.NUD_dTime_0.Size = new System.Drawing.Size(112, 20);
             this.NUD_dTime_0.TabIndex = 9;
             this.NUD_dTime_0.ValueChanged += new System.EventHandler(this.NUD_dTime_N_ValueChanged);
             // 
             // NUD_dFreq_0
             // 
             this.NUD_dFreq_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_dFreq_0.Location = new System.Drawing.Point(339, 3);
+            this.NUD_dFreq_0.Location = new System.Drawing.Point(336, 3);
             this.NUD_dFreq_0.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_dFreq_0.Name = "NUD_dFreq_0";
-            this.NUD_dFreq_0.Size = new System.Drawing.Size(108, 20);
+            this.NUD_dFreq_0.Size = new System.Drawing.Size(112, 20);
             this.NUD_dFreq_0.TabIndex = 8;
             this.NUD_dFreq_0.ValueChanged += new System.EventHandler(this.NUD_dFreq_N_ValueChanged);
             // 
@@ -312,7 +311,7 @@
             // 
             this.NUD_WN_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_WN_0.DecimalPlaces = 2;
-            this.NUD_WN_0.Location = new System.Drawing.Point(117, 3);
+            this.NUD_WN_0.Location = new System.Drawing.Point(112, 3);
             this.NUD_WN_0.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_WN_0.Maximum = new decimal(new int[] {
             10000000,
@@ -325,7 +324,7 @@
             0,
             0});
             this.NUD_WN_0.Name = "NUD_WN_0";
-            this.NUD_WN_0.Size = new System.Drawing.Size(108, 20);
+            this.NUD_WN_0.Size = new System.Drawing.Size(112, 20);
             this.NUD_WN_0.TabIndex = 6;
             this.NUD_WN_0.Value = new decimal(new int[] {
             10000000,
@@ -338,9 +337,9 @@
             // 
             this.L_SumTime_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.L_SumTime_0.AutoSize = true;
-            this.L_SumTime_0.Location = new System.Drawing.Point(639, 6);
+            this.L_SumTime_0.Location = new System.Drawing.Point(638, 6);
             this.L_SumTime_0.Name = "L_SumTime_0";
-            this.L_SumTime_0.Size = new System.Drawing.Size(108, 13);
+            this.L_SumTime_0.Size = new System.Drawing.Size(112, 13);
             this.L_SumTime_0.TabIndex = 12;
             this.L_SumTime_0.Text = "0";
             this.L_SumTime_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -349,9 +348,9 @@
             // 
             this.L_Number_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Number_0.AutoSize = true;
-            this.L_Number_0.Location = new System.Drawing.Point(6, 6);
+            this.L_Number_0.Location = new System.Drawing.Point(3, 6);
             this.L_Number_0.Name = "L_Number_0";
-            this.L_Number_0.Size = new System.Drawing.Size(30, 13);
+            this.L_Number_0.Size = new System.Drawing.Size(31, 13);
             this.L_Number_0.TabIndex = 4;
             this.L_Number_0.Text = "0";
             // 
@@ -359,9 +358,9 @@
             // 
             this.L_AOFreq_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.L_AOFreq_0.AutoSize = true;
-            this.L_AOFreq_0.Location = new System.Drawing.Point(231, 6);
+            this.L_AOFreq_0.Location = new System.Drawing.Point(227, 6);
             this.L_AOFreq_0.Name = "L_AOFreq_0";
-            this.L_AOFreq_0.Size = new System.Drawing.Size(102, 13);
+            this.L_AOFreq_0.Size = new System.Drawing.Size(106, 13);
             this.L_AOFreq_0.TabIndex = 7;
             this.L_AOFreq_0.Text = "(частота)";
             this.L_AOFreq_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -370,7 +369,7 @@
             // 
             this.NUD_WL_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_WL_0.DecimalPlaces = 2;
-            this.NUD_WL_0.Location = new System.Drawing.Point(42, 3);
+            this.NUD_WL_0.Location = new System.Drawing.Point(37, 3);
             this.NUD_WL_0.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_WL_0.Maximum = new decimal(new int[] {
             1000,
@@ -383,7 +382,7 @@
             0,
             0});
             this.NUD_WL_0.Name = "NUD_WL_0";
-            this.NUD_WL_0.Size = new System.Drawing.Size(72, 20);
+            this.NUD_WL_0.Size = new System.Drawing.Size(75, 20);
             this.NUD_WL_0.TabIndex = 5;
             this.NUD_WL_0.Value = new decimal(new int[] {
             1,
@@ -392,17 +391,17 @@
             0});
             this.NUD_WL_0.ValueChanged += new System.EventHandler(this.NUD_WL_N_ValueChanged);
             // 
-            // B_ActivateCurveTuning
+            // ChB_ActivateCurveTuning
             // 
-            this.B_ActivateCurveTuning.AutoSize = true;
-            this.B_ActivateCurveTuning.BackColor = System.Drawing.Color.White;
-            this.B_ActivateCurveTuning.Location = new System.Drawing.Point(530, 4);
-            this.B_ActivateCurveTuning.Name = "B_ActivateCurveTuning";
-            this.B_ActivateCurveTuning.Size = new System.Drawing.Size(205, 17);
-            this.B_ActivateCurveTuning.TabIndex = 2;
-            this.B_ActivateCurveTuning.Text = "Активировать кривую перестройки";
-            this.B_ActivateCurveTuning.UseVisualStyleBackColor = false;
-            this.B_ActivateCurveTuning.CheckedChanged += new System.EventHandler(this.B_ActivateCurveTuning_CheckedChanged);
+            this.ChB_ActivateCurveTuning.AutoSize = true;
+            this.ChB_ActivateCurveTuning.BackColor = System.Drawing.Color.White;
+            this.ChB_ActivateCurveTuning.Location = new System.Drawing.Point(530, 4);
+            this.ChB_ActivateCurveTuning.Name = "ChB_ActivateCurveTuning";
+            this.ChB_ActivateCurveTuning.Size = new System.Drawing.Size(205, 17);
+            this.ChB_ActivateCurveTuning.TabIndex = 2;
+            this.ChB_ActivateCurveTuning.Text = "Активировать кривую перестройки";
+            this.ChB_ActivateCurveTuning.UseVisualStyleBackColor = false;
+            this.ChB_ActivateCurveTuning.CheckedChanged += new System.EventHandler(this.ChB_ActivateCurveTuning_CheckedChanged);
             // 
             // L_Int
             // 
@@ -444,7 +443,7 @@
             this.Controls.Add(this.B_CreateTable);
             this.Controls.Add(this.NUD_NumOfIntervals);
             this.Controls.Add(this.L_Int);
-            this.Controls.Add(this.B_ActivateCurveTuning);
+            this.Controls.Add(this.ChB_ActivateCurveTuning);
             this.Controls.Add(this.TLP_Table);
             this.Controls.Add(this.MS_MainStrip);
             this.MainMenuStrip = this.MS_MainStrip;
@@ -477,7 +476,7 @@
         private System.Windows.Forms.ToolStripMenuItem TSMI_Save;
         private System.Windows.Forms.ToolStripMenuItem TSMI_SaveAndQuit;
         private System.Windows.Forms.TableLayoutPanel TLP_Table;
-        private System.Windows.Forms.CheckBox B_ActivateCurveTuning;
+        private System.Windows.Forms.CheckBox ChB_ActivateCurveTuning;
         private System.Windows.Forms.TableLayoutPanel TLP_HeadLine;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
