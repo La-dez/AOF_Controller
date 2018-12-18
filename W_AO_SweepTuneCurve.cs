@@ -15,8 +15,14 @@ namespace AOF_Controller
 
         delegate void SaveToMain_del(float[,] Mass_from_window, bool IsCurveEnabled);
         delegate void QuitToMain_del(W_AO_SweepTuneCurve childForm);
+
         float W_WL_Max = 1000;
         float W_WL_Min = 1;
+        float W_AO_TimeDeviation_Min = 1;
+        float W_AO_TimeDeviation_Max = 2500;
+        float W_AO_FreqDeviation_Min = 0;
+        float W_AO_FreqDeviation_Max_byRange = 0.5f;
+
         float[,] Mass_of_vals = new float[0, 0];
         bool W_isCurveEnabled = false;
         int Num_of_Vars = 7;
@@ -32,6 +38,12 @@ namespace AOF_Controller
             InitializeComponent();
             Mass_of_vals = loaded_mass;
             W_Filter = pFilter;
+            {
+                W_AO_TimeDeviation_Min = W_Filter.AO_TimeDeviation_Min;
+                W_AO_TimeDeviation_Max = W_Filter.AO_TimeDeviation_Max;
+                W_AO_FreqDeviation_Min = 0;
+                W_AO_FreqDeviation_Max_byRange = W_Filter.AO_FreqDeviation_Max;
+            }
             W_isCurveEnabled = pAO_Sweep_CurveTuning_isEnabled;
             SaveToMain = new Action<float[,], bool>(DelForSave);
             QuitToMain = new Action<W_AO_SweepTuneCurve>(DelForQuit);
@@ -76,17 +88,27 @@ namespace AOF_Controller
         private void NUD_WL_N_ValueChanged(object sender, EventArgs e)
         {
             string name_of_sender = (sender as NumericUpDown).Name;
+            double value2write = 1000;
+            int nameNumber = Convert.ToInt32(name_of_sender.Last().ToString());
+            var ctrl = sender as NumericUpDown;
+            string Name_NUD_WN = "NUD_WN_";
             try
             {
-                int nameNumber = Convert.ToInt32(name_of_sender.Last().ToString());
-                string Name = "NUD_WN_";
-                var ctrl_to_change = TLP_DataTable.Controls.Find(Name + nameNumber, false);
-                double value2write = 10000000.0 / (double)((sender as NumericUpDown).Value);
+                var ctrl_to_change = TLP_DataTable.Controls.Find(Name_NUD_WN + nameNumber, false);
+                value2write = 10000000.0 / (double)((sender as NumericUpDown).Value);
                 (ctrl_to_change[0] as NumericUpDown).Value = (decimal)(value2write);
 
-                var ctrl = sender as NumericUpDown;
                 Mass_of_vals[nameNumber, 0] = (float)ctrl.Value;
                 Mass_of_vals[nameNumber, 1] = (float)value2write;
+            }
+            catch { }
+            string Name_L_AO_Freq = "L_AOFreq_";
+            try
+            {
+                var ctrl_to_change = TLP_DataTable.Controls.Find(Name_L_AO_Freq + nameNumber, false);
+                value2write = ((float)((int)(W_Filter.Get_HZ_via_WL((float)ctrl.Value)*1000)))/1000.0f;
+                (ctrl_to_change[0] as Label).Text = value2write.ToString();
+                Mass_of_vals[nameNumber, 2] = (float)value2write;
             }
             catch { }
         }
@@ -117,15 +139,40 @@ namespace AOF_Controller
 
             var ctrl = sender as NumericUpDown;
             Mass_of_vals[nameNumber, 3] = (float)ctrl.Value;
+
+          
         }
 
         private void NUD_dTime_N_ValueChanged(object sender, EventArgs e)
         {
+            //Занесение значения в таблицу данных
             string name_of_sender = (sender as NumericUpDown).Name;
             int nameNumber = Convert.ToInt32(name_of_sender.Last().ToString());
 
             var ctrl = sender as NumericUpDown;
             Mass_of_vals[nameNumber, 4] = (float)ctrl.Value;
+            //Изменение суммарного времени девиации
+            string Name_L_SunTime = "L_SumTime_";
+            try
+            {
+                var ctrl_to_change = TLP_DataTable.Controls.Find(Name_L_SunTime + nameNumber, false);
+                float value2write = Mass_of_vals[nameNumber, 4]* Mass_of_vals[nameNumber, 5];
+                (ctrl_to_change[0] as Label).Text = (((float)((int)(value2write * 100))) / 100.0f).ToString();
+                Mass_of_vals[nameNumber, 6] = value2write;
+            }
+            catch { }
+            //Вычисление максимума девиации по частоте
+            float AO_TimeDeviation = Mass_of_vals[nameNumber, 4];
+            float AO_FreqDeviation_Max_byTime = W_Filter.AO_FreqTuneSpeed_Max * AO_TimeDeviation / 2.0f;
+            float Choosen_Max = (AO_FreqDeviation_Max_byTime < W_Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : W_Filter.AO_FreqDeviation_Max);
+            var ctrl_NUD_dFreq = (TLP_DataTable.Controls.Find("NUD_dFreq_" + nameNumber, false))[0] as NumericUpDown;
+            if (ctrl_NUD_dFreq.Maximum < (decimal)Choosen_Max) ctrl_NUD_dFreq.Maximum = (decimal)Choosen_Max;
+            else
+            {
+                if (ctrl_NUD_dFreq.Value > (decimal)Choosen_Max)
+                { ctrl_NUD_dFreq.Value = (decimal)Choosen_Max; }
+                ctrl_NUD_dFreq.Maximum = (decimal)Choosen_Max;
+            }
         }
 
         private void NUD_NumberOfd_N_ValueChanged(object sender, EventArgs e)
@@ -135,6 +182,16 @@ namespace AOF_Controller
 
             var ctrl = sender as NumericUpDown;
             Mass_of_vals[nameNumber, 5] = (float)ctrl.Value;
+
+            string Name_L_SunTime = "L_SumTime_";
+            try
+            {
+                var ctrl_to_change = TLP_DataTable.Controls.Find(Name_L_SunTime + nameNumber, false);
+                float value2write = Mass_of_vals[nameNumber, 4] * Mass_of_vals[nameNumber, 5];
+                (ctrl_to_change[0] as Label).Text = (((float)((int)(value2write * 100))) / 100.0f).ToString();
+                Mass_of_vals[nameNumber, 6] = value2write;
+            }
+            catch { }
         }
 
         private void ChB_ActivateCurveTuning_CheckedChanged(object sender, EventArgs e)
@@ -152,7 +209,7 @@ namespace AOF_Controller
             // TLP_DataTable
             // старая<новая
             //не читаются девиации, не записывается время 
-            float[] InitLine = new float[7] { 1000, 10000, 0, 0, 0, 0, 0 };
+            float[] InitLine = new float[7] { 1000, 10000, 0, 1, 0, 0, 0 };
                 int i_max = (Mass_of_vals.GetLength(0)) < number_of_Values ? Mass_of_vals.GetLength(0): number_of_Values;
             {
                 float[,] datamass = new float[i_max, Num_of_Vars];
@@ -251,11 +308,8 @@ namespace AOF_Controller
                 NUD_dTime_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
                 NUD_dTime_N.Location = new System.Drawing.Point(370, 3);
                 NUD_dTime_N.Margin = new System.Windows.Forms.Padding(0);
-                NUD_dTime_N.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+                NUD_dTime_N.Maximum = (decimal)W_AO_TimeDeviation_Max;
+                NUD_dTime_N.Minimum = (decimal)W_AO_TimeDeviation_Min;
                 NUD_dTime_N.Name = "NUD_dTime_" + i.ToString();
                 NUD_dTime_N.Size = new System.Drawing.Size(90, 20);
                 NUD_dTime_N.TabIndex = 11;
@@ -265,13 +319,38 @@ namespace AOF_Controller
                 // NUD_dFreq_N
                 // 
                 NUD_dFreq_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+                NUD_dFreq_N.DecimalPlaces = 1;
                 NUD_dFreq_N.Location = new System.Drawing.Point(280, 3);
                 NUD_dFreq_N.Margin = new System.Windows.Forms.Padding(0);
+                NUD_dFreq_N.Maximum = (decimal)(W_Filter.AO_FreqTuneSpeed_Max * Mass_of_vals[i, 4] / 2.0);
+                NUD_dFreq_N.Minimum = (decimal)W_AO_FreqDeviation_Min;
                 NUD_dFreq_N.Name = "NUD_dFreq_" + i.ToString();
                 NUD_dFreq_N.Size = new System.Drawing.Size(90, 20);
                 NUD_dFreq_N.TabIndex = 10;
                 NUD_dFreq_N.Value = (decimal)Mass_of_vals[i, 3];
-                NUD_dFreq_N.ValueChanged += new System.EventHandler(NUD_dFreq_N_ValueChanged);
+                NUD_dFreq_N.ValueChanged += new System.EventHandler(NUD_dFreq_N_ValueChanged); 
+                // 
+                // NUD_WL_N
+                // 
+                NUD_WL_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+                NUD_WL_N.DecimalPlaces = 2;
+                NUD_WL_N.Location = new System.Drawing.Point(40, 3);
+                NUD_WL_N.Margin = new System.Windows.Forms.Padding(0);
+                NUD_WL_N.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+                NUD_WL_N.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+                NUD_WL_N.Name = "NUD_WL_" + i.ToString();
+                NUD_WL_N.Size = new System.Drawing.Size(50, 20);
+                NUD_WL_N.TabIndex = 8;
+                NUD_WL_N.Value = (decimal)Mass_of_vals[i, 0];
+                NUD_WL_N.ValueChanged += new System.EventHandler(NUD_WL_N_ValueChanged);
                 // 
                 // NUD_WN_N
                 // 
@@ -326,28 +405,7 @@ namespace AOF_Controller
                 L_AOFreq_N.TabIndex = 3;
                 L_AOFreq_N.Text = W_Filter.Get_HZ_via_WL(Mass_of_vals[i, 0]).ToString();
                 L_AOFreq_N.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-                // 
-                // NUD_WL_N
-                // 
-                NUD_WL_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-                NUD_WN_N.DecimalPlaces = 2;
-                NUD_WL_N.Location = new System.Drawing.Point(40, 3);
-                NUD_WL_N.Margin = new System.Windows.Forms.Padding(0);
-                NUD_WL_N.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-                NUD_WL_N.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-                NUD_WL_N.Name = "NUD_WL_" + i.ToString();
-                NUD_WL_N.Size = new System.Drawing.Size(50, 20);
-                NUD_WL_N.TabIndex = 8;
-                NUD_WL_N.Value = (decimal)Mass_of_vals[i, 0];
-                NUD_WL_N.ValueChanged += new System.EventHandler(NUD_WL_N_ValueChanged);
+               
 
 
                 TLP_DataTable.ResumeLayout(false);

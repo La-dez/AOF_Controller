@@ -25,6 +25,8 @@ namespace AOF_Controller
         double AO_FreqDeviation = 1;
         double AO_TimeDeviation = 1;
         bool AO_Sweep_Needed = false;
+        float[,] AO_All_CurveSweep_Params = new float[0, 0];
+        bool AO_Sweep_CurveTuning_isEnabled = false;
 
         List<object> ParamList_bkp = new List<object>();
         List<object> ParamList_final = new List<object>();
@@ -33,8 +35,7 @@ namespace AOF_Controller
         AO_Filter Filter = null;
         System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
 
-        float[,] AO_All_CurveSweep_Params = new float[0,0];
-        bool AO_Sweep_CurveTuning_isEnabled = false;
+        
         string version = "1.7";
         public Form1()
         {
@@ -79,7 +80,7 @@ namespace AOF_Controller
                 }
             else return;
 
-            AO_FreqDeviation_Max_byTime = Filter.AO_FreqTuneSpeed * AO_TimeDeviation;
+            AO_FreqDeviation_Max_byTime = Filter.AO_FreqTuneSpeed_Max * AO_TimeDeviation;
             InitializeComponents_byVariables();
         }
 
@@ -209,12 +210,19 @@ namespace AOF_Controller
         {
             AO_Sweep_Needed = ChB_SweepEnabled.Checked;
             Pan_SweepControls.Enabled = AO_Sweep_Needed;
+
+            RB_Sweep_EasyMode.Checked = !AO_Sweep_CurveTuning_isEnabled;
+            RB_Sweep_SpeciallMode.Checked = AO_Sweep_CurveTuning_isEnabled;
+            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
+            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
+
+
         }
 
         private void NUD_TimeFdev_ValueChanged(object sender, EventArgs e)
         {
             AO_TimeDeviation = (double)NUD_TimeFdev.Value;
-            AO_FreqDeviation_Max_byTime = Filter.AO_FreqTuneSpeed * AO_TimeDeviation / 2.0;
+            AO_FreqDeviation_Max_byTime = Filter.AO_FreqTuneSpeed_Max * AO_TimeDeviation / 2.0;
             NUD_FreqDeviation.Maximum = (decimal)
                 (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
         }
@@ -258,6 +266,25 @@ namespace AOF_Controller
             }
             );
             Window.ShowDialog();
+        }
+
+        private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void RB_Sweep_EasyMode_CheckedChanged(object sender, EventArgs e)
+        {
+            AO_Sweep_CurveTuning_isEnabled = false;
+            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
+            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
+        }
+
+        private void RB_Sweep_SpeciallMode_CheckedChanged(object sender, EventArgs e)
+        {
+            AO_Sweep_CurveTuning_isEnabled = true;
+            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
+            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
         }
     }
 }

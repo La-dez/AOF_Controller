@@ -42,10 +42,10 @@ namespace LDZ_Code
             protected abstract bool sAO_Sweep_On { set; get; }
             public bool is_inSweepMode { get { return sAO_Sweep_On; } }
 
-            public virtual float AO_FreqTuneSpeed { get { return 1.0f; } } //[1 MHz/s]   
+            public virtual float AO_FreqTuneSpeed_Max { get { return 1.0f; } } //[1 MHz/ms]   
             public virtual float AO_TimeDeviation_Min { get { return 1; } }   // [мс]     
             public virtual float AO_TimeDeviation_Max { get { return 2500; } } // [мс]
-            public virtual float AO_FreqDeviation_Min { get { return AO_FreqTuneSpeed * AO_TimeDeviation_Min; } } // [МГц]
+            public virtual float AO_FreqDeviation_Min { get { return (AO_FreqTuneSpeed_Max * AO_TimeDeviation_Min)/2; } } // [МГц]
             public virtual float AO_FreqDeviation_Max { get { return HZs[0] - HZs[HZs.Length - 1]; } }
 
 
