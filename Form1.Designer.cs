@@ -40,14 +40,14 @@
             this.label17 = new System.Windows.Forms.Label();
             this.GB_AllAOFControls = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
+            this.TLP_SetControls = new System.Windows.Forms.TableLayoutPanel();
             this.BSetWL = new System.Windows.Forms.Button();
             this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
             this.ChB_AutoSetWL = new System.Windows.Forms.CheckBox();
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.NUD_CurWL = new System.Windows.Forms.NumericUpDown();
-            this.tableLayoutPanel25 = new System.Windows.Forms.TableLayoutPanel();
+            this.TLP_WLSlidingControls = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.TrB_CurrentWL = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -72,15 +72,17 @@
             this.ChB_SweepEnabled = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.TLP_Sweep_ProgramMode = new System.Windows.Forms.TableLayoutPanel();
+            this.ChB_ProgrammSweep_toogler = new System.Windows.Forms.CheckBox();
+            this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
             this.GB_AllAOFControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel23.SuspendLayout();
+            this.TLP_SetControls.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
-            this.tableLayoutPanel25.SuspendLayout();
+            this.TLP_WLSlidingControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_CurrentWL)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
             this.Pan_SweepControls.SuspendLayout();
@@ -90,6 +92,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.TLP_Sweep_ProgramMode.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -234,8 +237,8 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel23, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel25, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.TLP_SetControls, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.TLP_WLSlidingControls, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
@@ -249,25 +252,25 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1011, 296);
             this.tableLayoutPanel1.TabIndex = 80;
             // 
-            // tableLayoutPanel23
+            // TLP_SetControls
             // 
-            this.tableLayoutPanel23.ColumnCount = 4;
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanel23.Controls.Add(this.BSetWL, 3, 0);
-            this.tableLayoutPanel23.Controls.Add(this.tableLayoutPanel24, 0, 0);
-            this.tableLayoutPanel23.Controls.Add(this.label29, 2, 0);
-            this.tableLayoutPanel23.Controls.Add(this.NUD_CurWL, 1, 0);
-            this.tableLayoutPanel23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel23.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel23.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
-            this.tableLayoutPanel23.RowCount = 1;
-            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(1011, 60);
-            this.tableLayoutPanel23.TabIndex = 81;
+            this.TLP_SetControls.ColumnCount = 4;
+            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.TLP_SetControls.Controls.Add(this.BSetWL, 3, 0);
+            this.TLP_SetControls.Controls.Add(this.tableLayoutPanel24, 0, 0);
+            this.TLP_SetControls.Controls.Add(this.label29, 2, 0);
+            this.TLP_SetControls.Controls.Add(this.NUD_CurWL, 1, 0);
+            this.TLP_SetControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_SetControls.Location = new System.Drawing.Point(0, 0);
+            this.TLP_SetControls.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_SetControls.Name = "TLP_SetControls";
+            this.TLP_SetControls.RowCount = 1;
+            this.TLP_SetControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_SetControls.Size = new System.Drawing.Size(1011, 60);
+            this.TLP_SetControls.TabIndex = 81;
             // 
             // BSetWL
             // 
@@ -347,21 +350,21 @@
             this.NUD_CurWL.TabIndex = 83;
             this.NUD_CurWL.ValueChanged += new System.EventHandler(this.NUD_CurWL_ValueChanged);
             // 
-            // tableLayoutPanel25
+            // TLP_WLSlidingControls
             // 
-            this.tableLayoutPanel25.ColumnCount = 2;
-            this.tableLayoutPanel25.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel25.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tableLayoutPanel25.Controls.Add(this.label1, 1, 0);
-            this.tableLayoutPanel25.Controls.Add(this.TrB_CurrentWL, 0, 0);
-            this.tableLayoutPanel25.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel25.Location = new System.Drawing.Point(0, 60);
-            this.tableLayoutPanel25.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel25.Name = "tableLayoutPanel25";
-            this.tableLayoutPanel25.RowCount = 1;
-            this.tableLayoutPanel25.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel25.Size = new System.Drawing.Size(1011, 30);
-            this.tableLayoutPanel25.TabIndex = 81;
+            this.TLP_WLSlidingControls.ColumnCount = 2;
+            this.TLP_WLSlidingControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_WLSlidingControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.TLP_WLSlidingControls.Controls.Add(this.label1, 1, 0);
+            this.TLP_WLSlidingControls.Controls.Add(this.TrB_CurrentWL, 0, 0);
+            this.TLP_WLSlidingControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_WLSlidingControls.Location = new System.Drawing.Point(0, 60);
+            this.TLP_WLSlidingControls.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_WLSlidingControls.Name = "TLP_WLSlidingControls";
+            this.TLP_WLSlidingControls.RowCount = 1;
+            this.TLP_WLSlidingControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_WLSlidingControls.Size = new System.Drawing.Size(1011, 30);
+            this.TLP_WLSlidingControls.TabIndex = 81;
             // 
             // label1
             // 
@@ -653,14 +656,33 @@
             this.TLP_Sweep_ProgramMode.ColumnCount = 2;
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Sweep_ProgramMode.Controls.Add(this.ChB_ProgrammSweep_toogler, 0, 0);
             this.TLP_Sweep_ProgramMode.Location = new System.Drawing.Point(505, 30);
             this.TLP_Sweep_ProgramMode.Margin = new System.Windows.Forms.Padding(0);
             this.TLP_Sweep_ProgramMode.Name = "TLP_Sweep_ProgramMode";
             this.TLP_Sweep_ProgramMode.RowCount = 2;
             this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(200, 100);
+            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(295, 98);
             this.TLP_Sweep_ProgramMode.TabIndex = 2;
+            // 
+            // ChB_ProgrammSweep_toogler
+            // 
+            this.ChB_ProgrammSweep_toogler.Appearance = System.Windows.Forms.Appearance.Button;
+            this.ChB_ProgrammSweep_toogler.Location = new System.Drawing.Point(3, 3);
+            this.ChB_ProgrammSweep_toogler.Name = "ChB_ProgrammSweep_toogler";
+            this.ChB_ProgrammSweep_toogler.Size = new System.Drawing.Size(129, 36);
+            this.ChB_ProgrammSweep_toogler.TabIndex = 0;
+            this.ChB_ProgrammSweep_toogler.Text = "Запустить перестройку";
+            this.ChB_ProgrammSweep_toogler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ChB_ProgrammSweep_toogler.UseVisualStyleBackColor = true;
+            this.ChB_ProgrammSweep_toogler.CheckedChanged += new System.EventHandler(this.ChB_ProgrammSweep_toogler_CheckedChanged);
+            // 
+            // BGW_Sweep_Curve
+            // 
+            this.BGW_Sweep_Curve.WorkerSupportsCancellation = true;
+            this.BGW_Sweep_Curve.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGW_Sweep_Curve_DoWork);
+            this.BGW_Sweep_Curve.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BGW_Sweep_Curve_RunWorkerCompleted);
             // 
             // Form1
             // 
@@ -680,13 +702,13 @@
             this.tableLayoutPanel30.PerformLayout();
             this.GB_AllAOFControls.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel23.ResumeLayout(false);
-            this.tableLayoutPanel23.PerformLayout();
+            this.TLP_SetControls.ResumeLayout(false);
+            this.TLP_SetControls.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
             this.tableLayoutPanel24.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).EndInit();
-            this.tableLayoutPanel25.ResumeLayout(false);
-            this.tableLayoutPanel25.PerformLayout();
+            this.TLP_WLSlidingControls.ResumeLayout(false);
+            this.TLP_WLSlidingControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_CurrentWL)).EndInit();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
@@ -700,6 +722,7 @@
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.TLP_Sweep_ProgramMode.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -718,14 +741,14 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.GroupBox GB_AllAOFControls;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel23;
+        private System.Windows.Forms.TableLayoutPanel TLP_SetControls;
         private System.Windows.Forms.Button BSetWL;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel24;
         private System.Windows.Forms.CheckBox ChB_AutoSetWL;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.NumericUpDown NUD_CurWL;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel25;
+        private System.Windows.Forms.TableLayoutPanel TLP_WLSlidingControls;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TrackBar TrB_CurrentWL;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
@@ -750,6 +773,8 @@
         private System.Windows.Forms.CheckBox ChB_SweepEnabled;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel TLP_Sweep_ProgramMode;
+        private System.Windows.Forms.CheckBox ChB_ProgrammSweep_toogler;
+        private System.ComponentModel.BackgroundWorker BGW_Sweep_Curve;
     }
 }
 

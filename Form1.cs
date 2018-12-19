@@ -27,6 +27,8 @@ namespace AOF_Controller
         bool AO_Sweep_Needed = false;
         float[,] AO_All_CurveSweep_Params = new float[0, 0];
         bool AO_Sweep_CurveTuning_isEnabled = false;
+        bool AO_Sweep_CurveTuning_inProgress = false;
+        bool AO_Sweep_CurveTuning_StopFlag = false;
 
         List<object> ParamList_bkp = new List<object>();
         List<object> ParamList_final = new List<object>();
@@ -278,6 +280,8 @@ namespace AOF_Controller
             AO_Sweep_CurveTuning_isEnabled = false;
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
+            TLP_WLSlidingControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
+            TLP_SetControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
         }
 
         private void RB_Sweep_SpeciallMode_CheckedChanged(object sender, EventArgs e)
@@ -285,6 +289,53 @@ namespace AOF_Controller
             AO_Sweep_CurveTuning_isEnabled = true;
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
+            TLP_WLSlidingControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
+            TLP_SetControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
+
+        }
+
+        private void ChB_ProgrammSweep_toogler_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AO_Sweep_CurveTuning_isEnabled)
+            {
+                if(AO_Sweep_CurveTuning_inProgress)
+                {
+                    AO_Sweep_CurveTuning_StopFlag = true;                   
+                }
+                else
+                {
+                    AO_Sweep_CurveTuning_StopFlag = false;
+                    AO_Sweep_CurveTuning_inProgress = true;
+                    BGW_Sweep_Curve.RunWorkerAsync();
+                }
+            }
+        }
+
+        private void BGW_Sweep_Curve_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Sweep_Especiall(sender as BackgroundWorker,e);
+        }
+        private void Sweep_Especiall(BackgroundWorker pBGW = null,DoWorkEventArgs pe=null)
+        {
+      /*      for (int i = 1; i <= 10; i++)
+            {
+                if (pBGW.CancellationPending == true)
+                {
+                    pe.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    // Perform a time consuming operation and report progress.
+                    System.Threading.Thread.Sleep(100);
+                    pBGW.ReportProgress(i * 10);
+                }
+            }*/
+        }
+        private void BGW_Sweep_Curve_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            AO_Sweep_CurveTuning_StopFlag = false;
+            AO_Sweep_CurveTuning_inProgress = false;
         }
     }
 }
