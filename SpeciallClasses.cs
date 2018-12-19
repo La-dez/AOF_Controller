@@ -1038,13 +1038,24 @@ namespace LDZ_Code
                     if (data.Length <= pAttachmentFactor)
                     {
                         index = data;
-                        pLBConsole.Items.Insert(0, index);
+                        if (pLBConsole.InvokeRequired)
+                            pLBConsole.BeginInvoke((Action)(() => Message(pLBConsole,pAttachmentFactor,message)));
+                        else
+                            pLBConsole.Items.Insert(0, index);
                     }
                     else
                     {
                         index = data.Substring(0, (int)pAttachmentFactor) + "...";
-                        pLBConsole.Items.Insert(0, index);
-                        Log.Attachment(pLBConsole,pAttachmentFactor,data.Substring((int)pAttachmentFactor), 1);
+                        if (pLBConsole.InvokeRequired)
+                        {
+                            pLBConsole.BeginInvoke((Action)(() => Message(pLBConsole, pAttachmentFactor, message)));
+                            pLBConsole.BeginInvoke((Action)(() => Attachment(pLBConsole, pAttachmentFactor, data.Substring((int)pAttachmentFactor), 1)));
+                        }
+                        else
+                        {
+                            pLBConsole.Items.Insert(0, index);
+                            Log.Attachment(pLBConsole, pAttachmentFactor, data.Substring((int)pAttachmentFactor), 1);
+                        }
                     }
 
                 }

@@ -51,7 +51,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.TrB_CurrentWL = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.ChB_SweepEnabled = new System.Windows.Forms.CheckBox();
             this.Pan_SweepControls = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.RB_Sweep_SpeciallMode = new System.Windows.Forms.RadioButton();
+            this.RB_Sweep_EasyMode = new System.Windows.Forms.RadioButton();
             this.TLP_Sweep_EasyMode = new System.Windows.Forms.TableLayoutPanel();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
@@ -61,18 +65,14 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.TLP_Sweep_ProgramMode = new System.Windows.Forms.TableLayoutPanel();
+            this.ChB_ProgrammSweep_toogler = new System.Windows.Forms.CheckBox();
             this.LBConsole = new System.Windows.Forms.ListBox();
             this.B_Quit = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.созданиеКривыхToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_CreateCurve = new System.Windows.Forms.ToolStripMenuItem();
-            this.RB_Sweep_EasyMode = new System.Windows.Forms.RadioButton();
-            this.RB_Sweep_SpeciallMode = new System.Windows.Forms.RadioButton();
-            this.ChB_SweepEnabled = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.TLP_Sweep_ProgramMode = new System.Windows.Forms.TableLayoutPanel();
-            this.ChB_ProgrammSweep_toogler = new System.Windows.Forms.CheckBox();
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -86,13 +86,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.TrB_CurrentWL)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
             this.Pan_SweepControls.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.TLP_Sweep_EasyMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).BeginInit();
-            this.menuStrip1.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.TLP_Sweep_ProgramMode.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -405,6 +405,18 @@
             this.tableLayoutPanel5.TabIndex = 2;
             this.tableLayoutPanel5.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel5_Paint);
             // 
+            // ChB_SweepEnabled
+            // 
+            this.ChB_SweepEnabled.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ChB_SweepEnabled.AutoSize = true;
+            this.ChB_SweepEnabled.Location = new System.Drawing.Point(3, 6);
+            this.ChB_SweepEnabled.Name = "ChB_SweepEnabled";
+            this.ChB_SweepEnabled.Size = new System.Drawing.Size(188, 17);
+            this.ChB_SweepEnabled.TabIndex = 1;
+            this.ChB_SweepEnabled.Text = "Линейно - частотная модуляция";
+            this.ChB_SweepEnabled.UseVisualStyleBackColor = true;
+            this.ChB_SweepEnabled.CheckedChanged += new System.EventHandler(this.ChB_SweepEnabled_CheckedChanged);
+            // 
             // Pan_SweepControls
             // 
             this.Pan_SweepControls.Controls.Add(this.tableLayoutPanel3);
@@ -415,13 +427,55 @@
             this.Pan_SweepControls.Size = new System.Drawing.Size(1011, 146);
             this.Pan_SweepControls.TabIndex = 0;
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.RB_Sweep_SpeciallMode, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.RB_Sweep_EasyMode, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.TLP_Sweep_EasyMode, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.TLP_Sweep_ProgramMode, 1, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1011, 146);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // RB_Sweep_SpeciallMode
+            // 
+            this.RB_Sweep_SpeciallMode.AutoSize = true;
+            this.RB_Sweep_SpeciallMode.Location = new System.Drawing.Point(508, 3);
+            this.RB_Sweep_SpeciallMode.Name = "RB_Sweep_SpeciallMode";
+            this.RB_Sweep_SpeciallMode.Size = new System.Drawing.Size(121, 17);
+            this.RB_Sweep_SpeciallMode.TabIndex = 1;
+            this.RB_Sweep_SpeciallMode.Text = "Программируемая";
+            this.RB_Sweep_SpeciallMode.UseVisualStyleBackColor = true;
+            this.RB_Sweep_SpeciallMode.CheckedChanged += new System.EventHandler(this.RB_Sweep_SpeciallMode_CheckedChanged);
+            // 
+            // RB_Sweep_EasyMode
+            // 
+            this.RB_Sweep_EasyMode.AutoSize = true;
+            this.RB_Sweep_EasyMode.Checked = true;
+            this.RB_Sweep_EasyMode.Location = new System.Drawing.Point(3, 3);
+            this.RB_Sweep_EasyMode.Name = "RB_Sweep_EasyMode";
+            this.RB_Sweep_EasyMode.Size = new System.Drawing.Size(158, 17);
+            this.RB_Sweep_EasyMode.TabIndex = 0;
+            this.RB_Sweep_EasyMode.TabStop = true;
+            this.RB_Sweep_EasyMode.Text = "На заданной длине волны";
+            this.RB_Sweep_EasyMode.UseVisualStyleBackColor = true;
+            this.RB_Sweep_EasyMode.CheckedChanged += new System.EventHandler(this.RB_Sweep_EasyMode_CheckedChanged);
+            // 
             // TLP_Sweep_EasyMode
             // 
             this.TLP_Sweep_EasyMode.ColumnCount = 4;
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             this.TLP_Sweep_EasyMode.Controls.Add(this.trackBar1, 0, 2);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 3, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 3, 1);
@@ -449,7 +503,7 @@
             this.trackBar1.Maximum = 150000;
             this.trackBar1.Minimum = 40000;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(431, 30);
+            this.trackBar1.Size = new System.Drawing.Size(430, 30);
             this.trackBar1.TabIndex = 35;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.Value = 40000;
@@ -460,9 +514,9 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(440, 13);
+            this.label9.Location = new System.Drawing.Point(439, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(62, 13);
+            this.label9.Size = new System.Drawing.Size(63, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -471,10 +525,10 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(441, 53);
+            this.label10.Location = new System.Drawing.Point(440, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(61, 13);
+            this.label10.Size = new System.Drawing.Size(62, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "мс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -491,7 +545,7 @@
             0,
             0});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(292, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(291, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.ValueChanged += new System.EventHandler(this.NUD_FreqDeviation_ValueChanged);
             // 
@@ -507,7 +561,7 @@
             0,
             0});
             this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(292, 20);
+            this.NUD_TimeFdev.Size = new System.Drawing.Size(291, 20);
             this.NUD_TimeFdev.TabIndex = 2;
             this.NUD_TimeFdev.ValueChanged += new System.EventHandler(this.NUD_TimeFdev_ValueChanged);
             // 
@@ -541,6 +595,33 @@
             this.label6.Size = new System.Drawing.Size(103, 26);
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
+            // 
+            // TLP_Sweep_ProgramMode
+            // 
+            this.TLP_Sweep_ProgramMode.ColumnCount = 2;
+            this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Sweep_ProgramMode.Controls.Add(this.ChB_ProgrammSweep_toogler, 0, 0);
+            this.TLP_Sweep_ProgramMode.Location = new System.Drawing.Point(505, 30);
+            this.TLP_Sweep_ProgramMode.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_Sweep_ProgramMode.Name = "TLP_Sweep_ProgramMode";
+            this.TLP_Sweep_ProgramMode.RowCount = 2;
+            this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(295, 98);
+            this.TLP_Sweep_ProgramMode.TabIndex = 2;
+            // 
+            // ChB_ProgrammSweep_toogler
+            // 
+            this.ChB_ProgrammSweep_toogler.Appearance = System.Windows.Forms.Appearance.Button;
+            this.ChB_ProgrammSweep_toogler.Location = new System.Drawing.Point(3, 3);
+            this.ChB_ProgrammSweep_toogler.Name = "ChB_ProgrammSweep_toogler";
+            this.ChB_ProgrammSweep_toogler.Size = new System.Drawing.Size(129, 36);
+            this.ChB_ProgrammSweep_toogler.TabIndex = 0;
+            this.ChB_ProgrammSweep_toogler.Text = "Запустить перестройку";
+            this.ChB_ProgrammSweep_toogler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ChB_ProgrammSweep_toogler.UseVisualStyleBackColor = true;
+            this.ChB_ProgrammSweep_toogler.CheckedChanged += new System.EventHandler(this.ChB_ProgrammSweep_toogler_CheckedChanged);
             // 
             // LBConsole
             // 
@@ -597,87 +678,6 @@
             this.TSMI_CreateCurve.Text = "Изменить кривую перестройки";
             this.TSMI_CreateCurve.Click += new System.EventHandler(this.TSMI_CreateCurve_Click);
             // 
-            // RB_Sweep_EasyMode
-            // 
-            this.RB_Sweep_EasyMode.AutoSize = true;
-            this.RB_Sweep_EasyMode.Checked = true;
-            this.RB_Sweep_EasyMode.Location = new System.Drawing.Point(3, 3);
-            this.RB_Sweep_EasyMode.Name = "RB_Sweep_EasyMode";
-            this.RB_Sweep_EasyMode.Size = new System.Drawing.Size(158, 17);
-            this.RB_Sweep_EasyMode.TabIndex = 0;
-            this.RB_Sweep_EasyMode.TabStop = true;
-            this.RB_Sweep_EasyMode.Text = "На заданной длине волны";
-            this.RB_Sweep_EasyMode.UseVisualStyleBackColor = true;
-            this.RB_Sweep_EasyMode.CheckedChanged += new System.EventHandler(this.RB_Sweep_EasyMode_CheckedChanged);
-            // 
-            // RB_Sweep_SpeciallMode
-            // 
-            this.RB_Sweep_SpeciallMode.AutoSize = true;
-            this.RB_Sweep_SpeciallMode.Location = new System.Drawing.Point(508, 3);
-            this.RB_Sweep_SpeciallMode.Name = "RB_Sweep_SpeciallMode";
-            this.RB_Sweep_SpeciallMode.Size = new System.Drawing.Size(121, 17);
-            this.RB_Sweep_SpeciallMode.TabIndex = 1;
-            this.RB_Sweep_SpeciallMode.Text = "Программируемая";
-            this.RB_Sweep_SpeciallMode.UseVisualStyleBackColor = true;
-            this.RB_Sweep_SpeciallMode.CheckedChanged += new System.EventHandler(this.RB_Sweep_SpeciallMode_CheckedChanged);
-            // 
-            // ChB_SweepEnabled
-            // 
-            this.ChB_SweepEnabled.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ChB_SweepEnabled.AutoSize = true;
-            this.ChB_SweepEnabled.Location = new System.Drawing.Point(3, 6);
-            this.ChB_SweepEnabled.Name = "ChB_SweepEnabled";
-            this.ChB_SweepEnabled.Size = new System.Drawing.Size(188, 17);
-            this.ChB_SweepEnabled.TabIndex = 1;
-            this.ChB_SweepEnabled.Text = "Линейно - частотная модуляция";
-            this.ChB_SweepEnabled.UseVisualStyleBackColor = true;
-            this.ChB_SweepEnabled.CheckedChanged += new System.EventHandler(this.ChB_SweepEnabled_CheckedChanged);
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.RB_Sweep_SpeciallMode, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.RB_Sweep_EasyMode, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.TLP_Sweep_EasyMode, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.TLP_Sweep_ProgramMode, 1, 1);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1011, 146);
-            this.tableLayoutPanel3.TabIndex = 0;
-            // 
-            // TLP_Sweep_ProgramMode
-            // 
-            this.TLP_Sweep_ProgramMode.ColumnCount = 2;
-            this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_ProgramMode.Controls.Add(this.ChB_ProgrammSweep_toogler, 0, 0);
-            this.TLP_Sweep_ProgramMode.Location = new System.Drawing.Point(505, 30);
-            this.TLP_Sweep_ProgramMode.Margin = new System.Windows.Forms.Padding(0);
-            this.TLP_Sweep_ProgramMode.Name = "TLP_Sweep_ProgramMode";
-            this.TLP_Sweep_ProgramMode.RowCount = 2;
-            this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(295, 98);
-            this.TLP_Sweep_ProgramMode.TabIndex = 2;
-            // 
-            // ChB_ProgrammSweep_toogler
-            // 
-            this.ChB_ProgrammSweep_toogler.Appearance = System.Windows.Forms.Appearance.Button;
-            this.ChB_ProgrammSweep_toogler.Location = new System.Drawing.Point(3, 3);
-            this.ChB_ProgrammSweep_toogler.Name = "ChB_ProgrammSweep_toogler";
-            this.ChB_ProgrammSweep_toogler.Size = new System.Drawing.Size(129, 36);
-            this.ChB_ProgrammSweep_toogler.TabIndex = 0;
-            this.ChB_ProgrammSweep_toogler.Text = "Запустить перестройку";
-            this.ChB_ProgrammSweep_toogler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ChB_ProgrammSweep_toogler.UseVisualStyleBackColor = true;
-            this.ChB_ProgrammSweep_toogler.CheckedChanged += new System.EventHandler(this.ChB_ProgrammSweep_toogler_CheckedChanged);
-            // 
             // BGW_Sweep_Curve
             // 
             this.BGW_Sweep_Curve.WorkerSupportsCancellation = true;
@@ -713,16 +713,16 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.Pan_SweepControls.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.TLP_Sweep_EasyMode.ResumeLayout(false);
             this.TLP_Sweep_EasyMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).EndInit();
+            this.TLP_Sweep_ProgramMode.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
-            this.TLP_Sweep_ProgramMode.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

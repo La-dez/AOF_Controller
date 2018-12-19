@@ -870,7 +870,7 @@ namespace LDZ_Code
                     double Step_kHZs = 200;
                     double Steps_by1MHz = 1e3f / Step_kHZs;
 
-                    if ((float)(Steps_by1MHz * New_Freq_byTime) < 287)
+                    if ((float)(Steps_by1MHz * New_Freq_byTime) < 287) //если менее 287, то пересчитываем размер шага, чтобы было более
                     {
                         Steps_by1MHz = 287.0 / New_Freq_byTime;
                         Step_kHZs = 1e3 / Steps_by1MHz;

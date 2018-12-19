@@ -317,6 +317,70 @@ namespace AOF_Controller
         }
         private void Sweep_Especiall(BackgroundWorker pBGW = null,DoWorkEventArgs pe=null)
         {
+            int i_max = AO_All_CurveSweep_Params.GetLength(0);
+            float[,] Mass_of_params = new float[i_max, 7];
+            int i = 0;
+            for(i=0;i< i_max;i++)
+            {
+                Mass_of_params[i, 0] = AO_All_CurveSweep_Params[i, 0]; //ДВ (для отображения)
+                PointF data_for_sweep = Filter.Sweep_Recalculate_borders(AO_All_CurveSweep_Params[i, 2], AO_All_CurveSweep_Params[i, 3]);
+                Mass_of_params[i, 1] = data_for_sweep.X;//Частота Синтезатора
+                Mass_of_params[i, 2] = data_for_sweep.Y;//пересчитанная девиация                 
+                Mass_of_params[i, 3] = AO_All_CurveSweep_Params[i, 4]; //время одной девиации
+                Mass_of_params[i, 4] = AO_All_CurveSweep_Params[i, 5]; //количество девиаций
+            }
+            i = 0;
+            Log.Message(String.Format("Перестройка запущена."));
+            while (true)
+            {
+                try
+                {
+                    if (AO_Sweep_CurveTuning_StopFlag)
+                    {
+                        pe.Cancel = true;
+                        break;
+                    }
+
+                    if (Mass_of_params[i, 2] == 0)//стандартная перестройка
+                    {
+                        int time_ms = (int)(Mass_of_params[i, 3] * Mass_of_params[i, 4]);
+                        Log.Message(String.Format("Вход в интевал перестройки №{0}. Режим: без ЛЧМ. ДВ: {1} нм ({2} MHz). Необходимое время отработки: {3} мс.",
+                            i, Mass_of_params[i, 0], Mass_of_params[i, 1], time_ms));
+                        if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+                        Filter.Set_Hz(Mass_of_params[i, 1]);
+                        if (AO_Sweep_CurveTuning_StopFlag)
+                        {
+                            pe.Cancel = true;
+                            break;
+                        }
+                        System.Threading.Thread.Sleep(time_ms);
+                    }
+                    else//свип
+                    {
+                        int time_ms = (int)(Mass_of_params[i, 3] * Mass_of_params[i, 4]);
+                        Log.Message(String.Format("Вход в интевал перестройки №{0}. Режим: ЛЧМ. ДВ: {1} ({2} MHz). Левая граница: {3} MHz. Ширина:{4} MHz. Необходимое время отработки: {5} мс.",
+                            i, Mass_of_params[i, 0], AO_All_CurveSweep_Params[i, 2], Mass_of_params[i, 1], Mass_of_params[i, 2], time_ms));
+                        if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+                        Filter.Set_Sweep_on(Mass_of_params[i, 1], Mass_of_params[i, 2], Mass_of_params[i, 3], true);
+                        if (AO_Sweep_CurveTuning_StopFlag)
+                        {
+                            pe.Cancel = true;
+                            break;
+                        }
+                        System.Threading.Thread.Sleep((int)(Mass_of_params[i, 3] * Mass_of_params[i, 4]));
+                        if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+                    }
+                    i++;
+                    if (i == i_max) i = 0;
+                }
+                catch(Exception exc )
+                {
+                    Log.Message(String.Format("Перестройка прервана из-за внутренней ошибки."));
+                    AO_Sweep_CurveTuning_StopFlag = false;
+                    AO_Sweep_CurveTuning_inProgress = false;
+                    if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+                }
+            }
       /*      for (int i = 1; i <= 10; i++)
             {
                 if (pBGW.CancellationPending == true)
@@ -334,6 +398,7 @@ namespace AOF_Controller
         }
         private void BGW_Sweep_Curve_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Log.Message(String.Format("Перестройка прервана пользователем."));
             AO_Sweep_CurveTuning_StopFlag = false;
             AO_Sweep_CurveTuning_inProgress = false;
         }
