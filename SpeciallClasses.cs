@@ -1016,7 +1016,7 @@ namespace LDZ_Code
                     public void Message(string Message)
                     {
                         Log.Message(ControlledLB, AttachmentFactor, Message);
-                    }
+                     }
                     public void Error(string Message)
                     {
                         Log.Error(ControlledLB, AttachmentFactor, Message);

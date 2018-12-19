@@ -602,13 +602,14 @@
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_ProgramMode.Controls.Add(this.ChB_ProgrammSweep_toogler, 0, 0);
+            this.TLP_Sweep_ProgramMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Sweep_ProgramMode.Location = new System.Drawing.Point(505, 30);
             this.TLP_Sweep_ProgramMode.Margin = new System.Windows.Forms.Padding(0);
             this.TLP_Sweep_ProgramMode.Name = "TLP_Sweep_ProgramMode";
             this.TLP_Sweep_ProgramMode.RowCount = 2;
             this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(295, 98);
+            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(506, 116);
             this.TLP_Sweep_ProgramMode.TabIndex = 2;
             // 
             // ChB_ProgrammSweep_toogler
@@ -618,7 +619,7 @@
             this.ChB_ProgrammSweep_toogler.Name = "ChB_ProgrammSweep_toogler";
             this.ChB_ProgrammSweep_toogler.Size = new System.Drawing.Size(129, 36);
             this.ChB_ProgrammSweep_toogler.TabIndex = 0;
-            this.ChB_ProgrammSweep_toogler.Text = "Запустить перестройку";
+            this.ChB_ProgrammSweep_toogler.Text = "Перестройка";
             this.ChB_ProgrammSweep_toogler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.ChB_ProgrammSweep_toogler.UseVisualStyleBackColor = true;
             this.ChB_ProgrammSweep_toogler.CheckedChanged += new System.EventHandler(this.ChB_ProgrammSweep_toogler_CheckedChanged);

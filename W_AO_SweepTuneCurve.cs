@@ -39,6 +39,8 @@ namespace AOF_Controller
             Mass_of_vals = loaded_mass;
             W_Filter = pFilter;
             {
+                W_WL_Max = W_Filter.WL_Max;
+                W_WL_Min = W_Filter.WL_Min;
                 W_AO_TimeDeviation_Min = W_Filter.AO_TimeDeviation_Min;
                 W_AO_TimeDeviation_Max = W_Filter.AO_TimeDeviation_Max;
                 W_AO_FreqDeviation_Min = 0;
@@ -163,7 +165,7 @@ namespace AOF_Controller
             catch { }
             //Вычисление максимума девиации по частоте
             float AO_TimeDeviation = Mass_of_vals[nameNumber, 4];
-            float AO_FreqDeviation_Max_byTime = W_Filter.AO_FreqTuneSpeed_Max * AO_TimeDeviation / 2.0f;
+            float AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / W_Filter.AO_ExchangeRate_Min);
             float Choosen_Max = (AO_FreqDeviation_Max_byTime < W_Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : W_Filter.AO_FreqDeviation_Max);
             var ctrl_NUD_dFreq = (TLP_DataTable.Controls.Find("NUD_dFreq_" + nameNumber, false))[0] as NumericUpDown;
             if (ctrl_NUD_dFreq.Maximum < (decimal)Choosen_Max) ctrl_NUD_dFreq.Maximum = (decimal)Choosen_Max;
@@ -208,8 +210,7 @@ namespace AOF_Controller
             // 
             // TLP_DataTable
             // старая<новая
-            //не читаются девиации, не записывается время 
-            float[] InitLine = new float[7] { 1000, 10000, 0, 1, 0, 0, 0 };
+            float[] InitLine = new float[7] { W_WL_Min, 10000000.0f/ W_WL_Min, 0, 1, 0, 0, 0 };
                 int i_max = (Mass_of_vals.GetLength(0)) < number_of_Values ? Mass_of_vals.GetLength(0): number_of_Values;
             {
                 float[,] datamass = new float[i_max, Num_of_Vars];
@@ -322,7 +323,7 @@ namespace AOF_Controller
                 NUD_dFreq_N.DecimalPlaces = 1;
                 NUD_dFreq_N.Location = new System.Drawing.Point(280, 3);
                 NUD_dFreq_N.Margin = new System.Windows.Forms.Padding(0);
-                NUD_dFreq_N.Maximum = (decimal)(W_Filter.AO_FreqTuneSpeed_Max * Mass_of_vals[i, 4] / 2.0);
+                NUD_dFreq_N.Maximum = (decimal)(Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min));
                 NUD_dFreq_N.Minimum = (decimal)W_AO_FreqDeviation_Min;
                 NUD_dFreq_N.Name = "NUD_dFreq_" + i.ToString();
                 NUD_dFreq_N.Size = new System.Drawing.Size(90, 20);
@@ -336,16 +337,8 @@ namespace AOF_Controller
                 NUD_WL_N.DecimalPlaces = 2;
                 NUD_WL_N.Location = new System.Drawing.Point(40, 3);
                 NUD_WL_N.Margin = new System.Windows.Forms.Padding(0);
-                NUD_WL_N.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-                NUD_WL_N.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+                NUD_WL_N.Maximum = (decimal)W_WL_Max;
+                NUD_WL_N.Minimum = (decimal)W_WL_Min;
                 NUD_WL_N.Name = "NUD_WL_" + i.ToString();
                 NUD_WL_N.Size = new System.Drawing.Size(50, 20);
                 NUD_WL_N.TabIndex = 8;
@@ -358,16 +351,8 @@ namespace AOF_Controller
                 NUD_WN_N.DecimalPlaces = 2;
                 NUD_WN_N.Location = new System.Drawing.Point(90, 3);
                 NUD_WN_N.Margin = new System.Windows.Forms.Padding(0);
-                NUD_WN_N.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-                NUD_WN_N.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
+                NUD_WN_N.Maximum = (decimal)(10000000.0f / W_WL_Min);
+                NUD_WN_N.Minimum = (decimal)(10000000.0f / W_WL_Max);
                 NUD_WN_N.Name = "NUD_WN_" + i.ToString();
                 NUD_WN_N.Size = new System.Drawing.Size(85, 20);
                 NUD_WN_N.TabIndex = 9;

@@ -22,8 +22,8 @@ namespace AOF_Controller
 
         //Все для sweep
         double AO_FreqDeviation_Max_byTime = 0;
-        double AO_FreqDeviation = 1;
-        double AO_TimeDeviation = 1;
+        double AO_FreqDeviation = 0.5;
+        double AO_TimeDeviation = 10;
         bool AO_Sweep_Needed = false;
         float[,] AO_All_CurveSweep_Params = new float[0, 0];
         bool AO_Sweep_CurveTuning_isEnabled = false;
@@ -82,7 +82,7 @@ namespace AOF_Controller
                 }
             else return;
 
-            AO_FreqDeviation_Max_byTime = Filter.AO_FreqTuneSpeed_Max * AO_TimeDeviation;
+            AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f/Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
         }
 
@@ -136,11 +136,11 @@ namespace AOF_Controller
             {
                 if (AO_Sweep_Needed)
                 {
-                    if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
+                   /* if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
                     {
                         timer_for_sweep.Restart();
                         ReSweep(data_CurrentWL);
-                    }
+                    }*/
                 }
                 else
                 {
@@ -213,18 +213,17 @@ namespace AOF_Controller
             AO_Sweep_Needed = ChB_SweepEnabled.Checked;
             Pan_SweepControls.Enabled = AO_Sweep_Needed;
 
-            RB_Sweep_EasyMode.Checked = !AO_Sweep_CurveTuning_isEnabled;
-            RB_Sweep_SpeciallMode.Checked = AO_Sweep_CurveTuning_isEnabled;
-            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
+         //   
+            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
-
+            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
 
         }
 
         private void NUD_TimeFdev_ValueChanged(object sender, EventArgs e)
         {
             AO_TimeDeviation = (double)NUD_TimeFdev.Value;
-            AO_FreqDeviation_Max_byTime = Filter.AO_FreqTuneSpeed_Max * AO_TimeDeviation / 2.0;
+            AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             NUD_FreqDeviation.Maximum = (decimal)
                 (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
         }
@@ -277,21 +276,24 @@ namespace AOF_Controller
 
         private void RB_Sweep_EasyMode_CheckedChanged(object sender, EventArgs e)
         {
-            AO_Sweep_CurveTuning_isEnabled = false;
-            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
-            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
-            TLP_WLSlidingControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
-            TLP_SetControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
+            ChB_SweepEnabled.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
+
+            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !RB_Sweep_SpeciallMode.Checked;
+            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled && RB_Sweep_SpeciallMode.Checked;
+
+            TLP_WLSlidingControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
+            TLP_SetControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
         }
 
         private void RB_Sweep_SpeciallMode_CheckedChanged(object sender, EventArgs e)
         {
-            AO_Sweep_CurveTuning_isEnabled = true;
-            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !AO_Sweep_CurveTuning_isEnabled;
-            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
-            TLP_WLSlidingControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
-            TLP_SetControls.Enabled = !AO_Sweep_CurveTuning_isEnabled;
+            ChB_SweepEnabled.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
 
+            TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !RB_Sweep_SpeciallMode.Checked;
+            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled && RB_Sweep_SpeciallMode.Checked;
+
+            TLP_WLSlidingControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
+            TLP_SetControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
         }
 
         private void ChB_ProgrammSweep_toogler_CheckedChanged(object sender, EventArgs e)
@@ -375,32 +377,27 @@ namespace AOF_Controller
                 }
                 catch(Exception exc )
                 {
-                    Log.Message(String.Format("Перестройка прервана из-за внутренней ошибки."));
-                    AO_Sweep_CurveTuning_StopFlag = false;
-                    AO_Sweep_CurveTuning_inProgress = false;
-                    if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
-                }
-            }
-      /*      for (int i = 1; i <= 10; i++)
-            {
-                if (pBGW.CancellationPending == true)
-                {
-                    pe.Cancel = true;
+                    pe.Result = exc;
                     break;
                 }
-                else
-                {
-                    // Perform a time consuming operation and report progress.
-                    System.Threading.Thread.Sleep(100);
-                    pBGW.ReportProgress(i * 10);
-                }
-            }*/
+            }
         }
         private void BGW_Sweep_Curve_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Log.Message(String.Format("Перестройка прервана пользователем."));
-            AO_Sweep_CurveTuning_StopFlag = false;
-            AO_Sweep_CurveTuning_inProgress = false;
+            if (e.Cancelled)
+            {
+                Log.Message(String.Format("Перестройка прервана пользователем."));
+                AO_Sweep_CurveTuning_StopFlag = false;
+                AO_Sweep_CurveTuning_inProgress = false;
+            }
+            else
+            {
+                Log.Message(String.Format("Перестройка прервана из-за внутренней ошибки."));
+                if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+                AO_Sweep_CurveTuning_StopFlag = false;
+                AO_Sweep_CurveTuning_inProgress = false;
+                ChB_ProgrammSweep_toogler.Checked = false;
+            }
         }
     }
 }

@@ -42,11 +42,12 @@ namespace LDZ_Code
             protected abstract bool sAO_Sweep_On { set; get; }
             public bool is_inSweepMode { get { return sAO_Sweep_On; } }
 
-            public virtual float AO_FreqTuneSpeed_Max { get { return 1.0f; } } //[1 MHz/ms]   
-            public virtual float AO_TimeDeviation_Min { get { return 1; } }   // [мс]     
-            public virtual float AO_TimeDeviation_Max { get { return 2500; } } // [мс]
-            public virtual float AO_FreqDeviation_Min { get { return (AO_FreqTuneSpeed_Max * AO_TimeDeviation_Min)/2; } } // [МГц]
-            public virtual float AO_FreqDeviation_Max { get { return HZs[0] - HZs[HZs.Length - 1]; } }
+            public virtual float AO_ExchangeRate_Min { get { return 500; } } //[Гц]
+            public virtual float AO_ExchangeRate_Max { get { return 5000; } } //[Гц]
+            public virtual float AO_TimeDeviation_Min { get { return 10; } }   // [мс]     
+            public virtual float AO_TimeDeviation_Max { get { return 40; } } // [мс]
+            public virtual float AO_FreqDeviation_Min { get { return 0.25f; } } // [МГц]
+            public virtual float AO_FreqDeviation_Max { get { return 7.5f; } }
 
 
 
@@ -866,16 +867,16 @@ namespace LDZ_Code
                     float freqMCU = 74.99e6f;
                     float inp_freq = 5000; //in Hz, max 5000Hz //дефолт от Алексея
 
-                    double New_Freq_byTime = (Sweep_range_MHz * 1e3f / Period); // [kHz/ms] , 57.4 и более
+                    double New_Freq_byTime = (Sweep_range_MHz * 1e3f / Period); // [kHz/ms] , 57.4 и более //375
                     double Step_kHZs = 200;
                     double Steps_by1MHz = 1e3f / Step_kHZs;
-
-                    if ((float)(Steps_by1MHz * New_Freq_byTime) < 287) //если менее 287, то пересчитываем размер шага, чтобы было более
+                    float minlim = 500;
+                    if ((float)(Steps_by1MHz * New_Freq_byTime) < minlim) //если менее 287, то пересчитываем размер шага, чтобы было более
                     {
-                        Steps_by1MHz = 287.0 / New_Freq_byTime;
+                        Steps_by1MHz = minlim / New_Freq_byTime;
                         Step_kHZs = 1e3 / Steps_by1MHz;
                     }
-                    else inp_freq = (float)(Steps_by1MHz * New_Freq_byTime);//287 и более
+                    inp_freq = (float)(Steps_by1MHz * New_Freq_byTime);//287 и более
 
                     count = 5;
                     steps = (int)Math.Floor(Sweep_range_MHz * Steps_by1MHz); // number of the steps
