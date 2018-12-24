@@ -99,7 +99,7 @@ namespace AOF_Controller
             {
                 var ctrl_to_change = TLP_DataTable.Controls.Find(Name_NUD_WN + nameNumber, false);
                 value2write = 10000000.0 / (double)((sender as NumericUpDown).Value);
-                (ctrl_to_change[0] as NumericUpDown).Value = (decimal)(value2write);
+                (ctrl_to_change[0] as NumericUpDown).Value = (decimal)((int)(value2write*100))/100;
 
                 Mass_of_vals[nameNumber, 0] = (float)ctrl.Value;
                 Mass_of_vals[nameNumber, 1] = (float)value2write;
@@ -326,7 +326,8 @@ namespace AOF_Controller
                 NUD_dFreq_N.DecimalPlaces = 1;
                 NUD_dFreq_N.Location = new System.Drawing.Point(280, 3);
                 NUD_dFreq_N.Margin = new System.Windows.Forms.Padding(0);
-                NUD_dFreq_N.Maximum = (decimal)(Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min));
+                double maxvalue = (Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min)) < W_Filter.AO_FreqDeviation_Max ? (Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min)) : W_Filter.AO_FreqDeviation_Max;
+                NUD_dFreq_N.Maximum = (decimal)maxvalue;
                 NUD_dFreq_N.Minimum = (decimal)W_AO_FreqDeviation_Min;
                 NUD_dFreq_N.Name = "NUD_dFreq_" + i.ToString();
                 NUD_dFreq_N.Size = new System.Drawing.Size(90, 20);

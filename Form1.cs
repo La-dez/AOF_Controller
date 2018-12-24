@@ -37,7 +37,9 @@ namespace AOF_Controller
         AO_Filter Filter = null;
         System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
 
-        
+        string AO_ProgramSweepCFG_filename = "AOData.txt";
+
+
         string version = "1.7";
         public Form1()
         {
@@ -54,10 +56,59 @@ namespace AOF_Controller
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
             ChB_Power.Enabled = false;
             GB_AllAOFControls.Enabled = false;
-
+            ReadData(); 
             //tests();
         }
-     
+        private void ReadData()
+        {
+            List<string> strings = Files.Read_txt(AO_ProgramSweepCFG_filename);
+            for(int i =0;i<strings.Count;i++)
+            {
+                if (String.IsNullOrEmpty(strings[i])) { strings.RemoveAt(i); i--; }
+            }
+            AO_All_CurveSweep_Params = new float[strings.Count, 7];
+            for(int i=0;i!=strings.Count;++i)
+            {
+
+                int startindex = 0;
+                int finishindex = 0;
+                for (int j = 0;j<7;++j)
+                {                   
+                    if(j==6)
+                    {
+                        finishindex = (strings[i].IndexOf("\t")>0 ? strings[i].IndexOf("\t") : strings[i].Length);
+                        string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.', ',');
+                        AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
+                    }
+                    else
+                    {
+                        finishindex = strings[i].IndexOf("\t");
+                        string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.',',');
+                        AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
+                        startindex = 0;
+                        strings[i] = strings[i].Substring(finishindex+1);
+                    }
+                }
+            }
+            Log.Message(AO_All_CurveSweep_Params.GetLength(0).ToString());
+        }
+        private void SaveData()
+        {
+            List<string> result = new List<string>();
+            int i_max = AO_All_CurveSweep_Params.GetLength(0);
+            string datastring = null;
+            for(int i=0;i<i_max;i++)
+            {
+                datastring = null;
+                for(int j = 0;j < 6;j++)
+                {
+                    datastring += AO_All_CurveSweep_Params[i, j].ToString() + "\t";
+                }
+                datastring += AO_All_CurveSweep_Params[i, 6].ToString();
+                result.Add(datastring);
+            }
+            Files.Write_txt(AO_ProgramSweepCFG_filename, result);
+        }
         private void BDevOpen_Click(object sender, EventArgs e)
         {
             string AO_DEV_loaded = null;
@@ -241,7 +292,8 @@ namespace AOF_Controller
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            try { SaveData(); }
+            catch { }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -325,9 +377,17 @@ namespace AOF_Controller
             for(i=0;i< i_max;i++)
             {
                 Mass_of_params[i, 0] = AO_All_CurveSweep_Params[i, 0]; //ДВ (для отображения)
-                PointF data_for_sweep = Filter.Sweep_Recalculate_borders(AO_All_CurveSweep_Params[i, 2], AO_All_CurveSweep_Params[i, 3]);
-                Mass_of_params[i, 1] = data_for_sweep.X;//Частота Синтезатора
-                Mass_of_params[i, 2] = data_for_sweep.Y;//пересчитанная девиация                 
+                if (AO_All_CurveSweep_Params[i, 3] != 0)
+                {
+                    PointF data_for_sweep = Filter.Sweep_Recalculate_borders(AO_All_CurveSweep_Params[i, 2], AO_All_CurveSweep_Params[i, 3]);
+                    Mass_of_params[i, 1] = data_for_sweep.X;//Частота Синтезатора
+                    Mass_of_params[i, 2] = data_for_sweep.Y;//пересчитанная девиация 
+                }
+                else
+                {
+                    Mass_of_params[i, 1] = AO_All_CurveSweep_Params[i, 2];//Частота Синтезатора
+                    Mass_of_params[i, 2] = 0;//пересчитанная девиация
+                }                
                 Mass_of_params[i, 3] = AO_All_CurveSweep_Params[i, 4]; //время одной девиации
                 Mass_of_params[i, 4] = AO_All_CurveSweep_Params[i, 5]; //количество девиаций
             }

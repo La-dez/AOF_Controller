@@ -43,7 +43,7 @@ namespace LDZ_Code
             public bool is_inSweepMode { get { return sAO_Sweep_On; } }
 
             public virtual float AO_ExchangeRate_Min { get { return 500; } } //[Гц]
-            public virtual float AO_ExchangeRate_Max { get { return 5000; } } //[Гц]
+            public virtual float AO_ExchangeRate_Max { get { return 4500; } } //[Гц]
             public virtual float AO_TimeDeviation_Min { get { return 10; } }   // [мс]     
             public virtual float AO_TimeDeviation_Max { get { return 40; } } // [мс]
             public virtual float AO_FreqDeviation_Min { get { return 0.25f; } } // [МГц]
@@ -232,19 +232,42 @@ namespace LDZ_Code
                 try
                 {
                     var Data_from_dev = ServiceFunctions.Files.Read_txt(path);
-                    FilterCfgPath = path;
+                     FilterCfgPath = path;
                     FilterCfgName = System.IO.Path.GetFileName(path);
                     float[] pWLs, pHZs, pCoefs;
                     ServiceFunctions.Files.Get_WLData_byKnownCountofNumbers(3, Data_from_dev.ToArray(), out pWLs, out pHZs, out pCoefs);
 
                     float[] pData = new float[pWLs.Length];
                     pWLs.CopyTo(pData, 0);
-
+                    int RealLength = pWLs.Length-1;
+                    if (pWLs[0]-pWLs[RealLength] > 0)
+                    {
+                        WLs = new float[pWLs.Length];
+                        HZs = new float[pWLs.Length]; ;
+                        Intensity = new float[pWLs.Length];
+                        for (int i =0;i<pWLs.Length;i++)
+                        {
+                            WLs[i] = pWLs[RealLength - i];
+                            HZs[i] = pHZs[RealLength - i];
+                            Intensity[i] = pCoefs[RealLength - i];
+                        }
+                    }
+                    else
+                    {
+                        WLs = pWLs;
+                        HZs = pHZs;
+                        Intensity = pCoefs;
+                    }
+                    pWLs = WLs;
+                    pHZs = HZs;
+                    pCoefs = Intensity;
                     ServiceFunctions.Math.Interpolate_curv(ref pWLs,ref pHZs);
                     ServiceFunctions.Math.Interpolate_curv(ref pData,ref pCoefs);
+
                     WLs = pWLs;
                     HZs = pHZs;
                     Intensity = pCoefs;
+
                 }
                 catch
                 {
@@ -865,18 +888,18 @@ namespace LDZ_Code
                     int count;
                     int i;
                     float freqMCU = 74.99e6f;
-                    float inp_freq = 5000; //in Hz, max 5000Hz //дефолт от Алексея
+                    float inp_freq = AO_ExchangeRate_Max; //in Hz, max 4500 hz //дефолт от Алексея
 
                     double New_Freq_byTime = (Sweep_range_MHz * 1e3f / Period); // [kHz/ms] , 57.4 и более //375
-                    double Step_kHZs = 200;
-                    double Steps_by1MHz = 1e3f / Step_kHZs;
-                    float minlim = 500;
+                    double Step_kHZs = AO_ExchangeRate_Max/(5*5);                                     //   было 200, [kHz] 
+                    double Steps_by1MHz = 1e3f / Step_kHZs;                     //      [шаг]   
+                    float minlim = AO_ExchangeRate_Min;
                     if ((float)(Steps_by1MHz * New_Freq_byTime) < minlim) //если менее 287, то пересчитываем размер шага, чтобы было более
                     {
                         Steps_by1MHz = minlim / New_Freq_byTime;
                         Step_kHZs = 1e3 / Steps_by1MHz;
                     }
-                    inp_freq = (float)(Steps_by1MHz * New_Freq_byTime);//287 и более
+                    inp_freq = (int)(float)(Steps_by1MHz * New_Freq_byTime);//287 и более
 
                     count = 5;
                     steps = (int)Math.Floor(Sweep_range_MHz * Steps_by1MHz); // number of the steps
@@ -1102,15 +1125,42 @@ namespace LDZ_Code
                 try
                 {
                     var Data_from_dev = ServiceFunctions.Files.Read_txt(path);
+                    FilterCfgPath = path;
+                    FilterCfgName = System.IO.Path.GetFileName(path);
                     float[] pWLs, pHZs, pCoefs;
                     ServiceFunctions.Files.Get_WLData_byKnownCountofNumbers(3, Data_from_dev.ToArray(), out pWLs, out pHZs, out pCoefs);
+
                     float[] pData = new float[pWLs.Length];
-                    pWLs.CopyTo(pData,0);
-                    ServiceFunctions.Math.Interpolate_curv(ref pWLs,ref  pHZs);
+                    pWLs.CopyTo(pData, 0);
+                    int RealLength = pWLs.Length - 1;
+                    if (pWLs[0] - pWLs[RealLength] > 0)
+                    {
+                        WLs = new float[pWLs.Length];
+                        HZs = new float[pWLs.Length]; ;
+                        Intensity = new float[pWLs.Length];
+                        for (int i = 0; i < pWLs.Length; i++)
+                        {
+                            WLs[i] = pWLs[RealLength - i];
+                            HZs[i] = pHZs[RealLength - i];
+                            Intensity[i] = pCoefs[RealLength - i];
+                        }
+                    }
+                    else
+                    {
+                        WLs = pWLs;
+                        HZs = pHZs;
+                        Intensity = pCoefs;
+                    }
+                    pWLs = WLs;
+                    pHZs = HZs;
+                    pCoefs = Intensity;
+                    ServiceFunctions.Math.Interpolate_curv(ref pWLs, ref pHZs);
                     ServiceFunctions.Math.Interpolate_curv(ref pData, ref pCoefs);
+
                     WLs = pWLs;
                     HZs = pHZs;
                     Intensity = pCoefs;
+
                     FilterCfgPath = path;
                     FilterCfgName = System.IO.Path.GetFileName(path);
                 }
