@@ -954,6 +954,7 @@ namespace LDZ_Code
 
                     try { WriteUsb(1); }
                     catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
+                    PowerOff();
                 }
                 catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
                 sAO_Sweep_On = false;
@@ -1084,7 +1085,9 @@ namespace LDZ_Code
             {
                 try
                 {
+                    System.Threading.Thread.Sleep(300);
                     Own_UsbBuf[0] = 0x05; //it means, we will send off command
+                    
                     for (int i = 1; i < 2; i++) Own_UsbBuf[i] = 0;
                     Own_UsbBuf[0] = (byte)FTDIController.Bit_reverse(Own_UsbBuf[0]);
                     try { WriteUsb(1); }

@@ -56,6 +56,9 @@
             this.L_Int = new System.Windows.Forms.Label();
             this.NUD_NumOfIntervals = new System.Windows.Forms.NumericUpDown();
             this.B_CreateTable = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.L_FinalSumTime = new System.Windows.Forms.Label();
             this.MS_MainStrip.SuspendLayout();
             this.TLP_Table.SuspendLayout();
             this.TLP_HeadLine.SuspendLayout();
@@ -67,6 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WN_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WL_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NumOfIntervals)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MS_MainStrip
@@ -109,6 +113,7 @@
             this.TLP_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Table.Controls.Add(this.TLP_HeadLine, 0, 0);
             this.TLP_Table.Controls.Add(this.panel1, 0, 1);
+            this.TLP_Table.Controls.Add(this.tableLayoutPanel1, 0, 2);
             this.TLP_Table.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Table.Location = new System.Drawing.Point(0, 24);
             this.TLP_Table.Name = "TLP_Table";
@@ -157,6 +162,7 @@
             this.label8.Size = new System.Drawing.Size(112, 13);
             this.label8.TabIndex = 7;
             this.label8.Text = "Время (мс)";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
             // 
@@ -435,6 +441,44 @@
             this.B_CreateTable.UseVisualStyleBackColor = true;
             this.B_CreateTable.Click += new System.EventHandler(this.B_CreateTable_Click);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.Controls.Add(this.label9, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.L_FinalSumTime, 2, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 288);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(753, 30);
+            this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(510, 8);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(126, 13);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Суммарное время (мс):";
+            // 
+            // L_FinalSumTime
+            // 
+            this.L_FinalSumTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_FinalSumTime.AutoSize = true;
+            this.L_FinalSumTime.Location = new System.Drawing.Point(642, 8);
+            this.L_FinalSumTime.Name = "L_FinalSumTime";
+            this.L_FinalSumTime.Size = new System.Drawing.Size(108, 13);
+            this.L_FinalSumTime.TabIndex = 1;
+            this.L_FinalSumTime.Text = "0";
+            this.L_FinalSumTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // W_AO_SweepTuneCurve
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -464,6 +508,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WN_0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WL_0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NumOfIntervals)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -499,5 +545,8 @@
         private System.Windows.Forms.Label L_Int;
         private System.Windows.Forms.NumericUpDown NUD_NumOfIntervals;
         private System.Windows.Forms.Button B_CreateTable;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label L_FinalSumTime;
     }
 }

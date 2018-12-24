@@ -49,6 +49,7 @@ namespace AOF_Controller
             W_isCurveEnabled = pAO_Sweep_CurveTuning_isEnabled;
             SaveToMain = new Action<float[,], bool>(DelForSave);
             QuitToMain = new Action<W_AO_SweepTuneCurve>(DelForQuit);
+            RefreshFinalTime();
         }
 
         private void W_AO_SweepTuneCurve_Load(object sender, EventArgs e)
@@ -148,7 +149,7 @@ namespace AOF_Controller
         private void NUD_dTime_N_ValueChanged(object sender, EventArgs e)
         {
             //Занесение значения в таблицу данных
-            string name_of_sender = (sender as NumericUpDown).Name;
+             string name_of_sender = (sender as NumericUpDown).Name;
             int nameNumber = Convert.ToInt32(name_of_sender.Last().ToString());
 
             var ctrl = sender as NumericUpDown;
@@ -161,6 +162,7 @@ namespace AOF_Controller
                 float value2write = Mass_of_vals[nameNumber, 4]* Mass_of_vals[nameNumber, 5];
                 (ctrl_to_change[0] as Label).Text = (((float)((int)(value2write * 100))) / 100.0f).ToString();
                 Mass_of_vals[nameNumber, 6] = value2write;
+                RefreshFinalTime();
             }
             catch { }
             //Вычисление максимума девиации по частоте
@@ -192,6 +194,7 @@ namespace AOF_Controller
                 float value2write = Mass_of_vals[nameNumber, 4] * Mass_of_vals[nameNumber, 5];
                 (ctrl_to_change[0] as Label).Text = (((float)((int)(value2write * 100))) / 100.0f).ToString();
                 Mass_of_vals[nameNumber, 6] = value2write;
+                RefreshFinalTime();
             }
             catch { }
         }
@@ -413,7 +416,16 @@ namespace AOF_Controller
             }
             panel1.Controls.Add(TLP_DataTable);
         }
-
+        private void RefreshFinalTime()
+        {
+            int rows_max = Mass_of_vals.GetLength(0);
+            double SummaryTime = 0.0;
+            for(int i =0;i<rows_max;i++)
+            {
+                SummaryTime += Mass_of_vals[i, 6];
+            }
+            L_FinalSumTime.Text = (System.Math.Round(SummaryTime * 100) / 100.0).ToString();
+        }
 
         #endregion
 
