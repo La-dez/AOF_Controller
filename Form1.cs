@@ -39,6 +39,7 @@ namespace AOF_Controller
 
         string AO_ProgramSweepCFG_filename = "AOData.txt";
 
+        
 
         string version = "1.7";
         public Form1()
@@ -305,13 +306,13 @@ namespace AOF_Controller
 
         private void TSMI_CreateCurve_Click(object sender, EventArgs e)
         {
-
             W_AO_SweepTuneCurve Window = new W_AO_SweepTuneCurve(AO_All_CurveSweep_Params, Filter, AO_Sweep_CurveTuning_isEnabled,
             (Action<float[,],bool>)delegate(float[,] Mass_from_window, bool IsCurveEnabled)
             {
                 AO_All_CurveSweep_Params = new float[Mass_from_window.GetLength(0), Mass_from_window.GetLength(1)];
                 AO_All_CurveSweep_Params = Mass_from_window;
                 AO_Sweep_CurveTuning_isEnabled = IsCurveEnabled;
+                if (Filter.FilterType == FilterTypes.STC_Filter) (Filter as STC_Filter).Create_byteMass_forProgramm_mode(AO_All_CurveSweep_Params);
             },
             (Action<W_AO_SweepTuneCurve>)delegate(W_AO_SweepTuneCurve ChildWindow)
             {
@@ -352,15 +353,31 @@ namespace AOF_Controller
         {
             if (AO_Sweep_CurveTuning_isEnabled)
             {
-                if(AO_Sweep_CurveTuning_inProgress)
+                if (AO_Sweep_CurveTuning_inProgress)
                 {
-                    AO_Sweep_CurveTuning_StopFlag = true;                   
+                    if (Filter.FilterType == FilterTypes.STC_Filter)
+                    {
+                        if (Filter.is_Programmed)
+                            (Filter as STC_Filter).Set_ProgrammMode_off();
+                    }
+                    else
+                    {
+                        AO_Sweep_CurveTuning_StopFlag = true;
+                    }
                 }
                 else
                 {
-                    AO_Sweep_CurveTuning_StopFlag = false;
-                    AO_Sweep_CurveTuning_inProgress = true;
-                    BGW_Sweep_Curve.RunWorkerAsync();
+                    if (Filter.FilterType == FilterTypes.STC_Filter)
+                    {
+                        if (Filter.is_Programmed)
+                            (Filter as STC_Filter).Set_ProgrammMode_on();
+                    }
+                    else
+                    {
+                        AO_Sweep_CurveTuning_StopFlag = false;
+                        AO_Sweep_CurveTuning_inProgress = true;
+                        BGW_Sweep_Curve.RunWorkerAsync();
+                    }
                 }
             }
         }
@@ -377,13 +394,13 @@ namespace AOF_Controller
             for(i=0;i< i_max;i++)
             {
                 Mass_of_params[i, 0] = AO_All_CurveSweep_Params[i, 0]; //ДВ (для отображения)
-                if (AO_All_CurveSweep_Params[i, 3] != 0)
+                if (AO_All_CurveSweep_Params[i, 3] != 0) //строка со свипом
                 {
                     PointF data_for_sweep = Filter.Sweep_Recalculate_borders(AO_All_CurveSweep_Params[i, 2], AO_All_CurveSweep_Params[i, 3]);
                     Mass_of_params[i, 1] = data_for_sweep.X;//Частота Синтезатора
                     Mass_of_params[i, 2] = data_for_sweep.Y;//пересчитанная девиация 
                 }
-                else
+                else//строка с обычной перестройкой
                 {
                     Mass_of_params[i, 1] = AO_All_CurveSweep_Params[i, 2];//Частота Синтезатора
                     Mass_of_params[i, 2] = 0;//пересчитанная девиация

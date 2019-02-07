@@ -27,3 +27,14 @@ D:\Работа\Разработки\Спектрометры\АО\Новые А
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.Cache
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
+E:\Работа Саша\АО\AOF_Controller\bin\x86\Release\favicon_stc.ico
+E:\Работа Саша\АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.exe
+E:\Работа Саша\АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.pdb
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.Form1.resources
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.cache
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.CoreCompileInputs.cache
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.exe
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.pdb
+E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.csprojAssemblyReference.cache
