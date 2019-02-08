@@ -143,7 +143,26 @@ namespace AOF_Controller
             var ctrl = sender as NumericUpDown;
             Mass_of_vals[nameNumber, 3] = (float)ctrl.Value;
 
-          
+            //Вычисление максимума и минимума девиации по времени
+            float AO_FreqDeviation = Mass_of_vals[nameNumber, 3];
+            decimal preferable_Max = (decimal)((int)(AO_FreqDeviation * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Min)));
+            decimal preferable_Min = (decimal)((int)(AO_FreqDeviation * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Max))+1);
+
+            var ctrl_NUD_dTime = (TLP_DataTable.Controls.Find("NUD_dTime_" + nameNumber, false))[0] as NumericUpDown;
+            if ((preferable_Max == preferable_Min) || (preferable_Max < preferable_Min))
+            {
+                ctrl_NUD_dTime.Value = 1;
+                ctrl_NUD_dTime.Minimum = 1;
+                ctrl_NUD_dTime.Maximum = 1000;
+            }
+            else
+            {
+                if ((ctrl_NUD_dTime.Value > preferable_Max) && (ctrl_NUD_dTime.Maximum > preferable_Max)) { ctrl_NUD_dTime.Value = preferable_Max; }
+                ctrl_NUD_dTime.Maximum = preferable_Max;
+
+                if ((ctrl_NUD_dTime.Minimum < preferable_Min) && (ctrl_NUD_dTime.Value < preferable_Min)) ctrl_NUD_dTime.Value = preferable_Min;
+                ctrl_NUD_dTime.Minimum = preferable_Min;
+            }
         }
 
         private void NUD_dTime_N_ValueChanged(object sender, EventArgs e)
@@ -165,7 +184,8 @@ namespace AOF_Controller
                 RefreshFinalTime();
             }
             catch { }
-            //Вычисление максимума девиации по частоте
+
+           /* //Вычисление максимума девиации по частоте
             float AO_TimeDeviation = Mass_of_vals[nameNumber, 4];
             float AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / W_Filter.AO_ExchangeRate_Min);
             float Choosen_Max = (AO_FreqDeviation_Max_byTime < W_Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : W_Filter.AO_FreqDeviation_Max);
@@ -176,7 +196,7 @@ namespace AOF_Controller
                 if (ctrl_NUD_dFreq.Value > (decimal)Choosen_Max)
                 { ctrl_NUD_dFreq.Value = (decimal)Choosen_Max; }
                 ctrl_NUD_dFreq.Maximum = (decimal)Choosen_Max;
-            }
+            }*/
         }
 
         private void NUD_NumberOfd_N_ValueChanged(object sender, EventArgs e)
@@ -209,10 +229,9 @@ namespace AOF_Controller
 
         #region Функции
         private void RecreateTable(int number_of_Values)
-        {
-            // 
-            // TLP_DataTable
-            // старая<новая
+        { 
+          // TLP_DataTable
+          // старая<новая
             float[] InitLine = new float[7] { W_WL_Min, 10000000.0f/ W_WL_Min, 0, 1, 0, 0, 0 };
                 int i_max = (Mass_of_vals.GetLength(0)) < number_of_Values ? Mass_of_vals.GetLength(0): number_of_Values;
             {
@@ -297,7 +316,12 @@ namespace AOF_Controller
                 NUD_NumberOfd_N.Location = new System.Drawing.Point(460, 3);
                 NUD_NumberOfd_N.Margin = new System.Windows.Forms.Padding(0);
                 NUD_NumberOfd_N.Maximum = new decimal(new int[] {
-            1000,
+            254,
+            0,
+            0,
+            0});
+                NUD_NumberOfd_N.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -306,19 +330,7 @@ namespace AOF_Controller
                 NUD_NumberOfd_N.TabIndex = 12;
                 NUD_NumberOfd_N.Value = (decimal)(Mass_of_vals[i,5]);
                 NUD_NumberOfd_N.ValueChanged += new System.EventHandler(NUD_NumberOfd_N_ValueChanged);
-                // 
-                // NUD_dTime_N
-                // 
-                NUD_dTime_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-                NUD_dTime_N.Location = new System.Drawing.Point(370, 3);
-                NUD_dTime_N.Margin = new System.Windows.Forms.Padding(0);
-                NUD_dTime_N.Maximum = (decimal)W_AO_TimeDeviation_Max;
-                NUD_dTime_N.Minimum = (decimal)W_AO_TimeDeviation_Min;
-                NUD_dTime_N.Name = "NUD_dTime_" + i.ToString();
-                NUD_dTime_N.Size = new System.Drawing.Size(90, 20);
-                NUD_dTime_N.TabIndex = 11;
-                NUD_dTime_N.Value = (decimal)Mass_of_vals[i, 4];
-                NUD_dTime_N.ValueChanged += new System.EventHandler(NUD_dTime_N_ValueChanged);
+              
                 // 
                 // NUD_dFreq_N
                 // 
@@ -326,14 +338,49 @@ namespace AOF_Controller
                 NUD_dFreq_N.DecimalPlaces = 1;
                 NUD_dFreq_N.Location = new System.Drawing.Point(280, 3);
                 NUD_dFreq_N.Margin = new System.Windows.Forms.Padding(0);
-                double maxvalue = (Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min)) < W_Filter.AO_FreqDeviation_Max ? (Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min)) : W_Filter.AO_FreqDeviation_Max;
-                NUD_dFreq_N.Maximum = (decimal)maxvalue;
+                //Вычислялось вот так. Давало ограничение в зависимости от времени перестройки
+                //double maxvalue = (Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min)) < W_Filter.AO_FreqDeviation_Max ? (Mass_of_vals[i, 4] / (1000.0f / W_Filter.AO_ExchangeRate_Min)) : W_Filter.AO_FreqDeviation_Max;
+                NUD_dFreq_N.Maximum = (decimal)5;
                 NUD_dFreq_N.Minimum = (decimal)W_AO_FreqDeviation_Min;
                 NUD_dFreq_N.Name = "NUD_dFreq_" + i.ToString();
                 NUD_dFreq_N.Size = new System.Drawing.Size(90, 20);
                 NUD_dFreq_N.TabIndex = 10;
                 NUD_dFreq_N.Value = (decimal)Mass_of_vals[i, 3];
-                NUD_dFreq_N.ValueChanged += new System.EventHandler(NUD_dFreq_N_ValueChanged); 
+                NUD_dFreq_N.ValueChanged += new System.EventHandler(NUD_dFreq_N_ValueChanged);
+
+                //ввести максимум и минимум временного интервала (dfreq.val*2/step)/min_ex_rate = (dfreq.val*2 / 0.5)*1000/ 500 = 4мс (в случае dfreq.val = 0.5)
+                //                                                                                                      / 4500 = 0.44444 ~ 0.5 (в случае dfreq.val = 0.5)
+                //                                                                                                      / 500 = 60(в случае dfreq.val = 0.5)
+                //                                                                                                      / 4500 = 6,6666 ~ 7 мс (в случае dfreq.val = 7.5)
+                //                                                                                                      / 500 = 40(в случае dfreq.val = 0.5)
+                //                                                                                                      / 4500 = 4.4444 ~ 4.5 мс (в случае dfreq.val = 5.0)
+
+                // 
+                // NUD_dTime_N
+                // 
+                NUD_dTime_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+                NUD_dTime_N.Location = new System.Drawing.Point(370, 3);
+                NUD_dTime_N.Margin = new System.Windows.Forms.Padding(0);
+                decimal preferable_Max = (decimal)((int)NUD_dFreq_N.Value * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Min));
+                decimal preferable_Min = (decimal)(((int)NUD_dFreq_N.Value * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Max)) + 1);
+                if ((preferable_Max == preferable_Min) || (preferable_Max < preferable_Min))
+                {
+                    NUD_dTime_N.Value = 1;
+                    NUD_dTime_N.Minimum = 1;
+                    NUD_dTime_N.Maximum = 1000;
+                }
+                else
+                {
+                    NUD_dTime_N.Maximum = preferable_Max;
+                    NUD_dTime_N.Minimum = preferable_Min;
+                }
+                //NUD_dTime_N.Maximum = (decimal)W_AO_TimeDeviation_Max;
+               // NUD_dTime_N.Minimum = (decimal)W_AO_TimeDeviation_Min;
+                NUD_dTime_N.Name = "NUD_dTime_" + i.ToString();
+                NUD_dTime_N.Size = new System.Drawing.Size(90, 20);
+                NUD_dTime_N.TabIndex = 11;
+                NUD_dTime_N.Value = (decimal)Mass_of_vals[i, 4];
+                NUD_dTime_N.ValueChanged += new System.EventHandler(NUD_dTime_N_ValueChanged);
                 // 
                 // NUD_WL_N
                 // 
