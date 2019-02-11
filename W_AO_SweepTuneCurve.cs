@@ -145,8 +145,11 @@ namespace AOF_Controller
 
             //Вычисление максимума и минимума девиации по времени
             float AO_FreqDeviation = Mass_of_vals[nameNumber, 3];
-            decimal preferable_Max = (decimal)((int)(AO_FreqDeviation * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Min)));
-            decimal preferable_Min = (decimal)((int)(AO_FreqDeviation * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Max))+1);
+           // decimal preferable_Max = (decimal)((int)(AO_FreqDeviation * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Min)));
+           // decimal preferable_Min = (decimal)((int)(AO_FreqDeviation * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Max))+1);
+
+            decimal preferable_Max = 40;
+            decimal preferable_Min = 5;
 
             var ctrl_NUD_dTime = (TLP_DataTable.Controls.Find("NUD_dTime_" + nameNumber, false))[0] as NumericUpDown;
             if ((preferable_Max == preferable_Min) || (preferable_Max < preferable_Min))
@@ -316,7 +319,7 @@ namespace AOF_Controller
                 NUD_NumberOfd_N.Location = new System.Drawing.Point(460, 3);
                 NUD_NumberOfd_N.Margin = new System.Windows.Forms.Padding(0);
                 NUD_NumberOfd_N.Maximum = new decimal(new int[] {
-            254,
+            1,
             0,
             0,
             0});
@@ -330,7 +333,8 @@ namespace AOF_Controller
                 NUD_NumberOfd_N.TabIndex = 12;
                 NUD_NumberOfd_N.Value = (decimal)(Mass_of_vals[i,5]);
                 NUD_NumberOfd_N.ValueChanged += new System.EventHandler(NUD_NumberOfd_N_ValueChanged);
-              
+                NUD_NumberOfd_N.Enabled = false;
+
                 // 
                 // NUD_dFreq_N
                 // 
@@ -361,8 +365,12 @@ namespace AOF_Controller
                 NUD_dTime_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
                 NUD_dTime_N.Location = new System.Drawing.Point(370, 3);
                 NUD_dTime_N.Margin = new System.Windows.Forms.Padding(0);
-                decimal preferable_Max = (decimal)((int)NUD_dFreq_N.Value * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Min));
-                decimal preferable_Min = (decimal)(((int)NUD_dFreq_N.Value * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Max)) + 1);
+                //измененения введены исходя из ExchangeRate (min-max) и фиксированного шага.
+                //decimal preferable_Max = (decimal)((int)NUD_dFreq_N.Value * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Min));
+                // decimal preferable_Min = (decimal)(((int)NUD_dFreq_N.Value * 2f * 1000000f / (W_Filter.AO_ProgrammMode_step * W_Filter.AO_ExchangeRate_Max)) + 1);
+                //Последняя модификация - 20 точек на свип (фиксировано). Шаг расфиксирован.  Минимальное время: 20*1000(мс)/4500 ~ 5мс. максимальное время 20*1000(мс)/500 ~ 40мс
+                decimal preferable_Max = 40;
+                decimal preferable_Min = 5;
                 if ((preferable_Max == preferable_Min) || (preferable_Max < preferable_Min))
                 {
                     NUD_dTime_N.Value = 1;

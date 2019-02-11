@@ -300,8 +300,8 @@ namespace AOF_Controller
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             float realval = ((float)trackBar1.Value/1000.0f);
-           /* string message = LDZ_Code.AO.Set_new_freq_byFreq(realval, true);
-            Log.Message(message);*/
+            string message = Filter.Implement_Error(Filter.Set_Hz(realval));
+            Log.Message(message+" "+ realval.ToString() );
         }
 
         private void TSMI_CreateCurve_Click(object sender, EventArgs e)
@@ -359,6 +359,7 @@ namespace AOF_Controller
                     {
                         if (Filter.is_Programmed)
                             (Filter as STC_Filter).Set_ProgrammMode_off();
+                        AO_Sweep_CurveTuning_inProgress = false;
                     }
                     else
                     {
@@ -371,6 +372,8 @@ namespace AOF_Controller
                     {
                         if (Filter.is_Programmed)
                             (Filter as STC_Filter).Set_ProgrammMode_on();
+
+                        AO_Sweep_CurveTuning_inProgress = true;
                     }
                     else
                     {
