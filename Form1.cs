@@ -55,8 +55,11 @@ namespace AOF_Controller
             Filter = LDZ_Code.AO_Devices.Find_and_connect_AnyFilter();
             if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
+
             ChB_Power.Enabled = false;
             GB_AllAOFControls.Enabled = false;
+            TSMI_CreateCurve.Enabled = false;
+
             ReadData(); 
             //tests();
         }
@@ -478,6 +481,11 @@ namespace AOF_Controller
                 AO_Sweep_CurveTuning_inProgress = false;
                 ChB_ProgrammSweep_toogler.Checked = false;
             }
+        }
+
+        private void созданиеКривыхToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -71,8 +71,13 @@ namespace AOF_Controller
         }
         private void TSMI_SaveAndQuit_Click(object sender, EventArgs e)
         {
-            SaveToMain(Mass_of_vals, W_isCurveEnabled);
+            //Вместо этого
+
             QuitToMain(this);
+            SaveToMain(Mass_of_vals, W_isCurveEnabled);
+
+            //делаю вот это
+           // this.Close();//Там повесил сохранение ПОКА ЧТО
         }
         private void TSMI_Quit_nosave_Click(object sender, EventArgs e)
         {
@@ -114,6 +119,8 @@ namespace AOF_Controller
                 Mass_of_vals[nameNumber, 2] = (float)value2write;
             }
             catch { }
+
+            SaveToMain(Mass_of_vals, W_isCurveEnabled);
         }
 
         private void NUD_WN_N_ValueChanged(object sender, EventArgs e)
@@ -488,6 +495,16 @@ namespace AOF_Controller
         private void B_CreateTable_Click(object sender, EventArgs e)
         {
             RecreateTable((int)NUD_NumOfIntervals.Value);
+        }
+
+        private void W_AO_SweepTuneCurve_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
+        }
+
+        private void W_AO_SweepTuneCurve_FormClosed(object sender, FormClosedEventArgs e)
+        {
+          //  SaveToMain(Mass_of_vals, W_isCurveEnabled);
         }
     }
 }

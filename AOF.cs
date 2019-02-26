@@ -528,6 +528,7 @@ namespace LDZ_Code
                 {
                     Init_device(number);
                     AOF_Loaded_without_fails = true;
+
                     sAO_ProgrammMode_Ready = false;
                 }
                 catch
@@ -591,7 +592,7 @@ namespace LDZ_Code
                 int i_max = pAO_All_CurveSweep_Params.GetLength(0);
                 float[,] Mass_of_params = new float[i_max, 7];
                 int i = 0;
-                byte[] Start_mass = new byte[4] { (byte)FTDIController.Bit_reverse(0x14), (byte)FTDIController.Bit_reverse(0x11), (byte)FTDIController.Bit_reverse(0x12), (byte)FTDIController.Bit_reverse(0) };
+                byte[] Start_mass = new byte[4] { (byte)FTDIController.Bit_reverse(0x14), (byte)FTDIController.Bit_reverse(0x11), (byte)FTDIController.Bit_reverse(0x12), (byte)FTDIController.Bit_reverse(0xff) };
                 byte[] Separ_mass = new byte[3] { 0x13, 0x13, 0x13 };
                 byte[] Finish_mass = new byte[3] { (byte)FTDIController.Bit_reverse(0x15), (byte)FTDIController.Bit_reverse(0x15), (byte)FTDIController.Bit_reverse(0x15) };
                 for (i = 0; i < i_max; i++)
@@ -638,30 +639,32 @@ namespace LDZ_Code
                 }
 
                 //Переписываем все данные в массив на пересылку
-                byte[] Final_mass = new byte[Start_mass.Length + Lenght + Finish_mass.Length];
+                byte[] Result_mass = new byte[Start_mass.Length + Lenght + Finish_mass.Length];
                 int k = 0;
                 for(i =0;i < Start_mass.Length;i++)
                 {
-                    Final_mass[k] = Start_mass[i];k++;
+                    Result_mass[k] = Start_mass[i];k++;
                 }
 
                 for (i = 0; i < i_max; i++)
                 {
                     for (int j = 0; j < pre_DataList[i].Length; j++)
                     {
-                        Final_mass[k] = pre_DataList[i][j]; k++;
+                        Result_mass[k] = pre_DataList[i][j]; k++;
                     }                  
                 }
 
                 for (i = 0; i < Finish_mass.Length; i++)
                 {
-                    Final_mass[k] = Finish_mass[i]; k++;
+                    Result_mass[k] = Finish_mass[i]; k++;
                 }
-                byte[] ownbuf2 = new byte[5000];
+
+               /* byte[] ownbuf2 = new byte[5000];
                 for (i = 0; i < 5000; i++) ownbuf2[i] = 0;
-                for (i = 0; i < Final_mass.Length; i++)
-                    ownbuf2[i] = Final_mass[i];
-                Own_ProgrammBuf = ownbuf2;
+                for (i = 0; i < Result_mass.Length; i++)
+                    ownbuf2[i] = Result_mass[i];*/
+
+                Own_ProgrammBuf = Result_mass;
                 sAO_ProgrammMode_Ready = true;
             }
             private byte[] Create_byteMass_forSweep2(float pMHz_start, float pSweep_range_MHz, double pPeriod/*[мс с точностью до двух знаков,минимум 1]*/, bool pOnRepeat,ref int pcount)
@@ -1054,7 +1057,7 @@ namespace LDZ_Code
                 int steps;
                 int i;
                 float freqMCU = 74.99e6f;
-                float inp_freq = 20 * 1000.0f / (float)pPeriod; 
+                float inp_freq = 20 * 1000.0f / (float)pPeriod;  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 pcount = 2 - 1;
                 steps = 20; // number of the steps
@@ -1097,6 +1100,7 @@ namespace LDZ_Code
                   data_Own_UsbBuf[1] = (byte)(pcount);
                   data_Own_UsbBuf[2] = (byte)(0x00ff & (ivspom >> 8)); ;
                   data_Own_UsbBuf[3] = (byte)ivspom;*/
+
                 data_Own_UsbBuf[0] = (byte)(0x00ff & (ivspom >> 8)); ;
                 data_Own_UsbBuf[1] = (byte)ivspom;
                 pcount = total_count;
@@ -1119,6 +1123,8 @@ namespace LDZ_Code
             }
             public int Set_ProgrammMode_off()
             {
+
+              //  is_Programmed = false;
                 return Set_Hz((HZ_Max + HZ_Min) / 2.0f);
             }
             public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков,минимум 1]*/, bool OnRepeat)

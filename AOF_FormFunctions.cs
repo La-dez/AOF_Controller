@@ -61,6 +61,7 @@ namespace AOF_Controller
                 NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
 
                 ChB_Power.Enabled = true;
+                TSMI_CreateCurve.Enabled = true;
 
                 Log.Message("Инициализация элементов управления прошла успешно!");
             }

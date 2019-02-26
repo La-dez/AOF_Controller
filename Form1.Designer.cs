@@ -40,6 +40,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.GB_AllAOFControls = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.TLP_SetControls = new System.Windows.Forms.TableLayoutPanel();
             this.BSetWL = new System.Windows.Forms.Button();
             this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
@@ -57,7 +58,6 @@
             this.RB_Sweep_SpeciallMode = new System.Windows.Forms.RadioButton();
             this.RB_Sweep_EasyMode = new System.Windows.Forms.RadioButton();
             this.TLP_Sweep_EasyMode = new System.Windows.Forms.TableLayoutPanel();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.NUD_FreqDeviation = new System.Windows.Forms.NumericUpDown();
@@ -71,7 +71,6 @@
             this.B_Quit = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.созданиеКривыхToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_CreateCurve = new System.Windows.Forms.ToolStripMenuItem();
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel2.SuspendLayout();
@@ -79,6 +78,7 @@
             this.tableLayoutPanel30.SuspendLayout();
             this.GB_AllAOFControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.TLP_SetControls.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
@@ -88,7 +88,6 @@
             this.Pan_SweepControls.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.TLP_Sweep_EasyMode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).BeginInit();
             this.TLP_Sweep_ProgramMode.SuspendLayout();
@@ -252,6 +251,20 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1011, 296);
             this.tableLayoutPanel1.TabIndex = 80;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.Location = new System.Drawing.Point(3, 93);
+            this.trackBar1.Maximum = 150000;
+            this.trackBar1.Minimum = 40000;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(1005, 24);
+            this.trackBar1.TabIndex = 35;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar1.Value = 40000;
+            this.trackBar1.Visible = false;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // TLP_SetControls
             // 
@@ -476,7 +489,7 @@
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 3, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 3, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_FreqDeviation, 2, 0);
@@ -495,26 +508,13 @@
             this.TLP_Sweep_EasyMode.Size = new System.Drawing.Size(505, 116);
             this.TLP_Sweep_EasyMode.TabIndex = 0;
             // 
-            // trackBar1
-            // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.Location = new System.Drawing.Point(3, 93);
-            this.trackBar1.Maximum = 150000;
-            this.trackBar1.Minimum = 40000;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(1005, 24);
-            this.trackBar1.TabIndex = 35;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar1.Value = 40000;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            // 
             // label9
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(434, 13);
+            this.label9.Location = new System.Drawing.Point(430, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(68, 13);
+            this.label9.Size = new System.Drawing.Size(72, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -523,10 +523,10 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(435, 53);
+            this.label10.Location = new System.Drawing.Point(431, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 13);
+            this.label10.Size = new System.Drawing.Size(71, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "мс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -535,7 +535,7 @@
             // 
             this.NUD_FreqDeviation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FreqDeviation.DecimalPlaces = 3;
-            this.NUD_FreqDeviation.Location = new System.Drawing.Point(144, 10);
+            this.NUD_FreqDeviation.Location = new System.Drawing.Point(142, 10);
             this.NUD_FreqDeviation.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_FreqDeviation.Maximum = new decimal(new int[] {
             1000,
@@ -543,7 +543,7 @@
             0,
             0});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(287, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(285, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.ValueChanged += new System.EventHandler(this.NUD_FreqDeviation_ValueChanged);
             // 
@@ -551,7 +551,7 @@
             // 
             this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(144, 50);
+            this.NUD_TimeFdev.Location = new System.Drawing.Point(142, 50);
             this.NUD_TimeFdev.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_TimeFdev.Maximum = new decimal(new int[] {
             1000,
@@ -559,7 +559,7 @@
             0,
             0});
             this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(287, 20);
+            this.NUD_TimeFdev.Size = new System.Drawing.Size(285, 20);
             this.NUD_TimeFdev.TabIndex = 2;
             this.NUD_TimeFdev.ValueChanged += new System.EventHandler(this.NUD_TimeFdev_ValueChanged);
             // 
@@ -567,9 +567,9 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(111, 13);
+            this.label8.Location = new System.Drawing.Point(110, 13);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(30, 13);
+            this.label8.Size = new System.Drawing.Size(29, 13);
             this.label8.TabIndex = 1;
             this.label8.Text = "±";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -590,7 +590,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 7);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(102, 26);
+            this.label6.Size = new System.Drawing.Size(101, 26);
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
             // 
@@ -650,7 +650,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
-            this.созданиеКривыхToolStripMenuItem,
             this.TSMI_CreateCurve});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -663,12 +662,6 @@
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
-            // 
-            // созданиеКривыхToolStripMenuItem
-            // 
-            this.созданиеКривыхToolStripMenuItem.Name = "созданиеКривыхToolStripMenuItem";
-            this.созданиеКривыхToolStripMenuItem.Size = new System.Drawing.Size(114, 20);
-            this.созданиеКривыхToolStripMenuItem.Text = "Создание кривых";
             // 
             // TSMI_CreateCurve
             // 
@@ -702,6 +695,7 @@
             this.GB_AllAOFControls.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.TLP_SetControls.ResumeLayout(false);
             this.TLP_SetControls.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
@@ -717,7 +711,6 @@
             this.tableLayoutPanel3.PerformLayout();
             this.TLP_Sweep_EasyMode.ResumeLayout(false);
             this.TLP_Sweep_EasyMode.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).EndInit();
             this.TLP_Sweep_ProgramMode.ResumeLayout(false);
@@ -766,7 +759,6 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem созданиеКривыхToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TSMI_CreateCurve;
         private System.Windows.Forms.RadioButton RB_Sweep_EasyMode;
         private System.Windows.Forms.RadioButton RB_Sweep_SpeciallMode;
