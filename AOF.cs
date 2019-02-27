@@ -1075,12 +1075,13 @@ namespace LDZ_Code
                    //      freq = (float)(((127.287) * 1e6f)/* / 1.17f*/);//1.17 коррекция частоты
                   //  else
                    //     freq = (float)(((77.852) * 1e6f)/* / 1.17f*/);//1.17 коррекция частоты
-                                                                      //fvspom=freq/300e6;
+                                                                      
                     if (i < 10)
                         freq = (float)(((pfreq) * 1e6f)/* / 1.17f*/);//1.17 коррекция частоты
                     else
                         freq = (float)(((pfreq) * 1e6f)/* / 1.17f*/);//1.17 коррекция частоты
-                                                                      //fvspom=freq/300e6;
+                                                                     
+
                     lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
                     MSB = (short)(0x0000ffFF & (lvspom >> 16));
                     LSB = (short)lvspom;
