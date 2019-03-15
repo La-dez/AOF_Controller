@@ -39,7 +39,7 @@ namespace AOF_Controller
 
         string AO_ProgramSweepCFG_filename = "AOData.txt";
 
-        
+
 
         string version = "1.7";
         public Form1()
@@ -49,7 +49,7 @@ namespace AOF_Controller
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.Text = "Перестраиваемый источник "+ version;
+            this.Text = "Перестраиваемый источник " + version;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
             Filter = LDZ_Code.AO_Devices.Find_and_connect_AnyFilter();
@@ -60,37 +60,37 @@ namespace AOF_Controller
             GB_AllAOFControls.Enabled = false;
             TSMI_CreateCurve.Enabled = false;
 
-            ReadData(); 
+            ReadData();
             //tests();
         }
         private void ReadData()
         {
             List<string> strings = Files.Read_txt(AO_ProgramSweepCFG_filename);
-            for(int i =0;i<strings.Count;i++)
+            for (int i = 0; i < strings.Count; i++)
             {
                 if (String.IsNullOrEmpty(strings[i])) { strings.RemoveAt(i); i--; }
             }
             AO_All_CurveSweep_Params = new float[strings.Count, 7];
-            for(int i=0;i!=strings.Count;++i)
+            for (int i = 0; i != strings.Count; ++i)
             {
 
                 int startindex = 0;
                 int finishindex = 0;
-                for (int j = 0;j<7;++j)
-                {                   
-                    if(j==6)
+                for (int j = 0; j < 7; ++j)
+                {
+                    if (j == 6)
                     {
-                        finishindex = (strings[i].IndexOf("\t")>0 ? strings[i].IndexOf("\t") : strings[i].Length);
+                        finishindex = (strings[i].IndexOf("\t") > 0 ? strings[i].IndexOf("\t") : strings[i].Length);
                         string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.', ',');
                         AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
                     }
                     else
                     {
                         finishindex = strings[i].IndexOf("\t");
-                        string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.',',');
+                        string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.', ',');
                         AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
                         startindex = 0;
-                        strings[i] = strings[i].Substring(finishindex+1);
+                        strings[i] = strings[i].Substring(finishindex + 1);
                     }
                 }
             }
@@ -101,10 +101,10 @@ namespace AOF_Controller
             List<string> result = new List<string>();
             int i_max = AO_All_CurveSweep_Params.GetLength(0);
             string datastring = null;
-            for(int i=0;i<i_max;i++)
+            for (int i = 0; i < i_max; i++)
             {
                 datastring = null;
-                for(int j = 0;j < 6;j++)
+                for (int j = 0; j < 6; j++)
                 {
                     datastring += AO_All_CurveSweep_Params[i, j].ToString() + "\t";
                 }
@@ -137,7 +137,7 @@ namespace AOF_Controller
                 }
             else return;
 
-            AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f/Filter.AO_ExchangeRate_Min);
+            AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
         }
 
@@ -149,9 +149,8 @@ namespace AOF_Controller
         private void BSetWL_Click(object sender, EventArgs e)
         {
             float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
-            NUD_CurWL.Value = (decimal)(data_CurrentWL);
-
-            if (AO_Sweep_Needed)
+            CurrentWL_Change();
+           /* if (AO_Sweep_Needed)
             {
                 try
                 {
@@ -176,7 +175,7 @@ namespace AOF_Controller
                 {
                     Log.Error(exc.Message);
                 }
-            }
+            }*/
         }
 
         private void TrB_CurrentWL_Scroll(object sender, EventArgs e)
@@ -191,11 +190,11 @@ namespace AOF_Controller
             {
                 if (AO_Sweep_Needed)
                 {
-                   /* if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
+                    if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
                     {
                         timer_for_sweep.Restart();
                         ReSweep(data_CurrentWL);
-                    }*/
+                    }
                 }
                 else
                 {
@@ -216,7 +215,7 @@ namespace AOF_Controller
         private void ChB_Power_CheckedChanged(object sender, EventArgs e)
         {
             bool newAOFPowerStatus = ChB_Power.Checked;
-            if(newAOFPowerStatus)
+            if (newAOFPowerStatus)
             {
                 try
                 {
@@ -228,7 +227,7 @@ namespace AOF_Controller
                     }
                     else throw new Exception(Filter.Implement_Error(state));
                 }
-                catch(Exception exc)
+                catch (Exception exc)
                 {
                     Log.Message("Возникла проблема при активации АОФ.");
                     Log.Error(exc.Message);
@@ -243,19 +242,19 @@ namespace AOF_Controller
 
         private void NUD_CurWL_ValueChanged(object sender, EventArgs e)
         {
-            TrB_CurrentWL.Value = (int)(NUD_CurWL.Value*(decimal)AO_WL_precision);
+            TrB_CurrentWL.Value = (int)(NUD_CurWL.Value * (decimal)AO_WL_precision);
             CurrentWL_Change();
         }
 
 
         private void NUD_StartL_ValueChanged(object sender, EventArgs e)
         {
-          //  AOFWind_StartL = (float)NUD_StartL.Value;
+            //  AOFWind_StartL = (float)NUD_StartL.Value;
         }
 
         private void NUD_FinishL_ValueChanged(object sender, EventArgs e)
         {
-          //  AOFWind_EndL = (float)NUD_FinishL.Value;
+            //  AOFWind_EndL = (float)NUD_FinishL.Value;
         }
 
         private void NUD_StepL_ValueChanged(object sender, EventArgs e)
@@ -268,7 +267,7 @@ namespace AOF_Controller
             AO_Sweep_Needed = ChB_SweepEnabled.Checked;
             Pan_SweepControls.Enabled = AO_Sweep_Needed;
 
-         //   
+            //   
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
             RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
@@ -279,8 +278,10 @@ namespace AOF_Controller
         {
             AO_TimeDeviation = (double)NUD_TimeFdev.Value;
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
-            NUD_FreqDeviation.Maximum = (decimal)
-                (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
+            /*NUD_FreqDeviation.Maximum = (decimal)
+                (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);*/
+            NUD_FreqDeviation.Maximum = (decimal)(Filter.AO_FreqDeviation_Max);
+            NUD_FreqDeviation.Minimum = (decimal)(Filter.AO_FreqDeviation_Min);
         }
 
         private void NUD_FreqDeviation_ValueChanged(object sender, EventArgs e)
@@ -302,22 +303,25 @@ namespace AOF_Controller
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            float realval = ((float)trackBar1.Value/1000.0f);
-            string message = Filter.Implement_Error(Filter.Set_Hz(realval));
-            Log.Message(message+" "+ realval.ToString() );
+            if (AO_WL_Controlled_byslider)
+            {
+                float realval = ((float)TRB_SoundFreq.Value / 1000.0f);
+                string message = Filter.Implement_Error(Filter.Set_Hz(realval));
+                Log.Message(message + " " + realval.ToString());
+            }
         }
 
         private void TSMI_CreateCurve_Click(object sender, EventArgs e)
         {
             W_AO_SweepTuneCurve Window = new W_AO_SweepTuneCurve(AO_All_CurveSweep_Params, Filter, AO_Sweep_CurveTuning_isEnabled,
-            (Action<float[,],bool>)delegate(float[,] Mass_from_window, bool IsCurveEnabled)
-            {
-                AO_All_CurveSweep_Params = new float[Mass_from_window.GetLength(0), Mass_from_window.GetLength(1)];
-                AO_All_CurveSweep_Params = Mass_from_window;
-                AO_Sweep_CurveTuning_isEnabled = IsCurveEnabled;
-                if (Filter.FilterType == FilterTypes.STC_Filter) (Filter as STC_Filter).Create_byteMass_forProgramm_mode(AO_All_CurveSweep_Params);
-            },
-            (Action<W_AO_SweepTuneCurve>)delegate(W_AO_SweepTuneCurve ChildWindow)
+            (Action<float[,], bool>)delegate (float[,] Mass_from_window, bool IsCurveEnabled)
+             {
+                 AO_All_CurveSweep_Params = new float[Mass_from_window.GetLength(0), Mass_from_window.GetLength(1)];
+                 AO_All_CurveSweep_Params = Mass_from_window;
+                 AO_Sweep_CurveTuning_isEnabled = IsCurveEnabled;
+                 if (Filter.FilterType == FilterTypes.STC_Filter) (Filter as STC_Filter).Create_byteMass_forProgramm_mode(AO_All_CurveSweep_Params);
+             },
+            (Action<W_AO_SweepTuneCurve>)delegate (W_AO_SweepTuneCurve ChildWindow)
             {
                 ChildWindow.Close();
             }
@@ -390,14 +394,14 @@ namespace AOF_Controller
 
         private void BGW_Sweep_Curve_DoWork(object sender, DoWorkEventArgs e)
         {
-            Sweep_Especiall(sender as BackgroundWorker,e);
+            Sweep_Especiall(sender as BackgroundWorker, e);
         }
-        private void Sweep_Especiall(BackgroundWorker pBGW = null,DoWorkEventArgs pe=null)
+        private void Sweep_Especiall(BackgroundWorker pBGW = null, DoWorkEventArgs pe = null)
         {
             int i_max = AO_All_CurveSweep_Params.GetLength(0);
             float[,] Mass_of_params = new float[i_max, 7];
             int i = 0;
-            for(i=0;i< i_max;i++)
+            for (i = 0; i < i_max; i++)
             {
                 Mass_of_params[i, 0] = AO_All_CurveSweep_Params[i, 0]; //ДВ (для отображения)
                 if (AO_All_CurveSweep_Params[i, 3] != 0) //строка со свипом
@@ -410,7 +414,7 @@ namespace AOF_Controller
                 {
                     Mass_of_params[i, 1] = AO_All_CurveSweep_Params[i, 2];//Частота Синтезатора
                     Mass_of_params[i, 2] = 0;//пересчитанная девиация
-                }                
+                }
                 Mass_of_params[i, 3] = AO_All_CurveSweep_Params[i, 4]; //время одной девиации
                 Mass_of_params[i, 4] = AO_All_CurveSweep_Params[i, 5]; //количество девиаций
             }
@@ -458,7 +462,7 @@ namespace AOF_Controller
                     i++;
                     if (i == i_max) i = 0;
                 }
-                catch(Exception exc )
+                catch (Exception exc)
                 {
                     pe.Result = exc;
                     break;
@@ -487,5 +491,33 @@ namespace AOF_Controller
         {
 
         }
+
+        private void TrB_CurrentWL_ValueChanged(object sender, EventArgs e)
+        {
+            Log.Message("Meow");
+        }
+
+        private void label28_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Timer_sweepChecker_Tick(object sender, EventArgs e)
+        {
+            if (AO_WL_Controlled_byslider)
+            {
+                if (AO_Sweep_Needed)
+                {
+                    if (timer_for_sweep.ElapsedMilliseconds > 600)
+                    {
+                        float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
+                        timer_for_sweep.Reset();
+                        ReSweep(data_CurrentWL);
+
+                    }
+                }
+            }
+        }
     }
 }
+

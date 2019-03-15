@@ -49,9 +49,11 @@ namespace AOF_Controller
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
 
                 var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
-                NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
+              /*  NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
                 NUD_FreqDeviation.Maximum = (decimal)
-                    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
+                    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);*/
+                NUD_FreqDeviation.Maximum = (decimal)(Filter.AO_FreqDeviation_Max);
+                NUD_FreqDeviation.Minimum = (decimal)(Filter.AO_FreqDeviation_Min);
 
                 var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
                 NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
@@ -62,6 +64,10 @@ namespace AOF_Controller
 
                 ChB_Power.Enabled = true;
                 TSMI_CreateCurve.Enabled = true;
+
+                TRB_SoundFreq.Value = (int)(Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2)*1000);
+                TRB_SoundFreq.Minimum = (int)(Filter.HZ_Min*1000);
+                TRB_SoundFreq.Maximum = (int)(Filter.HZ_Max*1000);
 
                 Log.Message("Инициализация элементов управления прошла успешно!");
             }
@@ -79,6 +85,7 @@ namespace AOF_Controller
         private void ReSweep(float p_data_CurrentWL)
         {
             Filter.Set_Sweep_off();
+            
             float HZ_toset = Filter.Get_HZ_via_WL(p_data_CurrentWL);
             System.Drawing.PointF data_for_sweep = Filter.Sweep_Recalculate_borders(HZ_toset, (float)AO_FreqDeviation);
 
