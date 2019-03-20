@@ -65,34 +65,42 @@ namespace AOF_Controller
         }
         private void ReadData()
         {
-            List<string> strings = Files.Read_txt(AO_ProgramSweepCFG_filename);
-            for (int i = 0; i < strings.Count; i++)
+            try
             {
-                if (String.IsNullOrEmpty(strings[i])) { strings.RemoveAt(i); i--; }
-            }
-            AO_All_CurveSweep_Params = new float[strings.Count, 7];
-            for (int i = 0; i != strings.Count; ++i)
-            {
-
-                int startindex = 0;
-                int finishindex = 0;
-                for (int j = 0; j < 7; ++j)
+                List<string> strings = Files.Read_txt(AO_ProgramSweepCFG_filename);
+                for (int i = 0; i < strings.Count; i++)
                 {
-                    if (j == 6)
+                    if (String.IsNullOrEmpty(strings[i])) { strings.RemoveAt(i); i--; }
+                }
+                AO_All_CurveSweep_Params = new float[strings.Count, 7];
+                for (int i = 0; i != strings.Count; ++i)
+                {
+
+                    int startindex = 0;
+                    int finishindex = 0;
+                    for (int j = 0; j < 7; ++j)
                     {
-                        finishindex = (strings[i].IndexOf("\t") > 0 ? strings[i].IndexOf("\t") : strings[i].Length);
-                        string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.', ',');
-                        AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
-                    }
-                    else
-                    {
-                        finishindex = strings[i].IndexOf("\t");
-                        string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.', ',');
-                        AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
-                        startindex = 0;
-                        strings[i] = strings[i].Substring(finishindex + 1);
+                        if (j == 6)
+                        {
+                            finishindex = (strings[i].IndexOf("\t") > 0 ? strings[i].IndexOf("\t") : strings[i].Length);
+                            string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.', ',');
+                            AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
+                        }
+                        else
+                        {
+                            finishindex = strings[i].IndexOf("\t");
+                            string dataval = strings[i].Substring(startindex, finishindex - startindex).Replace('.', ',');
+                            AO_All_CurveSweep_Params[i, j] = (float)Convert.ToDouble(dataval);
+                            startindex = 0;
+                            strings[i] = strings[i].Substring(finishindex + 1);
+                        }
                     }
                 }
+            }
+            catch(Exception exc)
+            {
+                Log.Error("ORIGINAL:" + exc.Message);
+                Log.Message("Не удалось считать файл с настройками программируемой перестройки.");
             }
             Log.Message(AO_All_CurveSweep_Params.GetLength(0).ToString());
         }
@@ -297,7 +305,9 @@ namespace AOF_Controller
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            try { SaveData(); }
+            try {
+                SaveData();
+            }
             catch { }
         }
 
