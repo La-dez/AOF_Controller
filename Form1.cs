@@ -68,6 +68,26 @@ namespace AOF_Controller
             try
             {
                 List<string> strings = Files.Read_txt(AO_ProgramSweepCFG_filename);
+                try
+                {
+                    double a = Convert.ToDouble("600.000");
+                    Log.Message("Точка конвертируется корректно");
+                }
+                catch(Exception e)
+                {
+                   Log.Error("Точка конвертируется некорректно");
+                }
+
+                try
+                {
+                    double a = Convert.ToDouble("600,000");
+                    Log.Message("Запятая конвертируется корректно");
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Запятая конвертируется некорректно");
+                }
+
                 for (int i = 0; i < strings.Count; i++)
                 {
                     if (String.IsNullOrEmpty(strings[i])) { strings.RemoveAt(i); i--; }
