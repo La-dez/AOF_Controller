@@ -110,6 +110,7 @@ namespace AOF_Controller
         }
         private void InitializeComponents_byVariables()
         {
+            Value_in_setting = true;
             try
             {
                 ChB_Power.Checked = false;
@@ -148,15 +149,22 @@ namespace AOF_Controller
                 ChB_Power.Enabled = true;
                 TSMI_CreateCurve.Enabled = true;
 
-                TRB_SoundFreq.Value = (int)(Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2)*1000);
+                TRB_SoundFreq.Value = (int)(Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2)*AO_HZ_precision);
+                NUD_CurMHz.Value = (decimal)Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2);
                 TRB_SoundFreq.Minimum = (int)(Filter.HZ_Min*1000);
+                NUD_CurMHz.Minimum = (decimal)Filter.HZ_Min;
                 TRB_SoundFreq.Maximum = (int)(Filter.HZ_Max*1000);
+                NUD_CurMHz.Maximum = (decimal)Filter.HZ_Max;
 
                 Log.Message("Инициализация элементов управления прошла успешно!");
             }
             catch(Exception exc)
             {
                 Log.Error("Инициализация элементов управления завершилась с ошибкой.");
+            }
+            finally
+            {
+                Value_in_setting = false;
             }
         }
 
@@ -186,7 +194,11 @@ namespace AOF_Controller
                 NUD_CurMHz.Value = (decimal)this_HZ;
                 TrB_CurrentWL.Value = (int)(this_WL * WLPrecision);
                 TRB_SoundFreq.Value = (int)(this_HZ * HZPrecision);
-                if (is_need_to_set_in_Filter) Filter.Set_Hz(this_HZ);
+                if (is_need_to_set_in_Filter)
+                {
+                    Filter.Set_Hz(this_HZ);
+                    Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}",this_WL,this_HZ));
+                }
             }
             catch
             {
