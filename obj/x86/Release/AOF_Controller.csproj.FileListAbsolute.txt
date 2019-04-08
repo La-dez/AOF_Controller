@@ -38,3 +38,13 @@ E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.cspr
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.exe
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.pdb
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.csprojAssemblyReference.cache
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.exe
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.pdb
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\favicon_stc.ico
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.exe
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.pdb
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.csprojResolveAssemblyReference.cache
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.Form1.resources
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.Cache

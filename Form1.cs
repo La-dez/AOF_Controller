@@ -36,11 +36,11 @@ namespace AOF_Controller
         UI.Log.Logger Log;
         AO_Filter Filter = null;
         System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
+        bool Value_in_setting = false;
 
-        string AO_ProgramSweepCFG_filename = "AOData.txt";
+        string AO_ProgramSweepCFG_filename = Application.StartupPath + "\\AOData.txt";
 
-
-
+       
         string version = "1.7";
         public Form1()
         {
@@ -68,25 +68,7 @@ namespace AOF_Controller
             try
             {
                 List<string> strings = Files.Read_txt(AO_ProgramSweepCFG_filename);
-                try
-                {
-                    double a = Convert.ToDouble("600.000");
-                    Log.Message("Точка конвертируется корректно");
-                }
-                catch(Exception e)
-                {
-                   Log.Error("Точка конвертируется некорректно");
-                }
-
-                try
-                {
-                    double a = Convert.ToDouble("600,000");
-                    Log.Message("Запятая конвертируется корректно");
-                }
-                catch (Exception e)
-                {
-                    Log.Error("Запятая конвертируется некорректно");
-                }
+               
 
                 for (int i = 0; i < strings.Count; i++)
                 {
@@ -122,7 +104,7 @@ namespace AOF_Controller
                 Log.Error("ORIGINAL:" + exc.Message);
                 Log.Message("Не удалось считать файл с настройками программируемой перестройки.");
             }
-            Log.Message(AO_All_CurveSweep_Params.GetLength(0).ToString());
+            Log.Message("Количество интервалов программируемого режима: " + AO_All_CurveSweep_Params.GetLength(0).ToString());
         }
         private void SaveData()
         {
@@ -208,8 +190,8 @@ namespace AOF_Controller
 
         private void TrB_CurrentWL_Scroll(object sender, EventArgs e)
         {
-            float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
-            NUD_CurWL.Value = (decimal)(data_CurrentWL); //вот оно. Вызывает установление ДВ
+            if (!Value_in_setting)
+                Set_HZorWL_everywhere((float)(TrB_CurrentWL.Value/AO_WL_precision), false, AO_WL_precision, AO_HZ_precision, AO_WL_Controlled_byslider);
         }
         private void CurrentWL_Change()
         {
@@ -270,8 +252,8 @@ namespace AOF_Controller
 
         private void NUD_CurWL_ValueChanged(object sender, EventArgs e)
         {
-            TrB_CurrentWL.Value = (int)(NUD_CurWL.Value * (decimal)AO_WL_precision);
-            CurrentWL_Change();
+            if (!Value_in_setting)
+                Set_HZorWL_everywhere((float)NUD_CurWL.Value, false, AO_WL_precision, AO_HZ_precision, AO_WL_Controlled_byslider);
         }
 
 
@@ -333,12 +315,7 @@ namespace AOF_Controller
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            if (AO_WL_Controlled_byslider)
-            {
-                float realval = ((float)TRB_SoundFreq.Value / 1000.0f);
-                string message = Filter.Implement_Error(Filter.Set_Hz(realval));
-                Log.Message(message + " " + realval.ToString());
-            }
+
         }
 
         private void TSMI_CreateCurve_Click(object sender, EventArgs e)
@@ -547,6 +524,18 @@ namespace AOF_Controller
                     }
                 }
             }
+        }
+
+        private void NUD_CurMHz_ValueChanged(object sender, EventArgs e)
+        {
+            if (!Value_in_setting)
+                Set_HZorWL_everywhere((float)NUD_CurMHz.Value, true, AO_WL_precision, AO_HZ_precision, AO_WL_Controlled_byslider);
+        }
+
+        private void TRB_SoundFreq_Scroll(object sender, EventArgs e)
+        {
+            if (!Value_in_setting)
+                Set_HZorWL_everywhere((float)(TRB_SoundFreq.Value/AO_HZ_precision), true, AO_WL_precision, AO_HZ_precision, AO_WL_Controlled_byslider);
         }
     }
 }

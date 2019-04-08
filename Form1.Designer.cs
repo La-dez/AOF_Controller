@@ -41,14 +41,18 @@
             this.label17 = new System.Windows.Forms.Label();
             this.GB_AllAOFControls = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.TRB_SoundFreq = new System.Windows.Forms.TrackBar();
+            this.label2 = new System.Windows.Forms.Label();
             this.TLP_SetControls = new System.Windows.Forms.TableLayoutPanel();
             this.BSetWL = new System.Windows.Forms.Button();
             this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
             this.ChB_AutoSetWL = new System.Windows.Forms.CheckBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
+            this.NUD_CurMHz = new System.Windows.Forms.NumericUpDown();
             this.NUD_CurWL = new System.Windows.Forms.NumericUpDown();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.TLP_WLSlidingControls = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.TrB_CurrentWL = new System.Windows.Forms.TrackBar();
@@ -75,16 +79,16 @@
             this.TSMI_CreateCurve = new System.Windows.Forms.ToolStripMenuItem();
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
             this.GB_AllAOFControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRB_SoundFreq)).BeginInit();
             this.TLP_SetControls.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CurMHz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
             this.TLP_WLSlidingControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_CurrentWL)).BeginInit();
@@ -96,7 +100,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).BeginInit();
             this.TLP_Sweep_ProgramMode.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -116,7 +119,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(989, 582);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(831, 528);
             this.tableLayoutPanel2.TabIndex = 82;
             // 
             // groupBox2
@@ -125,7 +128,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(983, 94);
+            this.groupBox2.Size = new System.Drawing.Size(825, 94);
             this.groupBox2.TabIndex = 63;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Элементы управления АОФ:";
@@ -152,17 +155,17 @@
             this.tableLayoutPanel30.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel30.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel30.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel30.Size = new System.Drawing.Size(977, 75);
+            this.tableLayoutPanel30.Size = new System.Drawing.Size(819, 75);
             this.tableLayoutPanel30.TabIndex = 80;
             // 
             // ChB_Power
             // 
             this.ChB_Power.Appearance = System.Windows.Forms.Appearance.Button;
             this.ChB_Power.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChB_Power.Location = new System.Drawing.Point(684, 1);
+            this.ChB_Power.Location = new System.Drawing.Point(572, 1);
             this.ChB_Power.Margin = new System.Windows.Forms.Padding(1);
             this.ChB_Power.Name = "ChB_Power";
-            this.ChB_Power.Size = new System.Drawing.Size(292, 23);
+            this.ChB_Power.Size = new System.Drawing.Size(246, 23);
             this.ChB_Power.TabIndex = 82;
             this.ChB_Power.Text = "Питание";
             this.ChB_Power.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -185,7 +188,7 @@
             this.L_RealDevName.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.L_RealDevName.AutoSize = true;
             this.tableLayoutPanel30.SetColumnSpan(this.L_RealDevName, 2);
-            this.L_RealDevName.Location = new System.Drawing.Point(943, 56);
+            this.L_RealDevName.Location = new System.Drawing.Point(785, 56);
             this.L_RealDevName.Name = "L_RealDevName";
             this.L_RealDevName.Size = new System.Drawing.Size(31, 13);
             this.L_RealDevName.TabIndex = 80;
@@ -195,10 +198,10 @@
             // 
             this.tableLayoutPanel30.SetColumnSpan(this.BDevOpen, 2);
             this.BDevOpen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BDevOpen.Location = new System.Drawing.Point(294, 1);
+            this.BDevOpen.Location = new System.Drawing.Point(246, 1);
             this.BDevOpen.Margin = new System.Windows.Forms.Padding(1);
             this.BDevOpen.Name = "BDevOpen";
-            this.BDevOpen.Size = new System.Drawing.Size(388, 23);
+            this.BDevOpen.Size = new System.Drawing.Size(324, 23);
             this.BDevOpen.TabIndex = 13;
             this.BDevOpen.Text = "Открыть .dev файл";
             this.BDevOpen.UseVisualStyleBackColor = true;
@@ -209,7 +212,7 @@
             this.L_RequiredDevName.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.L_RequiredDevName.AutoSize = true;
             this.tableLayoutPanel30.SetColumnSpan(this.L_RequiredDevName, 2);
-            this.L_RequiredDevName.Location = new System.Drawing.Point(907, 31);
+            this.L_RequiredDevName.Location = new System.Drawing.Point(749, 31);
             this.L_RequiredDevName.Name = "L_RequiredDevName";
             this.L_RequiredDevName.Size = new System.Drawing.Size(67, 13);
             this.L_RequiredDevName.TabIndex = 13;
@@ -222,7 +225,7 @@
             this.tableLayoutPanel30.SetColumnSpan(this.label17, 2);
             this.label17.Location = new System.Drawing.Point(3, 31);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(482, 13);
+            this.label17.Size = new System.Drawing.Size(402, 13);
             this.label17.TabIndex = 78;
             this.label17.Text = "Требуемый .dev файл :";
             // 
@@ -232,7 +235,7 @@
             this.GB_AllAOFControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GB_AllAOFControls.Location = new System.Drawing.Point(3, 103);
             this.GB_AllAOFControls.Name = "GB_AllAOFControls";
-            this.GB_AllAOFControls.Size = new System.Drawing.Size(983, 346);
+            this.GB_AllAOFControls.Size = new System.Drawing.Size(825, 292);
             this.GB_AllAOFControls.TabIndex = 53;
             this.GB_AllAOFControls.TabStop = false;
             this.GB_AllAOFControls.Text = "Настройки длины волны пропускания:";
@@ -254,8 +257,24 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(977, 327);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(819, 273);
             this.tableLayoutPanel1.TabIndex = 80;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel4.Controls.Add(this.TRB_SoundFreq, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.label2, 1, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 90);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(819, 30);
+            this.tableLayoutPanel4.TabIndex = 84;
             // 
             // TRB_SoundFreq
             // 
@@ -264,39 +283,54 @@
             this.TRB_SoundFreq.Maximum = 150000;
             this.TRB_SoundFreq.Minimum = 40000;
             this.TRB_SoundFreq.Name = "TRB_SoundFreq";
-            this.TRB_SoundFreq.Size = new System.Drawing.Size(916, 24);
+            this.TRB_SoundFreq.Size = new System.Drawing.Size(758, 24);
             this.TRB_SoundFreq.TabIndex = 35;
             this.TRB_SoundFreq.TickStyle = System.Windows.Forms.TickStyle.None;
             this.TRB_SoundFreq.Value = 40000;
-            this.TRB_SoundFreq.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.TRB_SoundFreq.Scroll += new System.EventHandler(this.TRB_SoundFreq_Scroll);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(767, 8);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.TabIndex = 82;
+            this.label2.Text = "МГц";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TLP_SetControls
             // 
-            this.TLP_SetControls.ColumnCount = 4;
+            this.TLP_SetControls.ColumnCount = 6;
             this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.TLP_SetControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.TLP_SetControls.Controls.Add(this.BSetWL, 3, 0);
+            this.TLP_SetControls.Controls.Add(this.BSetWL, 5, 0);
             this.TLP_SetControls.Controls.Add(this.tableLayoutPanel24, 0, 0);
-            this.TLP_SetControls.Controls.Add(this.label29, 2, 0);
+            this.TLP_SetControls.Controls.Add(this.NUD_CurMHz, 3, 0);
             this.TLP_SetControls.Controls.Add(this.NUD_CurWL, 1, 0);
+            this.TLP_SetControls.Controls.Add(this.label29, 2, 0);
+            this.TLP_SetControls.Controls.Add(this.label3, 4, 0);
             this.TLP_SetControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_SetControls.Location = new System.Drawing.Point(0, 0);
             this.TLP_SetControls.Margin = new System.Windows.Forms.Padding(0);
             this.TLP_SetControls.Name = "TLP_SetControls";
             this.TLP_SetControls.RowCount = 1;
             this.TLP_SetControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_SetControls.Size = new System.Drawing.Size(977, 60);
+            this.TLP_SetControls.Size = new System.Drawing.Size(819, 60);
             this.TLP_SetControls.TabIndex = 81;
             // 
             // BSetWL
             // 
             this.BSetWL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BSetWL.Location = new System.Drawing.Point(391, 0);
+            this.BSetWL.Location = new System.Drawing.Point(370, 0);
             this.BSetWL.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
             this.BSetWL.Name = "BSetWL";
-            this.BSetWL.Size = new System.Drawing.Size(585, 60);
+            this.BSetWL.Size = new System.Drawing.Size(448, 60);
             this.BSetWL.TabIndex = 5;
             this.BSetWL.Text = "Установить";
             this.BSetWL.UseVisualStyleBackColor = true;
@@ -342,16 +376,16 @@
             this.label28.Text = "Управление ползунком";
             this.label28.Click += new System.EventHandler(this.label28_Click);
             // 
-            // label29
+            // NUD_CurMHz
             // 
-            this.label29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(354, 23);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(34, 13);
-            this.label29.TabIndex = 53;
-            this.label29.Text = "нм";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.NUD_CurMHz.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_CurMHz.DecimalPlaces = 3;
+            this.NUD_CurMHz.Location = new System.Drawing.Point(235, 20);
+            this.NUD_CurMHz.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_CurMHz.Name = "NUD_CurMHz";
+            this.NUD_CurMHz.Size = new System.Drawing.Size(95, 20);
+            this.NUD_CurMHz.TabIndex = 84;
+            this.NUD_CurMHz.ValueChanged += new System.EventHandler(this.NUD_CurMHz_ValueChanged);
             // 
             // NUD_CurWL
             // 
@@ -365,9 +399,30 @@
             0,
             0});
             this.NUD_CurWL.Name = "NUD_CurWL";
-            this.NUD_CurWL.Size = new System.Drawing.Size(251, 20);
+            this.NUD_CurWL.Size = new System.Drawing.Size(95, 20);
             this.NUD_CurWL.TabIndex = 83;
             this.NUD_CurWL.ValueChanged += new System.EventHandler(this.NUD_CurWL_ValueChanged);
+            // 
+            // label29
+            // 
+            this.label29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(198, 23);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(34, 13);
+            this.label29.TabIndex = 53;
+            this.label29.Text = "нм";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(336, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 85;
+            this.label3.Text = "МГц";
             // 
             // TLP_WLSlidingControls
             // 
@@ -382,14 +437,14 @@
             this.TLP_WLSlidingControls.Name = "TLP_WLSlidingControls";
             this.TLP_WLSlidingControls.RowCount = 1;
             this.TLP_WLSlidingControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_WLSlidingControls.Size = new System.Drawing.Size(977, 30);
+            this.TLP_WLSlidingControls.Size = new System.Drawing.Size(819, 30);
             this.TLP_WLSlidingControls.TabIndex = 81;
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(925, 8);
+            this.label1.Location = new System.Drawing.Point(767, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 82;
@@ -402,7 +457,7 @@
             this.TrB_CurrentWL.Location = new System.Drawing.Point(3, 3);
             this.TrB_CurrentWL.Maximum = 100000;
             this.TrB_CurrentWL.Name = "TrB_CurrentWL";
-            this.TrB_CurrentWL.Size = new System.Drawing.Size(916, 24);
+            this.TrB_CurrentWL.Size = new System.Drawing.Size(758, 24);
             this.TrB_CurrentWL.TabIndex = 34;
             this.TrB_CurrentWL.TickStyle = System.Windows.Forms.TickStyle.None;
             this.TrB_CurrentWL.Scroll += new System.EventHandler(this.TrB_CurrentWL_Scroll);
@@ -420,7 +475,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(977, 207);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(819, 153);
             this.tableLayoutPanel5.TabIndex = 2;
             this.tableLayoutPanel5.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel5_Paint);
             // 
@@ -443,7 +498,7 @@
             this.Pan_SweepControls.Location = new System.Drawing.Point(0, 30);
             this.Pan_SweepControls.Margin = new System.Windows.Forms.Padding(0);
             this.Pan_SweepControls.Name = "Pan_SweepControls";
-            this.Pan_SweepControls.Size = new System.Drawing.Size(977, 177);
+            this.Pan_SweepControls.Size = new System.Drawing.Size(819, 123);
             this.Pan_SweepControls.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -461,13 +516,13 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(977, 177);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(819, 123);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // RB_Sweep_SpeciallMode
             // 
             this.RB_Sweep_SpeciallMode.AutoSize = true;
-            this.RB_Sweep_SpeciallMode.Location = new System.Drawing.Point(491, 3);
+            this.RB_Sweep_SpeciallMode.Location = new System.Drawing.Point(412, 3);
             this.RB_Sweep_SpeciallMode.Name = "RB_Sweep_SpeciallMode";
             this.RB_Sweep_SpeciallMode.Size = new System.Drawing.Size(121, 17);
             this.RB_Sweep_SpeciallMode.TabIndex = 1;
@@ -494,7 +549,7 @@
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 3, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 3, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_FreqDeviation, 2, 0);
@@ -510,16 +565,16 @@
             this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_Sweep_EasyMode.Size = new System.Drawing.Size(488, 147);
+            this.TLP_Sweep_EasyMode.Size = new System.Drawing.Size(409, 93);
             this.TLP_Sweep_EasyMode.TabIndex = 0;
             // 
             // label9
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(408, 13);
+            this.label9.Location = new System.Drawing.Point(326, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(77, 13);
+            this.label9.Size = new System.Drawing.Size(80, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -528,10 +583,10 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(409, 53);
+            this.label10.Location = new System.Drawing.Point(327, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(76, 13);
+            this.label10.Size = new System.Drawing.Size(79, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "мс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -540,7 +595,7 @@
             // 
             this.NUD_FreqDeviation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FreqDeviation.DecimalPlaces = 3;
-            this.NUD_FreqDeviation.Location = new System.Drawing.Point(134, 10);
+            this.NUD_FreqDeviation.Location = new System.Drawing.Point(108, 10);
             this.NUD_FreqDeviation.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_FreqDeviation.Maximum = new decimal(new int[] {
             5,
@@ -553,7 +608,7 @@
             0,
             65536});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(271, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(215, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.Value = new decimal(new int[] {
             5,
@@ -566,7 +621,7 @@
             // 
             this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(134, 50);
+            this.NUD_TimeFdev.Location = new System.Drawing.Point(108, 50);
             this.NUD_TimeFdev.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_TimeFdev.Maximum = new decimal(new int[] {
             40,
@@ -579,7 +634,7 @@
             0,
             0});
             this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(271, 20);
+            this.NUD_TimeFdev.Size = new System.Drawing.Size(215, 20);
             this.NUD_TimeFdev.TabIndex = 2;
             this.NUD_TimeFdev.Value = new decimal(new int[] {
             5,
@@ -592,9 +647,9 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(104, 13);
+            this.label8.Location = new System.Drawing.Point(84, 13);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(27, 13);
+            this.label8.Size = new System.Drawing.Size(21, 13);
             this.label8.TabIndex = 1;
             this.label8.Text = "±";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -605,7 +660,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(3, 47);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(76, 26);
+            this.label7.Size = new System.Drawing.Size(73, 26);
             this.label7.TabIndex = 2;
             this.label7.Text = "Время одной девиации:";
             // 
@@ -615,7 +670,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 7);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 26);
+            this.label6.Size = new System.Drawing.Size(75, 26);
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
             // 
@@ -626,13 +681,13 @@
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_ProgramMode.Controls.Add(this.ChB_ProgrammSweep_toogler, 0, 0);
             this.TLP_Sweep_ProgramMode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLP_Sweep_ProgramMode.Location = new System.Drawing.Point(488, 30);
+            this.TLP_Sweep_ProgramMode.Location = new System.Drawing.Point(409, 30);
             this.TLP_Sweep_ProgramMode.Margin = new System.Windows.Forms.Padding(0);
             this.TLP_Sweep_ProgramMode.Name = "TLP_Sweep_ProgramMode";
             this.TLP_Sweep_ProgramMode.RowCount = 2;
             this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(489, 147);
+            this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(410, 93);
             this.TLP_Sweep_ProgramMode.TabIndex = 2;
             // 
             // ChB_ProgrammSweep_toogler
@@ -653,19 +708,19 @@
             this.LBConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LBConsole.ForeColor = System.Drawing.SystemColors.WindowText;
             this.LBConsole.FormattingEnabled = true;
-            this.LBConsole.Location = new System.Drawing.Point(4, 456);
+            this.LBConsole.Location = new System.Drawing.Point(4, 402);
             this.LBConsole.Margin = new System.Windows.Forms.Padding(4);
             this.LBConsole.Name = "LBConsole";
-            this.LBConsole.Size = new System.Drawing.Size(981, 92);
+            this.LBConsole.Size = new System.Drawing.Size(823, 92);
             this.LBConsole.TabIndex = 64;
             // 
             // B_Quit
             // 
             this.B_Quit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.B_Quit.Location = new System.Drawing.Point(3, 552);
+            this.B_Quit.Location = new System.Drawing.Point(3, 498);
             this.B_Quit.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.B_Quit.Name = "B_Quit";
-            this.B_Quit.Size = new System.Drawing.Size(983, 27);
+            this.B_Quit.Size = new System.Drawing.Size(825, 27);
             this.B_Quit.TabIndex = 53;
             this.B_Quit.Text = "Выход";
             this.B_Quit.UseVisualStyleBackColor = true;
@@ -678,7 +733,7 @@
             this.TSMI_CreateCurve});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(989, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(831, 24);
             this.menuStrip1.TabIndex = 83;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -707,38 +762,11 @@
             this.Timer_sweepChecker.Interval = 50;
             this.Timer_sweepChecker.Tick += new System.EventHandler(this.Timer_sweepChecker_Tick);
             // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tableLayoutPanel4.Controls.Add(this.TRB_SoundFreq, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label2, 1, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 90);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(977, 30);
-            this.tableLayoutPanel4.TabIndex = 84;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(925, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
-            this.label2.TabIndex = 82;
-            this.label2.Text = "МГц";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(989, 606);
+            this.ClientSize = new System.Drawing.Size(831, 552);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -752,11 +780,14 @@
             this.tableLayoutPanel30.PerformLayout();
             this.GB_AllAOFControls.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRB_SoundFreq)).EndInit();
             this.TLP_SetControls.ResumeLayout(false);
             this.TLP_SetControls.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
             this.tableLayoutPanel24.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CurMHz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).EndInit();
             this.TLP_WLSlidingControls.ResumeLayout(false);
             this.TLP_WLSlidingControls.PerformLayout();
@@ -773,8 +804,6 @@
             this.TLP_Sweep_ProgramMode.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -829,6 +858,8 @@
         private System.Windows.Forms.Timer Timer_sweepChecker;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown NUD_CurMHz;
+        private System.Windows.Forms.Label label3;
     }
 }
 

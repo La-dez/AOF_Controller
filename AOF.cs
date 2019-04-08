@@ -426,6 +426,7 @@ namespace LDZ_Code
             }
             public static int Search_Devices()
             {
+
                 return AOM_GetNumDevices();
             }
             public override string Implement_Error(int pCode_of_error)

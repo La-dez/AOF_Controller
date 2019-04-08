@@ -12,17 +12,100 @@ namespace AOF_Controller
     {
         private void tests()
         {
-            
-            Filter.Read_dev_file("ampl_avm1-011-3.dev");
-            Filter.PowerOn();
-            Filter.Set_Wl(Filter.WL_Max);
-            Filter.Set_Wl((Filter.WL_Max + Filter.WL_Min) / 2);
-            Filter.Set_Wl(Filter.WL_Min);
-            Filter.Set_Hz((Filter.HZ_Min + Filter.HZ_Max) / 2);
-            float delta = 5;
-            Filter.Set_Sweep_on((Filter.HZ_Max + Filter.HZ_Min) / 2 - delta, 2 * delta, 1, true);
-            System.Threading.Thread.Sleep(2000);
-            Filter.Set_Sweep_off();
+            ///Тесты считывания настроек из файла
+            try
+            {
+                double a = Convert.ToDouble("600.000");
+                Log.Message("Точка конвертируется корректно");
+            }
+            catch (Exception e)
+            {
+                Log.Error("Точка конвертируется некорректно");
+            }
+
+            try
+            {
+                double a = Convert.ToDouble("600,000");
+                Log.Message("Запятая конвертируется корректно");
+            }
+            catch (Exception e)
+            {
+                Log.Error("Запятая конвертируется некорректно");
+            }
+            ///Read_dev_file в развернутов виде
+            int level = 1;
+            try
+            {
+                level = 1;
+
+                var Data_from_dev = ServiceFunctions.Files.Read_txt("ampl_avm1-011-5.dev");
+                var FilterCfgPath = "ampl_avm1-011-5.dev";
+                var FilterCfgName = "ampl_avm1-011-5.dev";
+                float[] pWLs, pHZs, pCoefs;
+
+                level = 2;
+
+                ServiceFunctions.Files.Get_WLData_byKnownCountofNumbers(3, Data_from_dev.ToArray(), out pWLs, out pHZs, out pCoefs);
+                
+                level = 3;
+
+                float[] WLs, HZs, Intensity;
+                float[] pData = new float[pWLs.Length];
+                pWLs.CopyTo(pData, 0);
+                int RealLength = pWLs.Length - 1;
+
+                level = 4;
+
+                if (pWLs[0] - pWLs[RealLength] > 0)
+                {
+                    WLs = new float[pWLs.Length];
+                    HZs = new float[pWLs.Length]; ;
+                    Intensity = new float[pWLs.Length];
+                    for (int i = 0; i < pWLs.Length; i++)
+                    {
+                        WLs[i] = pWLs[RealLength - i];
+                        HZs[i] = pHZs[RealLength - i];
+                        Intensity[i] = pCoefs[RealLength - i];
+                    }
+                }
+                else
+                {
+                    WLs = pWLs;
+                    HZs = pHZs;
+                    Intensity = pCoefs;
+                }
+                level = 5;
+
+                pWLs = WLs;
+                pHZs = HZs;
+                pCoefs = Intensity;
+                ServiceFunctions.Math.Interpolate_curv(ref pWLs, ref pHZs);
+                ServiceFunctions.Math.Interpolate_curv(ref pData, ref pCoefs);
+                level = 6;
+
+                WLs = pWLs;
+                HZs = pHZs;
+                Intensity = pCoefs;
+
+                level = 0; throw new Exception();
+
+            }
+            catch(Exception e)
+            {
+                Log.Message("Уровень ошибки :" + level.ToString());
+                Log.Error(e.Message);
+            }
+
+            /*   Filter.Read_dev_file("ampl_avm1-011-3.dev");
+               Filter.PowerOn();
+               Filter.Set_Wl(Filter.WL_Max);
+               Filter.Set_Wl((Filter.WL_Max + Filter.WL_Min) / 2);
+               Filter.Set_Wl(Filter.WL_Min);
+               Filter.Set_Hz((Filter.HZ_Min + Filter.HZ_Max) / 2);
+               float delta = 5;
+               Filter.Set_Sweep_on((Filter.HZ_Max + Filter.HZ_Min) / 2 - delta, 2 * delta, 1, true);
+               System.Threading.Thread.Sleep(2000);
+               Filter.Set_Sweep_off();*/
             //  Filter.PowerOff();
         }
         private void InitializeComponents_byVariables()
@@ -81,6 +164,39 @@ namespace AOF_Controller
         {
             NUD_CurWL.Value = pwl;
             TrB_CurrentWL.Value = pwl;
+        }
+        private void Set_HZorWL_everywhere(float pMHz_or_WL,bool isHZ,double WLPrecision,double HZPrecision,bool is_need_to_set_in_Filter)
+        {
+            Value_in_setting = true;
+            try
+            {
+                float this_HZ = 0;
+                float this_WL = 0;
+                if (isHZ)
+                {
+                    this_HZ = pMHz_or_WL;
+                    this_WL = Filter.Get_WL_via_HZ(pMHz_or_WL);
+                }
+                else
+                {
+                    this_HZ = Filter.Get_HZ_via_WL(pMHz_or_WL);
+                    this_WL = pMHz_or_WL;
+                }
+                NUD_CurWL.Value = (decimal)this_WL;
+                NUD_CurMHz.Value = (decimal)this_HZ;
+                TrB_CurrentWL.Value = (int)(this_WL * WLPrecision);
+                TRB_SoundFreq.Value = (int)(this_HZ * HZPrecision);
+                if (is_need_to_set_in_Filter) Filter.Set_Hz(this_HZ);
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                Value_in_setting = false;
+            }
+            Value_in_setting = false;
         }
         private void ReSweep(float p_data_CurrentWL)
         {
