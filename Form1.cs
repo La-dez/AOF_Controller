@@ -37,6 +37,7 @@ namespace AOF_Controller
         AO_Filter Filter = null;
         System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
         bool Value_in_setting = false;
+        bool Admin_mode = false;
 
         string AO_ProgramSweepCFG_filename = Application.StartupPath + "\\AOData.txt";
 
@@ -50,6 +51,7 @@ namespace AOF_Controller
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Text = "Перестраиваемый источник " + version;
+            this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
             Filter = LDZ_Code.AO_Devices.Find_and_connect_AnyFilter();
@@ -536,6 +538,30 @@ namespace AOF_Controller
         {
             if (!Value_in_setting)
                 Set_HZorWL_everywhere((float)(TRB_SoundFreq.Value/AO_HZ_precision), true, AO_WL_precision, AO_HZ_precision, AO_WL_Controlled_byslider);
+        }
+
+        private void B_setHZSpecialSTC_Click(object sender, EventArgs e)
+        {
+            float MHz_toSet = (float)NUD_CurMHz.Value;
+            float pDecr_val = (float)NUD_PowerDecrement.Value;
+            if(Filter.FilterType == FilterTypes.STC_Filter)
+            {
+                (Filter as STC_Filter).Set_Hz(MHz_toSet, pDecr_val);
+                Log.Message(String.Format("Установленная частота: {0}, коэффициент ослабления: {1}", MHz_toSet, pDecr_val));
+            }
+            else
+            {
+                Log.Error("Работа с коэффициентами усиления не поддерживается данным типом фильтров!");
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.A) && e.Alt)
+            {
+                Admin_mode = !Admin_mode;
+                    TLP_STCspecial_Fun.Visible = Admin_mode && ((Filter.FilterType == FilterTypes.STC_Filter)||(Filter.FilterType == FilterTypes.Emulator));
+            }
         }
     }
 }

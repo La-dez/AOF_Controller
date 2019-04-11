@@ -135,6 +135,7 @@ namespace LDZ_Code
             {
                 int num = HZs.Length;
                 int rem_pos = -1;
+                float result = 3000;
                 for (int i = 0; i < num - 1; i++)
                 {
                     if ((HZs[i] >= pHZ) && (HZs[i + 1] <= pHZ)) { rem_pos = i; break; }
@@ -145,13 +146,17 @@ namespace LDZ_Code
                     else if (pHZ == HZs[rem_pos + 1]) return Intensity[rem_pos + 1];
                     else
                     {
-                        return (float)ServiceFunctions.Math.Interpolate_value(HZs[rem_pos], Intensity[rem_pos], HZs[rem_pos + 1], Intensity[rem_pos + 1], pHZ);
+                        result = (float)ServiceFunctions.Math.Interpolate_value(HZs[rem_pos], Intensity[rem_pos], HZs[rem_pos + 1], Intensity[rem_pos + 1], pHZ);
                     }
                 }
                 else
                 {
-                    return Intensity[0];
+                    result =  Intensity[0];
                 }
+
+                if (result < 2)
+                    result = 3000;
+                return result;
             }
             public virtual System.Drawing.PointF Sweep_Recalculate_borders(float pHZ_needed,float pHZ_Radius)
             {
@@ -576,6 +581,32 @@ namespace LDZ_Code
                         sHZ_Current = freq;
                         return 0;
                     }
+                    catch (Exception exc)
+                    {
+
+                        return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR;
+                    }
+                }
+                else
+                {
+                    return (int)FTDIController.FT_STATUS.FT_DEVICE_NOT_FOUND;
+                }
+            }
+            public int Set_Hz(float freq,float pCoef_Power_Decrement = 000)
+            {
+                if (AOF_Loaded_without_fails)
+                {
+                    try
+                    {
+                        if(pCoef_Power_Decrement==0)
+                            Own_UsbBuf = Create_byteMass_forHzTune(freq);
+                        else
+                            Own_UsbBuf = Create_byteMass_forHzTune(freq, (uint)pCoef_Power_Decrement);
+                        WriteUsb(7);
+                        sWL_Current = Get_WL_via_HZ(freq);
+                        sHZ_Current = freq;
+                        return 0;
+                    }
                     catch(Exception exc)
                     {
 
@@ -938,15 +969,19 @@ namespace LDZ_Code
                 }
                 return data_Own_UsbBuf;
             }
-            private byte[] Create_byteMass_forHzTune(float pfreq)
+            
+            private byte[] Create_byteMass_forHzTune(float pfreq,uint pCoef_PowerDecrease = 0)
             {
                 float fvspom; short MSB, LSB; ulong lvspom;
-                uint ivspom;
-                //DWORD ret_bytes;
+
                 float freq_was = pfreq;
-                ivspom = 1700;
                 byte[] data_Own_UsbBuf = new byte[5000];
-                ivspom = (uint)Get_Intensity_via_HZ(pfreq);
+                uint ivspom = 1700;
+                if (pCoef_PowerDecrease == 0)
+                    ivspom = (uint)Get_Intensity_via_HZ(pfreq);
+                else
+                    ivspom = pCoef_PowerDecrease;
+
 
                 pfreq = (freq_was) /*/ 1.17f*/; //in MHz
                                                 //set init freq
@@ -975,7 +1010,6 @@ namespace LDZ_Code
                 }
                 return data_Own_UsbBuf;
             }
-
             public int Set_ProgrammMode_on()
             {
                 try
