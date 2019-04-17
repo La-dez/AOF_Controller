@@ -1004,6 +1004,7 @@ namespace LDZ_Code
                 data_Own_UsbBuf[6] = (byte)ivspom;
 
                 int b2w = 7;
+                 
                 for (int i = 0; i < b2w; i++)
                 {
                     data_Own_UsbBuf[i] = (byte)AO_Devices.FTDIController.Bit_reverse(data_Own_UsbBuf[i]);
