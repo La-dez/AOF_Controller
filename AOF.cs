@@ -1445,11 +1445,11 @@ namespace LDZ_Code
                 int output = 0;
                 const int uchar_size = 8;
 
-                for (int i = 0; i != uchar_size; ++i)
+               /* for (int i = 0; i != uchar_size; ++i)
                 {
                     output |= ((input >> i) & 1) << (uchar_size - 1 - i);
-                }
-             //   output = input;
+                }*/
+                output = input;
                 return output;
             }
 
