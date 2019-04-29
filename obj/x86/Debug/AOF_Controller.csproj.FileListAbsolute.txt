@@ -9,3 +9,13 @@ E:\Работа Саша\АО\AOF_Controller\obj\x86\Debug\AOF_Controller.csproj
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Debug\AOF_Controller.csproj.CoreCompileInputs.cache
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Debug\Перестраиваемый источник.exe
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Debug\Перестраиваемый источник.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Debug\Перестраиваемый источник.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Debug\Перестраиваемый источник.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Debug\favicon_stc.ico
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Debug\Перестраиваемый источник.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Debug\Перестраиваемый источник.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Debug\AOF_Controller.csprojResolveAssemblyReference.cache
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Debug\AOF_Controller.Form1.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Debug\AOF_Controller.Properties.Resources.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Debug\AOF_Controller.W_AO_SweepTuneCurve.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Debug\AOF_Controller.csproj.GenerateResource.Cache
