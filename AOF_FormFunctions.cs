@@ -196,8 +196,27 @@ namespace AOF_Controller
                 TRB_SoundFreq.Value = (int)(this_HZ * HZPrecision);
                 if (is_need_to_set_in_Filter)
                 {
-                    Filter.Set_Hz(this_HZ);
-                    Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}",this_WL,this_HZ));
+                    if (AO_Sweep_Needed)
+                    {
+                        if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
+                        {
+                            timer_for_sweep.Restart();
+                            ReSweep(this_WL);
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var state = Filter.Set_Wl(this_WL);
+                            if (state != 0) throw new Exception(Filter.Implement_Error(state));
+                            Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", this_WL, this_HZ));
+                        }
+                        catch (Exception exc)
+                        {
+                            Log.Error(exc.Message);
+                        }
+                    }
                 }
             }
             catch

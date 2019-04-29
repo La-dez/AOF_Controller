@@ -162,7 +162,7 @@ namespace AOF_Controller
         {
             float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
             CurrentWL_Change();
-           /* if (AO_Sweep_Needed)
+         /*   if (AO_Sweep_Needed)
             {
                 try
                 {
