@@ -736,7 +736,7 @@ namespace LDZ_Code
                 }
                 for (i = 0; i < steps; i++)//перепроверить цикл
                 {
-
+                    
                     freq = (float)(((pMHz_start) * 1e6f + i * Step_HZs)/*/ 1.17f*/);//1.17 коррекция частоты
                                                                                  //fvspom=freq/300e6;
                     lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
@@ -1446,11 +1446,10 @@ namespace LDZ_Code
                 int output = 0;
                 const int uchar_size = 8;
 
-                /*for (int i = 0; i != uchar_size; ++i)
+                for (int i = 0; i != uchar_size; ++i)
                 {
                     output |= ((input >> i) & 1) << (uchar_size - 1 - i);
-                }*/
-                output = input;
+                }
                 return output;
             }
 

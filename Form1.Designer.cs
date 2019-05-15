@@ -556,7 +556,7 @@
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 91F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 92F));
             this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 3, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 3, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_FreqDeviation, 2, 0);
@@ -579,9 +579,9 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(379, 13);
+            this.label9.Location = new System.Drawing.Point(378, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(86, 13);
+            this.label9.Size = new System.Drawing.Size(87, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -590,10 +590,10 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(380, 53);
+            this.label10.Location = new System.Drawing.Point(379, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(85, 13);
+            this.label10.Size = new System.Drawing.Size(86, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "мс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -615,7 +615,7 @@
             0,
             65536});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(251, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(250, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.Value = new decimal(new int[] {
             5,
@@ -641,7 +641,7 @@
             0,
             0});
             this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(251, 20);
+            this.NUD_TimeFdev.Size = new System.Drawing.Size(250, 20);
             this.NUD_TimeFdev.TabIndex = 2;
             this.NUD_TimeFdev.Value = new decimal(new int[] {
             5,
