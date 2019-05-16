@@ -160,34 +160,8 @@ namespace AOF_Controller
 
         private void BSetWL_Click(object sender, EventArgs e)
         {
-            float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
-            CurrentWL_Change();
-         /*   if (AO_Sweep_Needed)
-            {
-                try
-                {
-                    ReSweep(data_CurrentWL);
-                }
-                catch (Exception exc)
-                {
-                    Log.Error(exc.Message);
-                }
-            }
-            else
-            {
-                try
-                {
-                    if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
-                    System.Threading.Thread.Sleep(50);
-                    var state = Filter.Set_Wl(data_CurrentWL);
-                    if (state != 0) throw new Exception(Filter.Implement_Error(state));
-                    Log.Message("Перестройка на длину волны " + data_CurrentWL.ToString() + " нм прошла успешно!");
-                }
-                catch (Exception exc)
-                {
-                    Log.Error(exc.Message);
-                }
-            }*/
+            if (!Value_in_setting)
+                Set_HZorWL_everywhere((float)NUD_CurMHz.Value, true, AO_WL_precision, AO_HZ_precision, true);
         }
 
         private void TrB_CurrentWL_Scroll(object sender, EventArgs e)
@@ -195,34 +169,7 @@ namespace AOF_Controller
             if (!Value_in_setting)
                 Set_HZorWL_everywhere((float)(TrB_CurrentWL.Value/AO_WL_precision), false, AO_WL_precision, AO_HZ_precision, AO_WL_Controlled_byslider);
         }
-        private void CurrentWL_Change()
-        {
-            float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
-            if (AO_WL_Controlled_byslider)
-            {
-                if (AO_Sweep_Needed)
-                {
-                    if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
-                    {
-                        timer_for_sweep.Restart();
-                        ReSweep(data_CurrentWL);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        var state = Filter.Set_Wl(data_CurrentWL);
-                        if (state != 0) throw new Exception(Filter.Implement_Error(state));
-                        Log.Message("Перестройка на длину волны " + data_CurrentWL.ToString() + " нм прошла успешно!");
-                    }
-                    catch (Exception exc)
-                    {
-                        Log.Error(exc.Message);
-                    }
-                }
-            }
-        }
+
 
         private void ChB_Power_CheckedChanged(object sender, EventArgs e)
         {
