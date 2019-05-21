@@ -161,7 +161,7 @@ namespace AOF_Controller
         private void BSetWL_Click(object sender, EventArgs e)
         {
             if (!Value_in_setting)
-                Set_HZorWL_everywhere((float)NUD_CurMHz.Value, true, AO_WL_precision, AO_HZ_precision, true);
+                Set_HZorWL_everywhere((float)NUD_CurMHz.Value, true, AO_WL_precision, AO_HZ_precision, true, false);
         }
 
         private void TrB_CurrentWL_Scroll(object sender, EventArgs e)

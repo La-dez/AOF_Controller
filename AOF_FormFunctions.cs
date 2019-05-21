@@ -173,7 +173,7 @@ namespace AOF_Controller
             NUD_CurWL.Value = pwl;
             TrB_CurrentWL.Value = pwl;
         }
-        private void Set_HZorWL_everywhere(float pMHz_or_WL,bool isHZ,double WLPrecision,double HZPrecision,bool is_need_to_set_in_Filter)
+        private void Set_HZorWL_everywhere(float pMHz_or_WL,bool isHZ,double WLPrecision,double HZPrecision,bool is_need_to_set_in_Filter,bool TimerRestartNeeded=true)
         {
             Value_in_setting = true;
             try
@@ -200,7 +200,7 @@ namespace AOF_Controller
                     {
                         if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
                         {
-                            timer_for_sweep.Restart();
+                            if(TimerRestartNeeded) timer_for_sweep.Restart();
                             ReSweep(this_WL);
                         }
                     }
