@@ -904,72 +904,7 @@ namespace LDZ_Code
                 }
                 return data_Own_UsbBuf;
             }
-            private byte[] Create_byteMass_forSweep(float pMHz_start, float pSweep_range_MHz, double pPeriod/*[мс с точностью до двух знаков,минимум 1]*/, ref int pcount)
-            {
-                float freq, fvspom;
-                short MSB, LSB;
-                ulong lvspom;
-                uint ivspom;
-                float delta;
-                int steps;
-                int i;
-                float freqMCU = 74.99e6f;
-                float inp_freq = 20 * 1000.0f / (float)pPeriod; //in Hz, max 4500 hz //дефолт от Алексея
-                double New_Freq_byTime = (pSweep_range_MHz * 1e3f / pPeriod); // [kHz/ms] , 57.4 и более //375
-                double Step_kHZs = pSweep_range_MHz * 1e3f / 20.0f;                                     //   было 200, [kHz] // В новом режиме 500 kHz - дефолт от Алексея 
-                double Steps_by1MHz = 1e3f / Step_kHZs;                     //      [шагов/МГц]   
-                pcount =4+2 - 1;//4 бита на начальный массив, 2 на таймер
-                steps = 20;
-                double Step_HZs = Step_kHZs * 1000;
-
-                int total_count = pcount + 1 + 4 * steps + 3;
-                byte[] data_Own_UsbBuf = new byte[total_count];
-                byte[] Start_mass = new byte[4] { (byte)FTDIController.Bit_reverse(0x14), (byte)FTDIController.Bit_reverse(0x11), (byte)FTDIController.Bit_reverse(0x12), (byte)FTDIController.Bit_reverse(0xff) };
-                byte[] Finish_mass = new byte[3] { (byte)FTDIController.Bit_reverse(0x15), (byte)FTDIController.Bit_reverse(0x15), (byte)FTDIController.Bit_reverse(0x15) };
-
-                for (i = 1; i < total_count; i++)
-                {
-                    data_Own_UsbBuf[i] = 0;
-                }
-                for (i = 0; i < steps; i++)//перепроверить цикл
-                {
-
-                    freq = (float)(((pMHz_start) * 1e6f + i * Step_HZs)/*/ 1.17f*/);//1.17 коррекция частоты
-                                                                                    //fvspom=freq/Reference_frequency;
-                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / Reference_frequency)); //расчет управляющего слова для частоты
-                    MSB = (short)(0x0000ffFF & (lvspom >> 16));
-                    LSB = (short)lvspom;
-                    data_Own_UsbBuf[pcount + 1] = (byte)(0x00ff & (MSB >> 8));
-                    data_Own_UsbBuf[pcount + 2] = (byte)(MSB);
-                    data_Own_UsbBuf[pcount + 3] = (byte)(0x00ff & (LSB >> 8));
-                    data_Own_UsbBuf[pcount + 4] = (byte)(LSB);
-                    pcount += 4;
-                }
-
-                pcount -= 4;//компенсация последнего смещения
-
-                //timer calculations
-                ivspom = (uint)(65536 - freqMCU / (2 * 2 * inp_freq));
-
-                data_Own_UsbBuf[4] = (byte)(0x00ff & (ivspom >> 8)); ;
-                data_Own_UsbBuf[5] = (byte)ivspom;
-                pcount = total_count;
-                //
-                for (i = 0; i < total_count; i++)
-                {
-                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i]);
-                }
-                for (i=0;i<4;i++)
-                {
-                    data_Own_UsbBuf[i] = Start_mass[i];
-                }
-                for(i= 0;i< 3;i++)
-                {
-                    data_Own_UsbBuf[i+total_count-3] = Finish_mass[i];
-                }
-                return data_Own_UsbBuf;
-            }
-            
+           
             private byte[] Create_byteMass_forHzTune(float pfreq,uint pCoef_PowerDecrease = 0)
             {
                 float fvspom; short MSB, LSB; ulong lvspom;
@@ -1027,7 +962,141 @@ namespace LDZ_Code
               //  is_Programmed = false;
                 return Set_Hz((HZ_Max + HZ_Min) / 2.0f);
             }
+            private byte[] Create_byteMass_forSweep(float pMHz_start, float pSweep_range_MHz, double pPeriod/*[мс с точностью до двух знаков,минимум 1]*/, ref int pcount)
+            {
+                float freq, fvspom;
+                short MSB, LSB;
+                ulong lvspom;
+                uint ivspom;
+                float delta;
+                int steps;
+                int i;
+                float freqMCU = 74.99e6f;
+                float inp_freq = 20 * 1000.0f / (float)pPeriod; //in Hz, max 4500 hz //дефолт от Алексея
+                double New_Freq_byTime = (pSweep_range_MHz * 1e3f / pPeriod); // [kHz/ms] , 57.4 и более //375
+                double Step_kHZs = pSweep_range_MHz * 1e3f / 20.0f;                                     //   было 200, [kHz] // В новом режиме 500 kHz - дефолт от Алексея 
+                double Steps_by1MHz = 1e3f / Step_kHZs;                     //      [шагов/МГц]   
+                pcount = 4 + 2 - 1;//4 бита на начальный массив, 2 на таймер
+                steps = 20;
+                double Step_HZs = Step_kHZs * 1000;
+
+                int total_count = pcount + 1 + 4 * steps + 3;
+                byte[] data_Own_UsbBuf = new byte[total_count];
+                bool isInverse_needed = true;
+                byte[] Start_mass = new byte[4] { (byte)FTDIController.Bit_reverse(0x14,isInverse_needed), (byte)FTDIController.Bit_reverse(0x11,isInverse_needed),
+                    (byte)FTDIController.Bit_reverse(0x12,isInverse_needed), (byte)FTDIController.Bit_reverse(0xff,isInverse_needed) };
+                byte[] Finish_mass = new byte[3] { (byte)FTDIController.Bit_reverse(0x15,isInverse_needed), (byte)FTDIController.Bit_reverse(0x15,isInverse_needed),
+                    (byte)FTDIController.Bit_reverse(0x15,isInverse_needed) };
+
+                for (i = 1; i < total_count; i++)
+                {
+                    data_Own_UsbBuf[i] = 0;
+                }
+                for (i = 0; i < steps; i++)//перепроверить цикл
+                {
+
+                    freq = (float)(((pMHz_start) * 1e6f + i * Step_HZs)/*/ 1.17f*/);//1.17 коррекция частоты
+                                                                                    //fvspom=freq/Reference_frequency;
+                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / Reference_frequency)); //расчет управляющего слова для частоты
+                    MSB = (short)(0x0000ffFF & (lvspom >> 16));
+                    LSB = (short)lvspom;
+                    data_Own_UsbBuf[pcount + 1] = (byte)(0x00ff & (MSB >> 8));
+                    data_Own_UsbBuf[pcount + 2] = (byte)(MSB);
+                    data_Own_UsbBuf[pcount + 3] = (byte)(0x00ff & (LSB >> 8));
+                    data_Own_UsbBuf[pcount + 4] = (byte)(LSB);
+                    pcount += 4;
+                }
+
+                pcount -= 4;//компенсация последнего смещения
+
+                //timer calculations
+                ivspom = (uint)(65536 - freqMCU / (2 * 2 * inp_freq));
+
+                data_Own_UsbBuf[4] = (byte)(0x00ff & (ivspom >> 8)); ;
+                data_Own_UsbBuf[5] = (byte)ivspom;
+                pcount = total_count;
+                //
+                for (i = 0; i < total_count; i++)
+                {
+                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i], isInverse_needed);
+                }
+                for (i = 0; i < 4; i++)
+                {
+                    data_Own_UsbBuf[i] = Start_mass[i];
+                }
+                for (i = 0; i < 3; i++)
+                {
+                    data_Own_UsbBuf[i + total_count - 3] = Finish_mass[i];
+                }
+                return data_Own_UsbBuf;
+            }
             public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков,минимум 1]*/, bool OnRepeat)
+            {
+                //здесь MHz_start = m_f0 - начальна частота в МГц    
+                //Sweep_range_MHz = m_deltaf - девиация частоты в МГц
+                try
+                {
+
+                    float freq, fvspom;
+                    short MSB, LSB;
+                    ulong lvspom;
+                    byte[] tx = new byte[5000];
+                    uint ivspom;
+                    float delta;
+                    int steps, count;
+                    int i, j; float freqMCU = 74.99e6f;
+
+                    float inp_freq = 5000; //in Hz, max 5000Hz
+                    count = 4;
+                    //steps=(float)m_deltaf*5;
+                    tx[0] = 0x14;
+                    tx[1] = 0x11;
+                    tx[2] = 0x12; //it means, we will send wavelength
+                    tx[3] = 0xff; //repeat cont
+                    for (i = 4; i < 5000; i++)
+                    {
+                        tx[i] = 0;
+                    }
+                    for (j = 1; j <= 6; j++)
+                    {
+                        //timer calculations
+                        ivspom = (uint)(65536 - freqMCU / (2 * 2 * inp_freq));
+                        tx[count] = (byte)(0x00ff & (ivspom >> 8)); count++;    //timer calculations and bytes
+                        tx[count] = (byte)(ivspom); count++;                    //timer calculations and bytes
+                        for (i = 0; i < 20; i++)
+                        {
+                            freq = (float)((60 +10*j) * 1e6 + i * 2e5); //in Hz
+                            lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 350e6));
+                            MSB = (short)(0x0000ffFF & (lvspom >> 16));
+                            LSB = (short)lvspom;
+                            tx[count] = (byte)(0x00ff & (MSB >> 8));
+                            tx[count + 1] = (byte)(MSB);
+                            tx[count + 2] = (byte)(0x00ff & (LSB >> 8));
+                            tx[count + 3] = (byte)(LSB);
+                            count += 4;
+                        }
+                    }
+                    tx[count] = 0x15;
+                    tx[++count] = 0x15;
+                    tx[++count] = 0x15;
+                    //count+=3;
+                    for (i = 0; i < 5000; i++)
+                    {
+                        tx[i] = (byte)FTDIController.Bit_reverse(tx[i], false);
+                    }
+                    FTDIController.FT_ResetDevice(Own_m_hPort); //ResetDevice();
+                    FTDIController.FT_Purge(Own_m_hPort, FTDIController.FT_PURGE_RX | FTDIController.FT_PURGE_TX); // Purge(FT_PURGE_RX || FT_PURGE_TX);
+                    FTDIController.FT_ResetDevice(Own_m_hPort); //ResetDevice();
+                    try
+                    {
+                        WriteUsb(tx, count+1);
+                        return 0;
+                    }
+                    catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
+                }
+                catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
+            }
+            public /*override*/ int Set_Sweep_on_real(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков,минимум 1]*/, bool OnRepeat)
             {
                 //здесь MHz_start = m_f0 - начальна частота в МГц    
                 //Sweep_range_MHz = m_deltaf - девиация частоты в МГц
@@ -1043,6 +1112,10 @@ namespace LDZ_Code
                     FTDIController.FT_ResetDevice(Own_m_hPort); //ResetDevice();*/
                     try
                     {
+                        FTDIController.FT_ResetDevice(Own_m_hPort); //ResetDevice();
+                        FTDIController.FT_Purge(Own_m_hPort, FTDIController.FT_PURGE_RX | FTDIController.FT_PURGE_TX); // Purge(FT_PURGE_RX || FT_PURGE_TX);
+                        FTDIController.FT_ResetDevice(Own_m_hPort); //ResetDevice();
+
                         WriteUsb(count);
                     }
                     catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
@@ -1051,6 +1124,7 @@ namespace LDZ_Code
                 }
                 catch { return (int)FTDIController.FT_STATUS.FT_OTHER_ERROR; }
             }
+            
             public override int Set_Sweep_off()
             {
                 return Set_Hz(HZ_Current);
@@ -1441,11 +1515,10 @@ namespace LDZ_Code
                 return AO_Devices.FTDIController.WriteUsb(pm_hPort, count_in, pUsbBuf);
             }
 
-            public static int Bit_reverse(int input)
+            public static int Bit_reverse(int input,bool isBitInvNeeded = false)
             {
                 int output = 0;
                 const int uchar_size = 8;
-                bool isBitInvNeeded = false;
                 if (isBitInvNeeded)
                 {
                     for (int i = 0; i != uchar_size; ++i)
