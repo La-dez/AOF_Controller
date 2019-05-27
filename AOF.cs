@@ -1057,7 +1057,7 @@ namespace LDZ_Code
                     {
                         tx[i] = 0;
                     }
-                    for (j = 1; j <= 6; j++)
+                    for (j = 1; j <= 4; j++)
                     {
                         //timer calculations
                         ivspom = (uint)(65536 - freqMCU / (2 * 2 * inp_freq));
@@ -1065,7 +1065,7 @@ namespace LDZ_Code
                         tx[count] = (byte)(ivspom); count++;                    //timer calculations and bytes
                         for (i = 0; i < 20; i++)
                         {
-                            freq = (float)((60 +10*j) * 1e6 + i * 2e5); //in Hz
+                            freq = (float)((60 +15*j) * 1e6 + i * 2e5); //in Hz
                             lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 350e6));
                             MSB = (short)(0x0000ffFF & (lvspom >> 16));
                             LSB = (short)lvspom;
