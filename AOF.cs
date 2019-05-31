@@ -187,6 +187,9 @@ namespace LDZ_Code
 
             protected override bool sAO_ProgrammMode_Ready { set; get; }
 
+            public bool Bit_inverse_needed { get { return sBit_inverse_needed; } }
+            private bool sBit_inverse_needed = false;
+
             public Emulator()
             {
                 sAO_ProgrammMode_Ready = false;
@@ -241,7 +244,9 @@ namespace LDZ_Code
                 try
                 {
                     var Data_from_dev = ServiceFunctions.Files.Read_txt(path);
-                     FilterCfgPath = path;
+                    sBit_inverse_needed = Data_from_dev[0].Contains("true") ? true : false;
+                    if (Data_from_dev[0].Contains("true") || Data_from_dev[0].Contains("false")) Data_from_dev.RemoveAt(0);
+                    FilterCfgPath = path;
                     FilterCfgName = System.IO.Path.GetFileName(path);
                     float[] pWLs, pHZs, pCoefs;
                     ServiceFunctions.Files.Get_WLData_byKnownCountofNumbers(3, Data_from_dev.ToArray(), out pWLs, out pHZs, out pCoefs);
@@ -525,7 +530,8 @@ namespace LDZ_Code
             private byte[] Own_ProgrammBuf;
             private UInt32 Own_dwListDescFlags = 0;
             private UInt32 Own_m_hPort = 0;
-            
+            public bool Bit_inverse_needed { get { return sBit_inverse_needed; } }
+            private bool sBit_inverse_needed = false;
             public STC_Filter(string Descriptor,uint number,FT_HANDLE ListFlag)
             {
                 Own_dwListDescFlags = ListFlag;
@@ -624,9 +630,15 @@ namespace LDZ_Code
                 int i_max = pAO_All_CurveSweep_Params.GetLength(0);
                 float[,] Mass_of_params = new float[i_max, 7];
                 int i = 0;
-                byte[] Start_mass = new byte[4] { (byte)FTDIController.Bit_reverse(0x14), (byte)FTDIController.Bit_reverse(0x11), (byte)FTDIController.Bit_reverse(0x12), (byte)FTDIController.Bit_reverse(0xff) };
+                byte[] Start_mass = new byte[4] {
+                    (byte)FTDIController.Bit_reverse(0x14, Bit_inverse_needed),
+                    (byte)FTDIController.Bit_reverse(0x11, Bit_inverse_needed),
+                    (byte)FTDIController.Bit_reverse(0x12, Bit_inverse_needed),
+                    (byte)FTDIController.Bit_reverse(0xff, Bit_inverse_needed) };
                 byte[] Separ_mass = new byte[3] { 0x13, 0x13, 0x13 };
-                byte[] Finish_mass = new byte[3] { (byte)FTDIController.Bit_reverse(0x15), (byte)FTDIController.Bit_reverse(0x15), (byte)FTDIController.Bit_reverse(0x15) };
+                byte[] Finish_mass = new byte[3] {  (byte)FTDIController.Bit_reverse(0x15, Bit_inverse_needed),
+                                                    (byte)FTDIController.Bit_reverse(0x15, Bit_inverse_needed),
+                                                    (byte)FTDIController.Bit_reverse(0x15, Bit_inverse_needed) };
                 for (i = 0; i < i_max; i++)
                 {
                     Mass_of_params[i, 0] = pAO_All_CurveSweep_Params[i, 0]; //ДВ (для отображения)
@@ -764,7 +776,7 @@ namespace LDZ_Code
                 //
                 for (i = 0; i < total_count; i++)
                 {
-                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i]);
+                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i], Bit_inverse_needed);
                 }
                 return data_Own_UsbBuf;
             }
@@ -830,7 +842,7 @@ namespace LDZ_Code
                 //
                 for (i = 0; i < total_count; i++)
                 {
-                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i]);
+                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i], Bit_inverse_needed);
                 }
                 return data_Own_UsbBuf;
             }
@@ -900,7 +912,7 @@ namespace LDZ_Code
                 //
                 for (i = 0; i < total_count; i++)
                 {
-                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i]);
+                    data_Own_UsbBuf[i] = (byte)FTDIController.Bit_reverse(data_Own_UsbBuf[i], Bit_inverse_needed);
                 }
                 return data_Own_UsbBuf;
             }
@@ -942,7 +954,7 @@ namespace LDZ_Code
                  
                 for (int i = 0; i < b2w; i++)
                 {
-                    data_Own_UsbBuf[i] = (byte)AO_Devices.FTDIController.Bit_reverse(data_Own_UsbBuf[i]);
+                    data_Own_UsbBuf[i] = (byte)AO_Devices.FTDIController.Bit_reverse(data_Own_UsbBuf[i], Bit_inverse_needed);
                 }
                 return data_Own_UsbBuf;
             }
@@ -982,7 +994,7 @@ namespace LDZ_Code
 
                 int total_count = pcount + 1 + 4 * steps + 3;
                 byte[] data_Own_UsbBuf = new byte[total_count];
-                bool isInverse_needed = false;
+                bool isInverse_needed = Bit_inverse_needed;
                 byte[] Start_mass = new byte[4] { (byte)FTDIController.Bit_reverse(0x14,isInverse_needed), (byte)FTDIController.Bit_reverse(0x11,isInverse_needed),
                     (byte)FTDIController.Bit_reverse(0x12,isInverse_needed), (byte)FTDIController.Bit_reverse(0xff,isInverse_needed) };
                 byte[] Finish_mass = new byte[3] { (byte)FTDIController.Bit_reverse(0x15,isInverse_needed), (byte)FTDIController.Bit_reverse(0x15,isInverse_needed),
@@ -1271,7 +1283,7 @@ namespace LDZ_Code
                     Own_UsbBuf[0] = 0x05; //it means, we will send off command
                     
                     for (int i = 1; i < 2; i++) Own_UsbBuf[i] = 0;
-                    Own_UsbBuf[0] = (byte)FTDIController.Bit_reverse(Own_UsbBuf[0]);
+                    Own_UsbBuf[0] = (byte)FTDIController.Bit_reverse(Own_UsbBuf[0], Bit_inverse_needed);
                     try { WriteUsb(1); }
                     catch { return (int)FTDIController.FT_STATUS.FT_IO_ERROR; }
                 }
@@ -1284,6 +1296,8 @@ namespace LDZ_Code
                 try
                 {
                     var Data_from_dev = ServiceFunctions.Files.Read_txt(path);
+                    sBit_inverse_needed = Data_from_dev[0].Contains("true")? true : false;
+                    if (Data_from_dev[0].Contains("true") || Data_from_dev[0].Contains("false")) Data_from_dev.RemoveAt(0);
                     FilterCfgPath = path;
                     FilterCfgName = System.IO.Path.GetFileName(path);
                     float[] pWLs, pHZs, pCoefs;

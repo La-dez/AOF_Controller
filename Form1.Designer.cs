@@ -556,7 +556,7 @@
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 3, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 3, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_FreqDeviation, 2, 0);
@@ -579,9 +579,9 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(372, 13);
+            this.label9.Location = new System.Drawing.Point(368, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(93, 13);
+            this.label9.Size = new System.Drawing.Size(97, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -590,10 +590,10 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(373, 53);
+            this.label10.Location = new System.Drawing.Point(369, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(92, 13);
+            this.label10.Size = new System.Drawing.Size(96, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "мс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -602,7 +602,7 @@
             // 
             this.NUD_FreqDeviation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FreqDeviation.DecimalPlaces = 3;
-            this.NUD_FreqDeviation.Location = new System.Drawing.Point(122, 10);
+            this.NUD_FreqDeviation.Location = new System.Drawing.Point(121, 10);
             this.NUD_FreqDeviation.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_FreqDeviation.Maximum = new decimal(new int[] {
             5,
@@ -615,7 +615,7 @@
             0,
             65536});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(247, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(244, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.Value = new decimal(new int[] {
             5,
@@ -628,7 +628,7 @@
             // 
             this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(122, 50);
+            this.NUD_TimeFdev.Location = new System.Drawing.Point(121, 50);
             this.NUD_TimeFdev.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_TimeFdev.Maximum = new decimal(new int[] {
             40,
@@ -641,7 +641,7 @@
             0,
             0});
             this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(247, 20);
+            this.NUD_TimeFdev.Size = new System.Drawing.Size(244, 20);
             this.NUD_TimeFdev.TabIndex = 2;
             this.NUD_TimeFdev.Value = new decimal(new int[] {
             5,
@@ -654,7 +654,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(95, 13);
+            this.label8.Location = new System.Drawing.Point(94, 13);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 13);
             this.label8.TabIndex = 1;
@@ -677,7 +677,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 7);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 26);
+            this.label6.Size = new System.Drawing.Size(85, 26);
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
             // 
@@ -772,6 +772,7 @@
             0,
             0,
             0});
+            this.NUD_PowerDecrement.ValueChanged += new System.EventHandler(this.NUD_PowerDecrement_ValueChanged);
             // 
             // LBConsole
             // 

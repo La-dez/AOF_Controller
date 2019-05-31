@@ -140,6 +140,14 @@ namespace AOF_Controller
                         Log.Message(AO_DEV_loaded_fullPath + " - файл считан успешно!");
                     else
                         throw new Exception(Filter.Implement_Error(Status));
+                    if (Filter.FilterType == FilterTypes.STC_Filter)
+                    {
+                        Log.Message("Бит инверсия (считана из файла): " + (Filter as STC_Filter).Bit_inverse_needed.ToString().ToLower());
+                    }
+                    else if ((Filter.FilterType == FilterTypes.Emulator))
+                    {
+                        Log.Message("Бит инверсия (считана из файла): " + (Filter as Emulator).Bit_inverse_needed.ToString().ToLower());
+                    }
                 }
                 catch (Exception exc)
                 {
@@ -182,6 +190,7 @@ namespace AOF_Controller
                     if (state == 0)
                     {
                         Log.Message("Активация АОФ успешна!");
+                       
                         GB_AllAOFControls.Enabled = true;
                     }
                     else throw new Exception(Filter.Implement_Error(state));
@@ -509,6 +518,11 @@ namespace AOF_Controller
                 Admin_mode = !Admin_mode;
                     TLP_STCspecial_Fun.Visible = Admin_mode && ((Filter.FilterType == FilterTypes.STC_Filter)||(Filter.FilterType == FilterTypes.Emulator));
             }
+        }
+
+        private void NUD_PowerDecrement_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
