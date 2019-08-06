@@ -41,8 +41,6 @@ namespace AOF_Controller
 
         string AO_ProgramSweepCFG_filename = Application.StartupPath + "\\AOData.txt";
 
-       
-        string version = "1.71";
         public Form1()
         {
             InitializeComponent();
@@ -50,7 +48,10 @@ namespace AOF_Controller
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.Text = "AOF Controller " + version;
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Text = "AOF Controller v" + " " + version.Major + "." + version.Minor + " (build " + (version.Build + version.Revision) + ")"; //change form title
+            
+           // this.Text =  + version;
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
