@@ -42,7 +42,7 @@ namespace AOF_Controller
         string AO_ProgramSweepCFG_filename = Application.StartupPath + "\\AOData.txt";
 
        
-        string version = "1.7";
+        string version = "1.71";
         public Form1()
         {
             InitializeComponent();
@@ -50,7 +50,7 @@ namespace AOF_Controller
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.Text = "Перестраиваемый источник " + version;
+            this.Text = "AOF Controller " + version;
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");

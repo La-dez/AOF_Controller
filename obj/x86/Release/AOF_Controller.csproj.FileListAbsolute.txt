@@ -48,13 +48,13 @@ D:\Работа\Разработки\Спектрометры\АО\Новые А
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.Cache
-D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Release\favicon_stc.ico
-D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF_Controller.csprojResolveAssemblyReference.cache
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF_Controller.Form1.resources
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.Cache
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Release\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Release\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF Controller.pdb
