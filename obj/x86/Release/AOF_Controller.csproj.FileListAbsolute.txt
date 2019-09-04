@@ -58,3 +58,38 @@ D:\Работа\Программы (мои разработки)\Спектро�
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\bin\x86\Release\AOF Controller.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF Controller.exe
 D:\Работа\Программы (мои разработки)\Спектрометры\Новые АО - подключение\Программа - контроллер для нового АО\AOF_Controller\obj\x86\Release\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\obj\x86\Release\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\obj\x86\Release\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\bin\x86\Release\favicon_stc.ico
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\bin\x86\Release\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\bin\x86\Release\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\obj\x86\Release\AOF_Controller.csprojResolveAssemblyReference.cache
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\obj\x86\Release\AOF_Controller.Form1.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.Cache
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\bin\x86\Release\AO_Lib.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\bin\x86\Release\AO_Lib.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\Release_x86\favicon_stc.ico
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\Release_x86\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\Release_x86\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\Release_x86\AO_Lib.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Controller\Release_x86\AO_Lib.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\Release_x86\favicon_stc.ico
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\Release_x86\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\Release_x86\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Release_x86\favicon_stc.ico
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Release_x86\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\AO_comb_3\AOF_Release_x86\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\obj\x86\Release\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\obj\x86\Release\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\favicon_stc.ico
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\AOF Controller.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\AOF Controller.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\AO_Lib.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\AO_Lib.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.csprojResolveAssemblyReference.cache
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.Form1.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.Cache

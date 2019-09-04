@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using LDZ_Code;
 
-using static LDZ_Code.AO_Devices;
+using static AO_Lib.AO_Devices;
 using static LDZ_Code.ServiceFunctions;
 
 namespace AOF_Controller
@@ -55,7 +55,7 @@ namespace AOF_Controller
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
-            Filter = LDZ_Code.AO_Devices.Find_and_connect_AnyFilter();
+            Filter = AO_Lib.AO_Devices.AO_Filter.Find_and_connect_AnyFilter();
             if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
 

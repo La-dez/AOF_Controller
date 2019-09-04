@@ -27,12 +27,12 @@ namespace AOF_Controller
         bool W_isCurveEnabled = false;
         int Num_of_Vars = 7;
 
-        LDZ_Code.AO_Devices.AO_Filter W_Filter;
+        AO_Lib.AO_Devices.AO_Filter W_Filter;
        // SaveToMain_del SaveToMain;
         Action<float[,], bool> SaveToMain;
         Action<W_AO_SweepTuneCurve> QuitToMain;
 
-        public W_AO_SweepTuneCurve(float[,] loaded_mass,LDZ_Code.AO_Devices.AO_Filter pFilter,bool pAO_Sweep_CurveTuning_isEnabled,
+        public W_AO_SweepTuneCurve(float[,] loaded_mass, AO_Lib.AO_Devices.AO_Filter pFilter,bool pAO_Sweep_CurveTuning_isEnabled,
             Action<float[,], bool> DelForSave, Action<W_AO_SweepTuneCurve> DelForQuit)
         {
             InitializeComponent();
