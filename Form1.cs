@@ -62,9 +62,150 @@ namespace AOF_Controller
             ChB_Power.Enabled = false;
             GB_AllAOFControls.Enabled = false;
             TSMI_CreateCurve.Enabled = false;
-
+            Test_datacalc();
             ReadData();
             //tests();
+        }
+        private void Test_datacalc()
+        {
+            //Testing of some new functions
+            //Sweep_usual
+            {
+                double Ramp_min = 11.42; //ns
+                double Ramp_max = Ramp_min * 256; //ns, =2.923 mcrs
+                double Ramp_up_selected = 100; //ns
+                double Ramp_down_selected = 50; //ns
+                //user
+                double Time_for_oneSweep = 10;//mcrs
+                double f1 = 70; // MHz
+                double f2 = 75; //MHz
+
+                int mode = 0;   //0 -  f1-f2, after we will stop on f2
+                                //1 -  f1-f2, after we will turn back to f1 at once
+                                //2 -  f1-f2,after we will go back from f2 to f1 smoothly 
+
+
+                int N_up = (int)(Time_for_oneSweep * 1000 / Ramp_up_selected);
+                int N_down = (int)(Time_for_oneSweep * 1000 / Ramp_down_selected);
+                double f_delta_up = (f2 - f1) * 1000 / (double)N_up; // KHz
+                double f_delta_down = (f2 - f1) * 1000 / (double)N_down; // KHz
+
+                byte[] ByteMass = new byte[1 + 4 + 4 + 4 + 4 + 1 + 1];
+                ByteMass[0] = 0;//command here, according to mode
+
+                ByteMass[1] = 0; //f1 bytes
+                ByteMass[2] = 0;
+                ByteMass[3] = 0;
+                ByteMass[4] = 0;
+
+                ByteMass[5] = 0; //f2 bytes
+                ByteMass[6] = 0;
+                ByteMass[7] = 0;
+                ByteMass[8] = 0;
+
+                ByteMass[9] = 0; //f_delta_up bytes
+                ByteMass[10] = 0;
+                ByteMass[11] = 0;
+                ByteMass[12] = 0;
+
+                ByteMass[13] = 0; //f_delta_down bytes
+                ByteMass[14] = 0;
+                ByteMass[15] = 0;
+                ByteMass[16] = 0;
+
+                ByteMass[17] = (byte)(Ramp_up_selected/ N_up); //RampUp Byte
+                ByteMass[17] = (byte)(Ramp_down_selected / N_down); //RampUp Byte
+                
+            }
+
+            //sweep programmed
+            {
+                int Number_of_ranges = 5;
+                double Ramp_min = 11.42; //ns
+                double Ramp_max = Ramp_min * 2e16; //ns, =2.923 mcrs
+                double Ramp_selected = 100; //ns
+                double Time_all_max_ns = Ramp_max * (Number_of_ranges < 5 ? 800:1000); // ns //2.923 ms
+                double Time_all_max_ms = Time_all_max_ns / 10e6; // ns //2.923 ms
+
+                double f_delta = 0.05;//MHz
+                //user defined
+                double[] Time_for_oneSweep = new double[5] { 0.4, 0.8, 0.7, 0.5, 0.1};//ms
+                double[] f_N = new double[6] { 65, 70, 65, 75, 65, 75 };//MHz
+
+             
+                double f_total_lenght = 0;
+                for (int i = 0; i < Number_of_ranges; i++)
+                {
+                    f_total_lenght+= System.Math.Abs(f_N[i + 1] - f_N[i]); 
+                }
+                int N_total = (int)(f_total_lenght / f_delta);
+
+                //proportional decreasing of increasing depending on total latencity
+                double SummaryTime = Time_for_oneSweep.Sum();
+                if (SummaryTime * 10e6 > N_total*Ramp_max)
+                {
+                    Log.Message("Sum of times is more than " + Time_all_max_ms.ToString() + ". Do you want decrease it proportionnally?");
+                    bool DecProp = false; //depend on user.
+                    if (DecProp)
+                    {
+                        double coef = Time_all_max_ms / SummaryTime;
+                        for (int i = 0; i < Number_of_ranges; i++) { Time_for_oneSweep[i] *= coef; }
+                    }
+                    else return;
+                }
+                else if (SummaryTime * 10e6 < N_total * Ramp_min)
+                { 
+                    Log.Message("Sum of times is more than " + Time_all_max_ms.ToString() + ". Do you want decrease it proportionnally?");
+                    bool DecProp = false; //depend on user
+                    if (DecProp)
+                    {
+                        double coef = N_total * Ramp_min / SummaryTime;
+                        for (int i = 0; i < 5; i++) { Time_for_oneSweep[i] *= coef; }
+                    }
+                    else return;
+                }
+
+                if(Number_of_ranges<5) //Ramp is not fixed, number of ranges < 5
+                {
+                    int[] Num_of_memblocks_for_range = new int[Number_of_ranges];
+                    double[] Ramps_selected = new double[Number_of_ranges];
+                    for (int i = 0; i < Number_of_ranges; i++) // calculating of exact numbers of memory blocks for each range
+                    {
+                        Num_of_memblocks_for_range[i] = (int)(System.Math.Abs(f_N[i + 1] - f_N[i]) / f_delta);
+                        double Ramp_nearest = Time_for_oneSweep[i] * 10e6 /  Num_of_memblocks_for_range[i]; //nearest ramp
+                        int data = (int)(Ramp_nearest / Ramp_min); //exact ramp multiplier
+                        Ramps_selected[i] = Ramp_min * (data < 1 ? 1 : data); //exact ramp
+                    }
+                }
+                else //Ramp is fixed, number of ranges >=5
+                {
+                    //it was bad idea, because firstly, we'll recalculate number of step, and secondly, we can get more than 200 blocks per range
+                    
+                    /* double Ramp_nearest = SummaryTime * 10e6 / N_total; //nearest ramp
+                     int data = (int)(Ramp_nearest / Ramp_min); //exact ramp multiplier
+                     Ramp_selected = Ramp_min * (data<1? 1:data); //exact ramp*/
+                   
+                    //so, I've found another solution
+                    double Ramp_nearest = Time_for_oneSweep.Max() * 10e6 / 200; //nearest ramp
+                    int data = (int)(Ramp_nearest / Ramp_min); //exact ramp multiplier
+                    Ramp_selected = Ramp_min * data;
+                    if((int)(Time_for_oneSweep.Max() * 10e6 / Ramp_selected)>200) { Ramp_selected = Ramp_min * (data + 1); } //little check, idk if we really need it
+
+                    int[] Num_of_memblocks_for_range = new int[Number_of_ranges];
+                    for(int i =0;i< Number_of_ranges;i++) // calculating of exact numbers of memory blocks for each range
+                    {
+                        Num_of_memblocks_for_range[i] = (int)(Time_for_oneSweep[i] * 10e6 / Ramp_selected);
+                    }
+                    double[] f_delta_exact = new double[Number_of_ranges];
+                    for (int i = 0; i < Number_of_ranges; i++) // recalculating of exact f-delta for each range
+                    {
+                        f_delta_exact[i] = (f_N[i + 1] - f_N[i]) / (double)Num_of_memblocks_for_range[i]; //MHz
+                    }
+
+                }
+                //selecting of ramps, if ramps factors are different
+
+            }
         }
         private void ReadData()
         {
