@@ -122,10 +122,10 @@ namespace AOF_Controller
             {
                 int Number_of_ranges = 5;
                 double Ramp_min = 11.42; //ns
-                double Ramp_max = Ramp_min * 2e16; //ns, =2.923 mcrs
+                double Ramp_max = Ramp_min * 65536; //ns, =2.923 mcrs
                 double Ramp_selected = 100; //ns
-                double Time_all_max_ns = Ramp_max * (Number_of_ranges < 5 ? 800:1000); // ns //2.923 ms
-                double Time_all_max_ms = Time_all_max_ns / 10e6; // ns //2.923 ms
+                double Time_all_max_ns = Ramp_max * (Number_of_ranges < 5 ? 800:1000); // ns /
+                double Time_all_max_ms = Time_all_max_ns / 10e6; //59,87 ms
 
                 double f_delta = 0.05;//MHz
                 //user defined
