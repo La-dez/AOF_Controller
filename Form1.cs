@@ -666,6 +666,13 @@ namespace AOF_Controller
         {
 
         }
+
+        private void B_SetSweep_Click(object sender, EventArgs e)
+        {
+            PointF Sweep_Params = Filter.Sweep_Recalculate_borders((float)NUD_CurMHz.Value, (float)NUD_FreqDeviation.Value);
+            //if(Filter.FilterType==FilterTypes.STC_Filter)
+            Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev.Value, true);
+        }
     }
 }
 

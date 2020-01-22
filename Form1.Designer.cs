@@ -76,6 +76,7 @@
             this.B_setHZSpecialSTC = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.NUD_PowerDecrement = new System.Windows.Forms.NumericUpDown();
+            this.ChB_Remember_AT = new System.Windows.Forms.CheckBox();
             this.LBConsole = new System.Windows.Forms.ListBox();
             this.B_Quit = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -83,7 +84,7 @@
             this.TSMI_CreateCurve = new System.Windows.Forms.ToolStripMenuItem();
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
-            this.ChB_Remember_AT = new System.Windows.Forms.CheckBox();
+            this.B_SetSweep = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -553,11 +554,12 @@
             // 
             // TLP_Sweep_EasyMode
             // 
-            this.TLP_Sweep_EasyMode.ColumnCount = 4;
+            this.TLP_Sweep_EasyMode.ColumnCount = 5;
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 3, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 3, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_FreqDeviation, 2, 0);
@@ -565,6 +567,7 @@
             this.TLP_Sweep_EasyMode.Controls.Add(this.label8, 1, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label7, 0, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label6, 0, 0);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.B_SetSweep, 4, 0);
             this.TLP_Sweep_EasyMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Sweep_EasyMode.Location = new System.Drawing.Point(0, 30);
             this.TLP_Sweep_EasyMode.Margin = new System.Windows.Forms.Padding(0);
@@ -580,9 +583,9 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(363, 13);
+            this.label9.Location = new System.Drawing.Point(360, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(102, 13);
+            this.label9.Size = new System.Drawing.Size(44, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -591,32 +594,32 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(364, 53);
+            this.label10.Location = new System.Drawing.Point(361, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(101, 13);
+            this.label10.Size = new System.Drawing.Size(43, 13);
             this.label10.TabIndex = 2;
-            this.label10.Text = "мс";
+            this.label10.Text = "мкс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NUD_FreqDeviation
             // 
             this.NUD_FreqDeviation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FreqDeviation.DecimalPlaces = 3;
-            this.NUD_FreqDeviation.Location = new System.Drawing.Point(120, 10);
+            this.NUD_FreqDeviation.Location = new System.Drawing.Point(119, 10);
             this.NUD_FreqDeviation.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_FreqDeviation.Maximum = new decimal(new int[] {
-            5,
+            25,
             0,
             0,
-            0});
+            65536});
             this.NUD_FreqDeviation.Minimum = new decimal(new int[] {
             5,
             0,
             0,
             65536});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(240, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(238, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.Value = new decimal(new int[] {
             5,
@@ -629,20 +632,20 @@
             // 
             this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(120, 50);
+            this.NUD_TimeFdev.Location = new System.Drawing.Point(119, 50);
             this.NUD_TimeFdev.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_TimeFdev.Maximum = new decimal(new int[] {
-            40,
+            74842,
             0,
             0,
-            0});
+            131072});
             this.NUD_TimeFdev.Minimum = new decimal(new int[] {
-            5,
+            571,
             0,
             0,
-            0});
+            196608});
             this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(240, 20);
+            this.NUD_TimeFdev.Size = new System.Drawing.Size(238, 20);
             this.NUD_TimeFdev.TabIndex = 2;
             this.NUD_TimeFdev.Value = new decimal(new int[] {
             5,
@@ -655,9 +658,9 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(93, 13);
+            this.label8.Location = new System.Drawing.Point(102, 13);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(24, 13);
+            this.label8.Size = new System.Drawing.Size(14, 13);
             this.label8.TabIndex = 1;
             this.label8.Text = "±";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -678,7 +681,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 7);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(84, 26);
+            this.label6.Size = new System.Drawing.Size(93, 26);
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
             // 
@@ -778,6 +781,16 @@
             0});
             this.NUD_PowerDecrement.ValueChanged += new System.EventHandler(this.NUD_PowerDecrement_ValueChanged);
             // 
+            // ChB_Remember_AT
+            // 
+            this.ChB_Remember_AT.AutoSize = true;
+            this.ChB_Remember_AT.Location = new System.Drawing.Point(190, 28);
+            this.ChB_Remember_AT.Name = "ChB_Remember_AT";
+            this.ChB_Remember_AT.Size = new System.Drawing.Size(165, 17);
+            this.ChB_Remember_AT.TabIndex = 7;
+            this.ChB_Remember_AT.Text = "Запомнить для всех частот";
+            this.ChB_Remember_AT.UseVisualStyleBackColor = true;
+            // 
             // LBConsole
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.LBConsole, 3);
@@ -838,15 +851,16 @@
             this.Timer_sweepChecker.Interval = 50;
             this.Timer_sweepChecker.Tick += new System.EventHandler(this.Timer_sweepChecker_Tick);
             // 
-            // ChB_Remember_AT
+            // B_SetSweep
             // 
-            this.ChB_Remember_AT.AutoSize = true;
-            this.ChB_Remember_AT.Location = new System.Drawing.Point(190, 28);
-            this.ChB_Remember_AT.Name = "ChB_Remember_AT";
-            this.ChB_Remember_AT.Size = new System.Drawing.Size(165, 17);
-            this.ChB_Remember_AT.TabIndex = 7;
-            this.ChB_Remember_AT.Text = "Запомнить для всех частот";
-            this.ChB_Remember_AT.UseVisualStyleBackColor = true;
+            this.B_SetSweep.Location = new System.Drawing.Point(410, 3);
+            this.B_SetSweep.Name = "B_SetSweep";
+            this.TLP_Sweep_EasyMode.SetRowSpan(this.B_SetSweep, 2);
+            this.B_SetSweep.Size = new System.Drawing.Size(55, 74);
+            this.B_SetSweep.TabIndex = 3;
+            this.B_SetSweep.Text = "Set Sweep";
+            this.B_SetSweep.UseVisualStyleBackColor = true;
+            this.B_SetSweep.Click += new System.EventHandler(this.B_SetSweep_Click);
             // 
             // Form1
             // 
@@ -955,6 +969,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown NUD_PowerDecrement;
         private System.Windows.Forms.CheckBox ChB_Remember_AT;
+        private System.Windows.Forms.Button B_SetSweep;
     }
 }
 

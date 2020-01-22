@@ -140,10 +140,10 @@ namespace AOF_Controller
                 NUD_FreqDeviation.Minimum = (decimal)(Filter.AO_FreqDeviation_Min);
 
                 var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
-                NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
+              /*  NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
                 NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
 
-                NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
+                NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;*/
                 NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
 
                 ChB_Power.Enabled = true;
