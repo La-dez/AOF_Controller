@@ -122,6 +122,7 @@ namespace AOF_Controller
                 float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
                 Filter.Set_Wl(data_CurWL);
 
+
                 NUD_CurWL.Minimum = (decimal)Filter.WL_Min;
                 TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
                 NUD_CurWL.Maximum = (decimal)Filter.WL_Max;
@@ -129,15 +130,13 @@ namespace AOF_Controller
                 NUD_CurWL.Value = (decimal)data_CurWL;
                 TrB_CurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
 
+
                 ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
-
-                var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
-              /*  NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
-                NUD_FreqDeviation.Maximum = (decimal)
-                    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);*/
+                var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; 
                 NUD_FreqDeviation.Maximum = (decimal)(Filter.AO_FreqDeviation_Max);
                 NUD_FreqDeviation.Minimum = (decimal)(Filter.AO_FreqDeviation_Min);
+
 
                 var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
               /*  NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
@@ -148,13 +147,13 @@ namespace AOF_Controller
 
                 ChB_Power.Enabled = true;
                 TSMI_CreateCurve.Enabled = true;
-
-                TRB_SoundFreq.Value = (int)(Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2)*AO_HZ_precision);
-                NUD_CurMHz.Value = (decimal)Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2);
+ 
                 TRB_SoundFreq.Minimum = (int)(Filter.HZ_Min*1000);
                 NUD_CurMHz.Minimum = (decimal)Filter.HZ_Min;
                 TRB_SoundFreq.Maximum = (int)(Filter.HZ_Max*1000);
                 NUD_CurMHz.Maximum = (decimal)Filter.HZ_Max;
+                TRB_SoundFreq.Value = (int)(Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2) * AO_HZ_precision);
+                NUD_CurMHz.Value = (decimal)Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2);
 
                 Log.Message("Инициализация элементов управления прошла успешно!");
             }

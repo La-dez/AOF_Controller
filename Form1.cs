@@ -50,8 +50,7 @@ namespace AOF_Controller
         {
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Text = "AOF Controller v" + " " + version.Major + "." + version.Minor + " (build " + (version.Build + version.Revision) + ")"; //change form title
-            
-           // this.Text =  + version;
+            // this.Text =  + version;
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
@@ -64,6 +63,8 @@ namespace AOF_Controller
             TSMI_CreateCurve.Enabled = false;
             Test_datacalc();
             ReadData();
+
+            
             //tests();
         }
         private void Test_datacalc()
@@ -282,6 +283,7 @@ namespace AOF_Controller
                         Log.Message(AO_DEV_loaded_fullPath + " - файл считан успешно!");
                     else
                         throw new Exception(Filter.Implement_Error(Status));
+
                     if (Filter.FilterType == FilterTypes.STC_Filter)
                     {
                         Log.Message("Бит инверсия (считана из файла): " + (Filter as STC_Filter).Bit_inverse_needed.ToString().ToLower());
@@ -290,6 +292,7 @@ namespace AOF_Controller
                     {
                         Log.Message("Бит инверсия (считана из файла): " + (Filter as Emulator).Bit_inverse_needed.ToString().ToLower());
                     }
+
                 }
                 catch (Exception exc)
                 {

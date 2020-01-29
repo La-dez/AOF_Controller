@@ -70,6 +70,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.B_SetSweep = new System.Windows.Forms.Button();
             this.TLP_Sweep_ProgramMode = new System.Windows.Forms.TableLayoutPanel();
             this.ChB_ProgrammSweep_toogler = new System.Windows.Forms.CheckBox();
             this.TLP_STCspecial_Fun = new System.Windows.Forms.TableLayoutPanel();
@@ -84,7 +85,6 @@
             this.TSMI_CreateCurve = new System.Windows.Forms.ToolStripMenuItem();
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
-            this.B_SetSweep = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -289,8 +289,7 @@
             // 
             this.TRB_SoundFreq.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TRB_SoundFreq.Location = new System.Drawing.Point(3, 3);
-            this.TRB_SoundFreq.Maximum = 150000;
-            this.TRB_SoundFreq.Minimum = 20000;
+            this.TRB_SoundFreq.Maximum = 200000;
             this.TRB_SoundFreq.Name = "TRB_SoundFreq";
             this.TRB_SoundFreq.Size = new System.Drawing.Size(876, 24);
             this.TRB_SoundFreq.TabIndex = 35;
@@ -391,6 +390,11 @@
             this.NUD_CurMHz.DecimalPlaces = 3;
             this.NUD_CurMHz.Location = new System.Drawing.Point(253, 20);
             this.NUD_CurMHz.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_CurMHz.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             this.NUD_CurMHz.Name = "NUD_CurMHz";
             this.NUD_CurMHz.Size = new System.Drawing.Size(113, 20);
             this.NUD_CurMHz.TabIndex = 84;
@@ -403,7 +407,7 @@
             this.NUD_CurWL.Location = new System.Drawing.Point(100, 20);
             this.NUD_CurWL.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_CurWL.Maximum = new decimal(new int[] {
-            2000,
+            1500,
             0,
             0,
             0});
@@ -464,7 +468,7 @@
             // 
             this.TrB_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TrB_CurrentWL.Location = new System.Drawing.Point(3, 3);
-            this.TrB_CurrentWL.Maximum = 200000;
+            this.TrB_CurrentWL.Maximum = 150000;
             this.TrB_CurrentWL.Name = "TrB_CurrentWL";
             this.TrB_CurrentWL.Size = new System.Drawing.Size(876, 24);
             this.TrB_CurrentWL.TabIndex = 34;
@@ -685,6 +689,17 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
             // 
+            // B_SetSweep
+            // 
+            this.B_SetSweep.Location = new System.Drawing.Point(410, 3);
+            this.B_SetSweep.Name = "B_SetSweep";
+            this.TLP_Sweep_EasyMode.SetRowSpan(this.B_SetSweep, 2);
+            this.B_SetSweep.Size = new System.Drawing.Size(55, 74);
+            this.B_SetSweep.TabIndex = 3;
+            this.B_SetSweep.Text = "Set Sweep";
+            this.B_SetSweep.UseVisualStyleBackColor = true;
+            this.B_SetSweep.Click += new System.EventHandler(this.B_SetSweep_Click);
+            // 
             // TLP_Sweep_ProgramMode
             // 
             this.TLP_Sweep_ProgramMode.ColumnCount = 2;
@@ -850,17 +865,6 @@
             this.Timer_sweepChecker.Enabled = true;
             this.Timer_sweepChecker.Interval = 50;
             this.Timer_sweepChecker.Tick += new System.EventHandler(this.Timer_sweepChecker_Tick);
-            // 
-            // B_SetSweep
-            // 
-            this.B_SetSweep.Location = new System.Drawing.Point(410, 3);
-            this.B_SetSweep.Name = "B_SetSweep";
-            this.TLP_Sweep_EasyMode.SetRowSpan(this.B_SetSweep, 2);
-            this.B_SetSweep.Size = new System.Drawing.Size(55, 74);
-            this.B_SetSweep.TabIndex = 3;
-            this.B_SetSweep.Text = "Set Sweep";
-            this.B_SetSweep.UseVisualStyleBackColor = true;
-            this.B_SetSweep.Click += new System.EventHandler(this.B_SetSweep_Click);
             // 
             // Form1
             // 
