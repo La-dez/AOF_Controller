@@ -49,7 +49,7 @@ namespace AOF_Controller
         private void Form1_Load(object sender, EventArgs e)
         {
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Text = "AOF Controller v" + " " + version.Major + "." + version.Minor + " (build " + (version.Build + version.Revision) + ")"; //change form title
+            Text = "AOF Controller v" + " " + version.Major + "." + 8.ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
             // this.Text =  + version;
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
