@@ -388,6 +388,11 @@
             // 
             this.NUD_CurMHz.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_CurMHz.DecimalPlaces = 3;
+            this.NUD_CurMHz.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this.NUD_CurMHz.Location = new System.Drawing.Point(253, 20);
             this.NUD_CurMHz.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_CurMHz.Maximum = new decimal(new int[] {
