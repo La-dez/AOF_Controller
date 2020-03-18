@@ -49,7 +49,7 @@ namespace AOF_Controller
         private void Form1_Load(object sender, EventArgs e)
         {
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Text = "AOF Controller v" + " " + version.Major + "." + 8.ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
+            Text = "AOF Controller v" + " " + version.Major + "." + (81).ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
             // this.Text =  + version;
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
@@ -675,6 +675,11 @@ namespace AOF_Controller
             PointF Sweep_Params = Filter.Sweep_Recalculate_borders((float)NUD_CurMHz.Value, (float)NUD_FreqDeviation.Value);
             //if(Filter.FilterType==FilterTypes.STC_Filter)
             Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev.Value, true);
+        }
+
+        private void NUD_Incr_CurMHz_ValueChanged(object sender, EventArgs e)
+        {
+            NUD_CurMHz.Increment = NUD_Incr_CurMHz.Value;
         }
     }
 }

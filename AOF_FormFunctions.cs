@@ -207,7 +207,7 @@ namespace AOF_Controller
                     {
                         try
                         {
-                            var state = Filter.Set_Wl(this_WL);
+                            var state = Filter.Set_Hz(this_HZ);
                             if (state != 0) throw new Exception(Filter.Implement_Error(state));
                             Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", this_WL, this_HZ));
                         }
