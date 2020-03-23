@@ -182,11 +182,11 @@ namespace AOF_Controller
                 if (isHZ)
                 {
                     this_HZ = pMHz_or_WL;
-                    this_WL = Filter.Get_WL_via_HZ(pMHz_or_WL);
+                    this_WL = (float)System.Math.Round(Filter.Get_WL_via_HZ(pMHz_or_WL), (int)System.Math.Log10(WLPrecision));
                 }
                 else
                 {
-                    this_HZ = Filter.Get_HZ_via_WL(pMHz_or_WL);
+                    this_HZ = (float)System.Math.Round(Filter.Get_HZ_via_WL(pMHz_or_WL), (int)System.Math.Log10(HZPrecision)); ;
                     this_WL = pMHz_or_WL;
                 }
                 NUD_CurWL.Value = (decimal)this_WL;
