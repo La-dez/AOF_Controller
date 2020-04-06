@@ -49,7 +49,7 @@ namespace AOF_Controller
         private void Form1_Load(object sender, EventArgs e)
         {
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Text = "AOF Controller v" + " " + version.Major + "." + (81).ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
+            Text = "AOF Controller v" + " " + version.Major + "." + (82).ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
             // this.Text =  + version;
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
@@ -57,7 +57,8 @@ namespace AOF_Controller
             Filter = AO_Lib.AO_Devices.AO_Filter.Find_and_connect_AnyFilter();
             if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
-
+            Filter.onSetHz += Filter_onSetHz1;
+            Filter.onSetWl += Filter_onSetWl1;
             ChB_Power.Enabled = false;
             GB_AllAOFControls.Enabled = false;
             TSMI_CreateCurve.Enabled = false;
@@ -67,6 +68,18 @@ namespace AOF_Controller
             
             //tests();
         }
+
+        private void Filter_onSetWl1(AO_Filter sender, float WL_now, float HZ_now)
+        {
+            Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", WL_now, HZ_now));
+        }
+
+        private void Filter_onSetHz1(AO_Filter sender, float WL_now, float HZ_now)
+        {
+            Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", WL_now, HZ_now));
+        }
+
+
         private void Test_datacalc()
         {
             //Testing of some new functions
@@ -680,6 +693,18 @@ namespace AOF_Controller
         private void NUD_Incr_CurMHz_ValueChanged(object sender, EventArgs e)
         {
             NUD_CurMHz.Increment = NUD_Incr_CurMHz.Value;
+        }
+
+        private void ChB_TimeOut_CheckedChanged(object sender, EventArgs e)
+        {
+            NUD_AO_Timeout_Value.Enabled = ChB_TimeOut.Checked;
+            if (ChB_TimeOut.Checked) Filter.InitTimer((int)NUD_AO_Timeout_Value.Value);
+            else Filter.DeinitTimer();
+        }
+
+        private void NUD_AO_Timeout_Value_ValueChanged(object sender, EventArgs e)
+        {
+            if (NUD_AO_Timeout_Value.Enabled) Filter.InitTimer((int)NUD_AO_Timeout_Value.Value);
         }
     }
 }

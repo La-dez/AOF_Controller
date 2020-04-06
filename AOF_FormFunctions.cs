@@ -155,6 +155,11 @@ namespace AOF_Controller
                 TRB_SoundFreq.Value = (int)(Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2) * AO_HZ_precision);
                 NUD_CurMHz.Value = (decimal)Filter.Get_HZ_via_WL((Filter.WL_Max + Filter.WL_Min) / 2);
 
+                NUD_AO_Timeout_Value.Minimum = Filter.MS_delay_min;
+                NUD_AO_Timeout_Value.Maximum = Filter.MS_delay_max;
+                NUD_AO_Timeout_Value.Value = Filter.MS_delay_default;
+                ChB_TimeOut.Checked = true; //by default it is not checked, so the check event would be rised
+                ChB_AutoSetWL.Checked = true;
                 Log.Message("Инициализация элементов управления прошла успешно!");
             }
             catch(Exception exc)
@@ -209,7 +214,7 @@ namespace AOF_Controller
                         {
                             var state = Filter.Set_Hz(this_HZ);
                             if (state != 0) throw new Exception(Filter.Implement_Error(state));
-                            Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", this_WL, this_HZ));
+                           // Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", this_WL, this_HZ));
                         }
                         catch (Exception exc)
                         {
