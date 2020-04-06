@@ -158,7 +158,7 @@ namespace AOF_Controller
                 NUD_AO_Timeout_Value.Minimum = Filter.MS_delay_min;
                 NUD_AO_Timeout_Value.Maximum = Filter.MS_delay_max;
                 NUD_AO_Timeout_Value.Value = Filter.MS_delay_default;
-                ChB_TimeOut.Checked = true; //by default it is not checked, so the check event would be rised
+               // ChB_TimeOut.Checked = true; //by default it is not checked, so the check event would be rised
                 ChB_AutoSetWL.Checked = true;
                 Log.Message("Инициализация элементов управления прошла успешно!");
             }

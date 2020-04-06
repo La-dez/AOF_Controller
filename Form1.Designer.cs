@@ -57,6 +57,10 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.ChB_AutoSetWL = new System.Windows.Forms.CheckBox();
+            this.NUD_AO_Timeout_Value = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.ChB_TimeOut = new System.Windows.Forms.CheckBox();
             this.TLP_WLSlidingControls = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.TrB_CurrentWL = new System.Windows.Forms.TrackBar();
@@ -89,10 +93,6 @@
             this.TSMI_CreateCurve = new System.Windows.Forms.ToolStripMenuItem();
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
-            this.label14 = new System.Windows.Forms.Label();
-            this.NUD_AO_Timeout_Value = new System.Windows.Forms.NumericUpDown();
-            this.label15 = new System.Windows.Forms.Label();
-            this.ChB_TimeOut = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -104,6 +104,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Incr_CurMHz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurMHz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_AO_Timeout_Value)).BeginInit();
             this.TLP_WLSlidingControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_CurrentWL)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
@@ -116,7 +117,6 @@
             this.TLP_STCspecial_Fun.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PowerDecrement)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_AO_Timeout_Value)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -544,6 +544,67 @@
             this.ChB_AutoSetWL.TabIndex = 35;
             this.ChB_AutoSetWL.UseVisualStyleBackColor = true;
             this.ChB_AutoSetWL.CheckedChanged += new System.EventHandler(this.ChBAutoSetWL_CheckedChanged);
+            // 
+            // NUD_AO_Timeout_Value
+            // 
+            this.NUD_AO_Timeout_Value.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_AO_Timeout_Value.Enabled = false;
+            this.NUD_AO_Timeout_Value.Location = new System.Drawing.Point(808, 60);
+            this.NUD_AO_Timeout_Value.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_AO_Timeout_Value.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.NUD_AO_Timeout_Value.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_AO_Timeout_Value.Name = "NUD_AO_Timeout_Value";
+            this.NUD_AO_Timeout_Value.Size = new System.Drawing.Size(146, 26);
+            this.NUD_AO_Timeout_Value.TabIndex = 91;
+            this.NUD_AO_Timeout_Value.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_AO_Timeout_Value.ValueChanged += new System.EventHandler(this.NUD_AO_Timeout_Value_ValueChanged);
+            // 
+            // label15
+            // 
+            this.label15.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(970, 63);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(28, 20);
+            this.label15.TabIndex = 92;
+            this.label15.Text = "мс";
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label14.AutoSize = true;
+            this.TLP_SetControls.SetColumnSpan(this.label14, 2);
+            this.label14.Location = new System.Drawing.Point(772, 17);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(178, 20);
+            this.label14.TabIndex = 90;
+            this.label14.Text = "Таймаут перестройки";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ChB_TimeOut
+            // 
+            this.ChB_TimeOut.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ChB_TimeOut.AutoSize = true;
+            this.ChB_TimeOut.Location = new System.Drawing.Point(777, 62);
+            this.ChB_TimeOut.Name = "ChB_TimeOut";
+            this.ChB_TimeOut.Size = new System.Drawing.Size(22, 21);
+            this.ChB_TimeOut.TabIndex = 93;
+            this.ChB_TimeOut.UseVisualStyleBackColor = true;
+            this.ChB_TimeOut.CheckedChanged += new System.EventHandler(this.ChB_TimeOut_CheckedChanged);
             // 
             // TLP_WLSlidingControls
             // 
@@ -992,67 +1053,6 @@
             this.Timer_sweepChecker.Interval = 50;
             this.Timer_sweepChecker.Tick += new System.EventHandler(this.Timer_sweepChecker_Tick);
             // 
-            // label14
-            // 
-            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label14.AutoSize = true;
-            this.TLP_SetControls.SetColumnSpan(this.label14, 2);
-            this.label14.Location = new System.Drawing.Point(772, 17);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(178, 20);
-            this.label14.TabIndex = 90;
-            this.label14.Text = "Таймаут перестройки";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // NUD_AO_Timeout_Value
-            // 
-            this.NUD_AO_Timeout_Value.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_AO_Timeout_Value.Enabled = false;
-            this.NUD_AO_Timeout_Value.Location = new System.Drawing.Point(808, 60);
-            this.NUD_AO_Timeout_Value.Margin = new System.Windows.Forms.Padding(0);
-            this.NUD_AO_Timeout_Value.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.NUD_AO_Timeout_Value.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_AO_Timeout_Value.Name = "NUD_AO_Timeout_Value";
-            this.NUD_AO_Timeout_Value.Size = new System.Drawing.Size(146, 26);
-            this.NUD_AO_Timeout_Value.TabIndex = 91;
-            this.NUD_AO_Timeout_Value.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_AO_Timeout_Value.ValueChanged += new System.EventHandler(this.NUD_AO_Timeout_Value_ValueChanged);
-            // 
-            // label15
-            // 
-            this.label15.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(970, 63);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(28, 20);
-            this.label15.TabIndex = 92;
-            this.label15.Text = "мс";
-            // 
-            // ChB_TimeOut
-            // 
-            this.ChB_TimeOut.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ChB_TimeOut.AutoSize = true;
-            this.ChB_TimeOut.Location = new System.Drawing.Point(777, 62);
-            this.ChB_TimeOut.Name = "ChB_TimeOut";
-            this.ChB_TimeOut.Size = new System.Drawing.Size(22, 21);
-            this.ChB_TimeOut.TabIndex = 93;
-            this.ChB_TimeOut.UseVisualStyleBackColor = true;
-            this.ChB_TimeOut.CheckedChanged += new System.EventHandler(this.ChB_TimeOut_CheckedChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1081,6 +1081,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Incr_CurMHz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurMHz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_AO_Timeout_Value)).EndInit();
             this.TLP_WLSlidingControls.ResumeLayout(false);
             this.TLP_WLSlidingControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_CurrentWL)).EndInit();
@@ -1099,7 +1100,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PowerDecrement)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_AO_Timeout_Value)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
