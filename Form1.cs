@@ -49,7 +49,7 @@ namespace AOF_Controller
         private void Form1_Load(object sender, EventArgs e)
         {
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Text = "AOF Controller v" + " " + version.Major + "." + (82).ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
+            Text = "AOF Controller v" + " " + version.Major + "." + (85).ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
             // this.Text =  + version;
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
@@ -71,12 +71,27 @@ namespace AOF_Controller
 
         private void Filter_onSetWl1(AO_Filter sender, float WL_now, float HZ_now)
         {
-            Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", WL_now, HZ_now));
+            try
+            {
+                Log.Message(string.Format("Установленная длина волны: {0:0.00}. Частота синтезатора: {1:0.000}", WL_now, HZ_now));
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         private void Filter_onSetHz1(AO_Filter sender, float WL_now, float HZ_now)
         {
-            Log.Message(String.Format("Установленная длина волны: {0}. Частота синтезатора: {1}", WL_now, HZ_now));
+            try
+            {
+                Log.Message(string.Format("Установленная длина волны: {0:0.00}. Частота синтезатора: {1:0.000}", WL_now, HZ_now));
+            }
+            catch (Exception e)
+            {
+
+            }
+
         }
 
 
