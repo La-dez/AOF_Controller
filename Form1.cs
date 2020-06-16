@@ -496,7 +496,9 @@ namespace AOF_Controller
 
         private void ChB_ProgrammSweep_toogler_CheckedChanged(object sender, EventArgs e)
         {
-            if (AO_Sweep_CurveTuning_isEnabled)
+            
+            //предыдущая версия. Была основана на загрузке кривой из меню сверху. В дальнейшем нужно возродить
+            /*if (AO_Sweep_CurveTuning_isEnabled)
             {
                 if (AO_Sweep_CurveTuning_inProgress)
                 {
@@ -527,7 +529,7 @@ namespace AOF_Controller
                         BGW_Sweep_Curve.RunWorkerAsync();
                     }
                 }
-            }
+            }*/
         }
 
         private void BGW_Sweep_Curve_DoWork(object sender, DoWorkEventArgs e)

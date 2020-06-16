@@ -34,11 +34,7 @@ E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.cache
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.CoreCompileInputs.cache
 E:\Работа Саша\АО\AOF_Controller\obj\x86\Release\AOF_Controller.csprojAssemblyReference.cache
-D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.exe
-D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\Перестраиваемый источник.pdb
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\favicon_stc.ico
-D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.exe
-D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\Перестраиваемый источник.pdb
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.csprojResolveAssemblyReference.cache
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.Form1.resources
 D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
@@ -110,3 +106,9 @@ C:\Users\GNM\Desktop\AO_Cont_and_Lib\AOF_Controller+AO_Lib\AOF_Controller\obj\x8
 C:\Users\GNM\Desktop\AO_Cont_and_Lib\AOF_Controller+AO_Lib\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.CopyComplete
 C:\Users\GNM\Desktop\AO_Cont_and_Lib\AOF_Controller+AO_Lib\AOF_Controller\obj\x86\Release\AOF Controller.exe
 C:\Users\GNM\Desktop\AO_Cont_and_Lib\AOF_Controller+AO_Lib\AOF_Controller\obj\x86\Release\AOF Controller.pdb
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF Controller.exe
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\obj\x86\Release\AOF Controller.pdb
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\AOF Controller.exe
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\AOF Controller.pdb
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\AO_Lib.dll
+D:\Работа\Разработки\Спектрометры\АО\Новые АО\AOF_Controller\bin\x86\Release\AO_Lib.pdb
