@@ -222,6 +222,20 @@ namespace LDZ_Code
                 }
                 return result;
             }
+            public static string[] OpenFiles(string w_Name,bool AllowAllExtensions, bool Multiselect = false, params string[] extensions)
+            {
+                string[] result = null;
+                OpenFileDialog OFD = new OpenFileDialog();
+                OFD.Filter = CreateFilter_ForFileDialog(AllowAllExtensions, extensions);
+                OFD.Title = "Select Files";
+                OFD.Multiselect = Multiselect;
+
+                if (OFD.ShowDialog() == DialogResult.OK)
+                {
+                    result = OFD.FileNames;
+                }
+                return result;
+            }
             public static List<string> FindFiles_byExstension(string path, string ext)
             {
                 List<string> result = new List<string>();

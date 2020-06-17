@@ -411,7 +411,7 @@ namespace AOF_Controller
             //   
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
-            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
+            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed /*&& AO_Sweep_CurveTuning_isEnabled*/;
 
         }
 
@@ -488,7 +488,7 @@ namespace AOF_Controller
             ChB_SweepEnabled.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
 
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !RB_Sweep_SpeciallMode.Checked;
-            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled && RB_Sweep_SpeciallMode.Checked;
+            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && /*AO_Sweep_CurveTuning_isEnabled &&*/ RB_Sweep_SpeciallMode.Checked;
 
             TLP_WLSlidingControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
             TLP_SetControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
@@ -722,6 +722,15 @@ namespace AOF_Controller
         private void NUD_AO_Timeout_Value_ValueChanged(object sender, EventArgs e)
         {
             if (NUD_AO_Timeout_Value.Enabled) Filter.InitTimer((int)NUD_AO_Timeout_Value.Value);
+        }
+
+        private void B_BrowseCSVCurve_Click(object sender, EventArgs e)
+        {
+            var names =  ServiceFunctions.Files.OpenFiles("Select CSV AO curve", true, false, "csv");
+            Log.Message("Selected curve file: "+ names[0]);
+            TB_CSVCurveFolder.Text = names[0];
+            Read_Frequencies_fromCSV(names[0]);
+
         }
     }
 }

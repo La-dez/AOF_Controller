@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text;
 using LDZ_Code;
+using CsvHelper;
+using System.Collections;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using static LDZ_Code.ServiceFunctions;
 
@@ -277,6 +281,115 @@ namespace AOF_Controller
             else return DialogResult.Cancel;
         }
 
+        public class FieldsClass { }
+        public class OneFildsClass<alpha> : FieldsClass
+        {
+            public alpha Field1 { get; set; }
+        }
+        public class TwoFildsClass<alpha, beta> : FieldsClass
+        {
+            public alpha Field1 { get; set; }
+            public beta Field2 { get; set; }
+        }
+        public class ThreeFildsClass<alpha, beta, gamma> : FieldsClass
+        {
+            public alpha Field1 { get; set; }
+            public beta Field2 { get; set; }
+            public gamma Field3 { get; set; }
+        }
+        private void Read_Frequencies_fromCSV(string path)
+        {
+            var PrimaryList = ReadFile<OneFildsClass<string>>(path);
 
+
+            List<float> result_float = new List<float>();
+            List<string> result_string = new List<string>();
+            result_string = TryParseList<OneFildsClass<string>, string>(PrimaryList);
+
+            try
+            {
+                result_float = TryParseList<OneFildsClass<string>, float>(PrimaryList);
+                if (result_float == null) throw new Exception();
+            }
+            catch
+            {
+                try
+                {
+                    var datalist = PrimaryList.GetRange(1, PrimaryList.Count - 1);
+                    result_float = TryParseList<OneFildsClass<string>, float>(datalist);
+                }
+                catch
+                {
+
+                }
+            }
+
+        }
+        public static List<T> ReadFile<T>(string FullPath) where T: FieldsClass
+        {
+            var returnlist = new List<T>();
+            try
+            {
+                string encoding = string.Empty;
+                Encoding spec_en;
+                Stream fs = new FileStream(FullPath, FileMode.Open);
+                using (StreamReader sr = new StreamReader(fs, true))
+                {
+                    spec_en = sr.CurrentEncoding;
+                    encoding = sr.CurrentEncoding.ToString();
+                }
+
+
+                using (var Str_reader = new StreamReader(FullPath, Encoding.Default))
+                {
+                    using (CsvReader csvReader = new CsvReader(Str_reader, System.Globalization.CultureInfo.InvariantCulture))
+                    {
+                        //у большинства подобных файлов отсутствует заголовок. Укажем это
+                        csvReader.Configuration.HasHeaderRecord = false;
+                        // указываем используемый разделитель
+                        csvReader.Configuration.Delimiter = ";";
+                        // получаем строки
+                       // bool a = csvReader.Read();
+                      
+                        var data = csvReader.GetRecords<T>();
+                        returnlist = csvReader.GetRecords<T>().ToList();
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                var a = e.Message;
+            }
+            return returnlist;
+        }
+        public static List<FinalType> TryParseList<InnerType,FinalType>(List<InnerType> List2Parse) where InnerType: FieldsClass
+        {
+            List<FinalType> result = new List<FinalType>();
+            try
+            {
+                if (typeof(FinalType).Equals(typeof(String)))
+                {
+                    foreach (dynamic el in List2Parse) //подумать над еще большей универсальностью
+                    {
+                        result.Add((FinalType)el.Field1);
+                    }
+                }
+                else if (typeof(FinalType).Equals(typeof(float)))
+                {
+                    foreach (dynamic el in List2Parse) //подумать над еще большей универсальностью
+                    {
+                        var alk = Convert.ToDouble(el.Field1);
+                        result.Add((FinalType)alk);
+                    }
+                }
+                
+            }
+            catch(Exception exc)
+            {
+                return (result = null);
+            }
+            return result;
+        }
     }
 }
