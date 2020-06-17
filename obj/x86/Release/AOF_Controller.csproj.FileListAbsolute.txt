@@ -121,3 +121,12 @@ E:\Работа Саша\АО\AOF_Controller\bin\x86\Release\CsvHelper.xml
 E:\Работа Саша\АО\AOF_Controller\bin\x86\Release\System.Runtime.CompilerServices.Unsafe.xml
 E:\Работа Саша\АО\AOF_Controller\bin\x86\Release\System.Threading.Tasks.Extensions.xml
 E:\Работа Саша\АО\AOF_Controller\bin\x86\Release\System.ValueTuple.xml
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\AOF Controller.exe.config
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\CsvHelper.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\System.Runtime.CompilerServices.Unsafe.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\System.Threading.Tasks.Extensions.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\System.ValueTuple.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\CsvHelper.xml
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\System.Runtime.CompilerServices.Unsafe.xml
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\System.Threading.Tasks.Extensions.xml
+D:\Работа\Программы (мои разработки)\Спектрометры\AOD and AOF\AOF_Controller\bin\x86\Release\System.ValueTuple.xml

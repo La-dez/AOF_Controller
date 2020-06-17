@@ -33,6 +33,9 @@ namespace AOF_Controller
         List<object> ParamList_bkp = new List<object>();
         List<object> ParamList_final = new List<object>();
 
+        //
+        List<float> ProgramMode_curve = new List<float>();
+        //UI
         UI.Log.Logger Log;
         AO_Filter Filter = null;
         System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
@@ -496,6 +499,14 @@ namespace AOF_Controller
 
         private void ChB_ProgrammSweep_toogler_CheckedChanged(object sender, EventArgs e)
         {
+            if(ChB_ProgrammSweep_toogler.Checked)
+            {
+                BGW_ProgrammedTuning.RunWorkerAsync();
+            }
+            else
+            {
+                BGW_ProgrammedTuning.CancelAsync();
+            }
             
             //предыдущая версия. Была основана на загрузке кривой из меню сверху. В дальнейшем нужно возродить
             /*if (AO_Sweep_CurveTuning_isEnabled)
@@ -727,10 +738,35 @@ namespace AOF_Controller
         private void B_BrowseCSVCurve_Click(object sender, EventArgs e)
         {
             var names =  ServiceFunctions.Files.OpenFiles("Select CSV AO curve", true, false, "csv");
+            if (String.IsNullOrEmpty(names[0])) return; 
             Log.Message("Selected curve file: "+ names[0]);
             TB_CSVCurveFolder.Text = names[0];
-            Read_Frequencies_fromCSV(names[0]);
+            ProgramMode_curve = Read_Frequencies_fromCSV(names[0],5,1);
 
+        }
+
+        private void BGW_ProgrammedTuning_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int i = 0;
+            try
+            {
+                while (!(sender as BackgroundWorker).CancellationPending)
+                {
+                    if ((sender as BackgroundWorker).CancellationPending)
+                    {
+                        e.Cancel = true;
+                        break;
+                    }
+                    this.Invoke(new Action(()=> Filter.Set_Hz(ProgramMode_curve[i])));
+                    i++;
+                    if (i == ProgramMode_curve.Count) i = 0;
+                    // Log.Message("Частота: " + ProgramMode_curve[i].ToString());
+                }
+            }
+            catch(Exception exc)
+            {
+                var message = exc.Message;
+            }
         }
     }
 }

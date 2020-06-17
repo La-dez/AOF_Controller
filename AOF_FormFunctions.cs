@@ -297,32 +297,34 @@ namespace AOF_Controller
             public beta Field2 { get; set; }
             public gamma Field3 { get; set; }
         }
-        private void Read_Frequencies_fromCSV(string path)
+        private List<float> Read_Frequencies_fromCSV(string path,int start_row, int start_column)
         {
-            var PrimaryList = ReadFile<OneFildsClass<string>>(path);
+            var PrimaryList = ReadFile<ThreeFildsClass<string, string, string>>(path);
 
 
             List<float> result_float = new List<float>();
-            List<string> result_string = new List<string>();
-            result_string = TryParseList<OneFildsClass<string>, string>(PrimaryList);
+           // List<string> result_string = new List<string>();
+           // result_string = TryParseList<ThreeFildsClass<string,string,string>, string>(PrimaryList, start_column);
 
             try
             {
-                result_float = TryParseList<OneFildsClass<string>, float>(PrimaryList);
+                result_float = TryParseList<ThreeFildsClass<string, string, string>, float>(PrimaryList, start_column);
                 if (result_float == null) throw new Exception();
             }
             catch
             {
                 try
                 {
-                    var datalist = PrimaryList.GetRange(1, PrimaryList.Count - 1);
-                    result_float = TryParseList<OneFildsClass<string>, float>(datalist);
+                    int start_el = start_row;
+                    var datalist = PrimaryList.GetRange(start_el, PrimaryList.Count - start_el);
+                    result_float = TryParseList<ThreeFildsClass<string, string, string>, float>(datalist, start_column);
                 }
                 catch
                 {
 
                 }
             }
+            return result_float;
 
         }
         public static List<T> ReadFile<T>(string FullPath) where T: FieldsClass
@@ -363,7 +365,7 @@ namespace AOF_Controller
             }
             return returnlist;
         }
-        public static List<FinalType> TryParseList<InnerType,FinalType>(List<InnerType> List2Parse) where InnerType: FieldsClass
+        public static List<FinalType> TryParseList<InnerType,FinalType>(List<InnerType> List2Parse,int colomn2parse = 0) where InnerType: FieldsClass
         {
             List<FinalType> result = new List<FinalType>();
             try
@@ -372,14 +374,19 @@ namespace AOF_Controller
                 {
                     foreach (dynamic el in List2Parse) //подумать над еще большей универсальностью
                     {
-                        result.Add((FinalType)el.Field1);
+                        if(colomn2parse==0) result.Add((FinalType)el.Field1);
+                        else if (colomn2parse ==1) result.Add((FinalType)el.Field2);
+                        else if (colomn2parse == 2) result.Add((FinalType)el.Field3);
                     }
                 }
                 else if (typeof(FinalType).Equals(typeof(float)))
                 {
                     foreach (dynamic el in List2Parse) //подумать над еще большей универсальностью
                     {
-                        var alk = Convert.ToDouble(el.Field1);
+                        dynamic alk = 0; 
+                        if (colomn2parse == 0) alk = Convert.ToDouble(el.Field1);
+                        else if (colomn2parse == 1) alk = Convert.ToDouble(el.Field2);
+                        else if (colomn2parse == 2) alk = Convert.ToDouble(el.Field3);
                         result.Add((FinalType)alk);
                     }
                 }
