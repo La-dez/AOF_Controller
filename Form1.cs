@@ -735,6 +735,7 @@ namespace AOF_Controller
             if (NUD_AO_Timeout_Value.Enabled) Filter.InitTimer((int)NUD_AO_Timeout_Value.Value);
         }
 
+        List<byte[]> ByteList = new List<byte[]>();
         private void B_BrowseCSVCurve_Click(object sender, EventArgs e)
         {
             var names =  ServiceFunctions.Files.OpenFiles("Select CSV AO curve", true, false, "csv");
@@ -742,26 +743,38 @@ namespace AOF_Controller
             Log.Message("Selected curve file: "+ names[0]);
             TB_CSVCurveFolder.Text = names[0];
             ProgramMode_curve = Read_Frequencies_fromCSV(names[0],5,1);
+            for (int i = 0; i < ProgramMode_curve.Count; i++)
+            {
+                ByteList.Add((Filter as STC_Filter).Create_byteMass_forHzTune(ProgramMode_curve[i]));
+            }
 
         }
-
+        double time_sum = 0;
         private void BGW_ProgrammedTuning_DoWork(object sender, DoWorkEventArgs e)
         {
             int i = 0;
+            int number_of_runs = 0;
             try
             {
+                System.Diagnostics.Stopwatch STW = new System.Diagnostics.Stopwatch();
                 while (!(sender as BackgroundWorker).CancellationPending)
                 {
-                    if ((sender as BackgroundWorker).CancellationPending)
+                    STW.Start();
+                    while (i < ProgramMode_curve.Count)
                     {
-                        e.Cancel = true;
-                        break;
+                        //this.Invoke(new Action(() => Filter.Set_Hz(ProgramMode_curve[i])));
+                        this.Invoke(new Action(()=>(Filter as STC_Filter).Set_Hz_via_bytemass(ByteList[i])));
+                        i++;
                     }
-                    this.Invoke(new Action(()=> Filter.Set_Hz(ProgramMode_curve[i])));
-                    i++;
-                    if (i == ProgramMode_curve.Count) i = 0;
+                    STW.Stop();
+                    time_sum += STW.Elapsed.TotalMilliseconds;
+                    number_of_runs++;
+                    i = 0;
+
                     // Log.Message("Частота: " + ProgramMode_curve[i].ToString());
                 }
+                time_sum /= number_of_runs;
+                Log.Message(String.Format("Среднее время на перестройку {0} частот: {1}", ProgramMode_curve.Count, time_sum));
             }
             catch(Exception exc)
             {

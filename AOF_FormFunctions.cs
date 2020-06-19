@@ -308,8 +308,8 @@ namespace AOF_Controller
 
             try
             {
-                result_float = TryParseList<ThreeFildsClass<string, string, string>, float>(PrimaryList, start_column);
-                if (result_float == null) throw new Exception();
+               // result_float = TryParseList<ThreeFildsClass<string, string, string>, float>(PrimaryList, start_column);
+              /*  if (result_float == null) */throw new Exception();
             }
             catch
             {
@@ -383,11 +383,25 @@ namespace AOF_Controller
                 {
                     foreach (dynamic el in List2Parse) //подумать над еще большей универсальностью
                     {
-                        dynamic alk = 0; 
-                        if (colomn2parse == 0) alk = Convert.ToDouble(el.Field1);
-                        else if (colomn2parse == 1) alk = Convert.ToDouble(el.Field2);
-                        else if (colomn2parse == 2) alk = Convert.ToDouble(el.Field3);
-                        result.Add((FinalType)alk);
+                        double alk = 0;
+
+                        //приду через 30 минут
+                        
+
+                        if (colomn2parse == 0)
+                        {
+                            double.TryParse((el.Field1.Replace(',', '.')), System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out alk);
+                        }
+                        else if (colomn2parse == 1)
+                        {
+                            double.TryParse((el.Field2.Replace(',', '.')), System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out alk);
+                        }
+                        else if (colomn2parse == 2)
+                        {
+                            double.TryParse((el.Field3.Replace(',', '.')), System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out alk);
+                        }
+                        dynamic data = alk;
+                        result.Add((FinalType)data);
                     }
                 }
                 
