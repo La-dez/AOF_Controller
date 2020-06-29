@@ -74,7 +74,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.NUD_FreqDeviation = new System.Windows.Forms.NumericUpDown();
-            this.NUD_TimeFdev = new System.Windows.Forms.NumericUpDown();
+            this.NUD_TimeFdev_up = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -97,6 +97,12 @@
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
             this.BGW_ProgrammedTuning = new System.ComponentModel.BackgroundWorker();
+            this.label16 = new System.Windows.Forms.Label();
+            this.NUD_TimeFdev_down = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.NUD_Steps_on_Sweep = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -116,11 +122,13 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.TLP_Sweep_EasyMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_up)).BeginInit();
             this.TLP_Sweep_ProgramMode.SuspendLayout();
             this.TLP_STCspecial_Fun.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PowerDecrement)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_down)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps_on_Sweep)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -712,20 +720,29 @@
             // 
             // TLP_Sweep_EasyMode
             // 
-            this.TLP_Sweep_EasyMode.ColumnCount = 5;
+            this.TLP_Sweep_EasyMode.ColumnCount = 8;
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
+            this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.TLP_Sweep_EasyMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 3, 0);
-            this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 3, 1);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.label9, 6, 0);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.label10, 6, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_FreqDeviation, 2, 0);
-            this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_TimeFdev, 2, 1);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_TimeFdev_up, 2, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label8, 1, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label7, 0, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label6, 0, 0);
-            this.TLP_Sweep_EasyMode.Controls.Add(this.B_SetSweep, 4, 0);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.B_SetSweep, 7, 0);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.label16, 4, 1);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_TimeFdev_down, 5, 1);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.NUD_Steps_on_Sweep, 5, 0);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.label19, 4, 0);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.label20, 3, 0);
+            this.TLP_Sweep_EasyMode.Controls.Add(this.label21, 3, 1);
             this.TLP_Sweep_EasyMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Sweep_EasyMode.Location = new System.Drawing.Point(0, 30);
             this.TLP_Sweep_EasyMode.Margin = new System.Windows.Forms.Padding(0);
@@ -741,9 +758,9 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(346, 13);
+            this.label9.Location = new System.Drawing.Point(359, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(44, 13);
+            this.label9.Size = new System.Drawing.Size(34, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "МГц";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -752,10 +769,10 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(347, 53);
+            this.label10.Location = new System.Drawing.Point(360, 53);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(43, 13);
+            this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "мкс";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -764,59 +781,59 @@
             // 
             this.NUD_FreqDeviation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FreqDeviation.DecimalPlaces = 3;
-            this.NUD_FreqDeviation.Location = new System.Drawing.Point(115, 10);
+            this.NUD_FreqDeviation.Location = new System.Drawing.Point(107, 10);
             this.NUD_FreqDeviation.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_FreqDeviation.Maximum = new decimal(new int[] {
-            25,
+            5,
             0,
             0,
-            65536});
+            0});
             this.NUD_FreqDeviation.Minimum = new decimal(new int[] {
             5,
             0,
             0,
             65536});
             this.NUD_FreqDeviation.Name = "NUD_FreqDeviation";
-            this.NUD_FreqDeviation.Size = new System.Drawing.Size(228, 20);
+            this.NUD_FreqDeviation.Size = new System.Drawing.Size(61, 20);
             this.NUD_FreqDeviation.TabIndex = 1;
             this.NUD_FreqDeviation.Value = new decimal(new int[] {
             5,
             0,
             0,
-            65536});
+            0});
             this.NUD_FreqDeviation.ValueChanged += new System.EventHandler(this.NUD_FreqDeviation_ValueChanged);
             // 
-            // NUD_TimeFdev
+            // NUD_TimeFdev_up
             // 
-            this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(115, 50);
-            this.NUD_TimeFdev.Margin = new System.Windows.Forms.Padding(0);
-            this.NUD_TimeFdev.Maximum = new decimal(new int[] {
+            this.NUD_TimeFdev_up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_TimeFdev_up.DecimalPlaces = 5;
+            this.NUD_TimeFdev_up.Location = new System.Drawing.Point(107, 50);
+            this.NUD_TimeFdev_up.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_TimeFdev_up.Maximum = new decimal(new int[] {
             74842,
             0,
             0,
             131072});
-            this.NUD_TimeFdev.Minimum = new decimal(new int[] {
-            571,
-            0,
-            0,
-            196608});
-            this.NUD_TimeFdev.Name = "NUD_TimeFdev";
-            this.NUD_TimeFdev.Size = new System.Drawing.Size(228, 20);
-            this.NUD_TimeFdev.TabIndex = 2;
-            this.NUD_TimeFdev.Value = new decimal(new int[] {
-            5,
+            this.NUD_TimeFdev_up.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
-            this.NUD_TimeFdev.ValueChanged += new System.EventHandler(this.NUD_TimeFdev_ValueChanged);
+            this.NUD_TimeFdev_up.Name = "NUD_TimeFdev_up";
+            this.NUD_TimeFdev_up.Size = new System.Drawing.Size(61, 20);
+            this.NUD_TimeFdev_up.TabIndex = 2;
+            this.NUD_TimeFdev_up.Value = new decimal(new int[] {
+            114286,
+            0,
+            0,
+            327680});
+            this.NUD_TimeFdev_up.ValueChanged += new System.EventHandler(this.NUD_TimeFdev_ValueChanged);
             // 
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(98, 13);
+            this.label8.Location = new System.Drawing.Point(90, 13);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(14, 13);
             this.label8.TabIndex = 1;
@@ -829,9 +846,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(3, 47);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(76, 26);
+            this.label7.Size = new System.Drawing.Size(55, 26);
             this.label7.TabIndex = 2;
-            this.label7.Text = "Время одной девиации:";
+            this.label7.Text = "Время подъема:";
             // 
             // label6
             // 
@@ -839,16 +856,16 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 7);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 26);
+            this.label6.Size = new System.Drawing.Size(81, 26);
             this.label6.TabIndex = 1;
             this.label6.Text = "Девиция частоты УЗ:";
             // 
             // B_SetSweep
             // 
-            this.B_SetSweep.Location = new System.Drawing.Point(396, 3);
+            this.B_SetSweep.Location = new System.Drawing.Point(399, 3);
             this.B_SetSweep.Name = "B_SetSweep";
             this.TLP_Sweep_EasyMode.SetRowSpan(this.B_SetSweep, 2);
-            this.B_SetSweep.Size = new System.Drawing.Size(51, 74);
+            this.B_SetSweep.Size = new System.Drawing.Size(48, 74);
             this.B_SetSweep.TabIndex = 3;
             this.B_SetSweep.Text = "Set Sweep";
             this.B_SetSweep.UseVisualStyleBackColor = true;
@@ -1064,6 +1081,93 @@
             this.BGW_ProgrammedTuning.WorkerSupportsCancellation = true;
             this.BGW_ProgrammedTuning.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGW_ProgrammedTuning_DoWork);
             // 
+            // label16
+            // 
+            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(211, 53);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(81, 13);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "Время спуска:";
+            // 
+            // NUD_TimeFdev_down
+            // 
+            this.NUD_TimeFdev_down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_TimeFdev_down.DecimalPlaces = 5;
+            this.NUD_TimeFdev_down.Location = new System.Drawing.Point(295, 50);
+            this.NUD_TimeFdev_down.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_TimeFdev_down.Maximum = new decimal(new int[] {
+            74842,
+            0,
+            0,
+            131072});
+            this.NUD_TimeFdev_down.Name = "NUD_TimeFdev_down";
+            this.NUD_TimeFdev_down.Size = new System.Drawing.Size(61, 20);
+            this.NUD_TimeFdev_down.TabIndex = 5;
+            this.NUD_TimeFdev_down.Value = new decimal(new int[] {
+            114286,
+            0,
+            0,
+            327680});
+            // 
+            // label19
+            // 
+            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(211, 7);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(69, 26);
+            this.label19.TabIndex = 6;
+            this.label19.Text = "Количество шагов:";
+            // 
+            // NUD_Steps_on_Sweep
+            // 
+            this.NUD_Steps_on_Sweep.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Steps_on_Sweep.Location = new System.Drawing.Point(295, 10);
+            this.NUD_Steps_on_Sweep.Margin = new System.Windows.Forms.Padding(0);
+            this.NUD_Steps_on_Sweep.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.NUD_Steps_on_Sweep.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.NUD_Steps_on_Sweep.Name = "NUD_Steps_on_Sweep";
+            this.NUD_Steps_on_Sweep.Size = new System.Drawing.Size(61, 20);
+            this.NUD_Steps_on_Sweep.TabIndex = 7;
+            this.NUD_Steps_on_Sweep.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(171, 13);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(34, 13);
+            this.label20.TabIndex = 8;
+            this.label20.Text = "МГц";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label21
+            // 
+            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(172, 53);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(33, 13);
+            this.label21.TabIndex = 9;
+            this.label21.Text = "мкс";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1103,7 +1207,7 @@
             this.TLP_Sweep_EasyMode.ResumeLayout(false);
             this.TLP_Sweep_EasyMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_up)).EndInit();
             this.TLP_Sweep_ProgramMode.ResumeLayout(false);
             this.TLP_Sweep_ProgramMode.PerformLayout();
             this.TLP_STCspecial_Fun.ResumeLayout(false);
@@ -1111,6 +1215,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PowerDecrement)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_down)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps_on_Sweep)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1138,7 +1244,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown NUD_FreqDeviation;
-        private System.Windows.Forms.NumericUpDown NUD_TimeFdev;
+        private System.Windows.Forms.NumericUpDown NUD_TimeFdev_up;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -1185,6 +1291,12 @@
         private System.Windows.Forms.Button B_BrowseCSVCurve;
         private System.Windows.Forms.Button B_EditCurve;
         private System.ComponentModel.BackgroundWorker BGW_ProgrammedTuning;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown NUD_TimeFdev_down;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.NumericUpDown NUD_Steps_on_Sweep;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
     }
 }
 

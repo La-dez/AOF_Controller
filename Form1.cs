@@ -420,7 +420,7 @@ namespace AOF_Controller
 
         private void NUD_TimeFdev_ValueChanged(object sender, EventArgs e)
         {
-            AO_TimeDeviation = (double)NUD_TimeFdev.Value;
+            AO_TimeDeviation = (double)NUD_TimeFdev_up.Value;
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             /*NUD_FreqDeviation.Maximum = (decimal)
                 (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);*/
@@ -715,7 +715,11 @@ namespace AOF_Controller
         {
             PointF Sweep_Params = Filter.Sweep_Recalculate_borders((float)NUD_CurMHz.Value, (float)NUD_FreqDeviation.Value);
             //if(Filter.FilterType==FilterTypes.STC_Filter)
-            Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev.Value, true);
+           // Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev_up.Value, true);
+           if(Filter.FilterType==FilterTypes.STC_Filter)
+                (Filter as STC_Filter).Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y,(int)NUD_Steps_on_Sweep.Value,(double)NUD_TimeFdev_up.Value,(double)NUD_TimeFdev_down.Value);
+            else Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev_up.Value, true);
+
         }
 
         private void NUD_Incr_CurMHz_ValueChanged(object sender, EventArgs e)
