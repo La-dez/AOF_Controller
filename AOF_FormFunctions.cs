@@ -137,7 +137,7 @@ namespace AOF_Controller
 
                 ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
-                var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; 
+                var AOFWind_FreqDeviation_bkp = AO_FreqDeviation;
                 NUD_FreqDeviation.Maximum = (decimal)(Filter.AO_FreqDeviation_Max);
                 NUD_FreqDeviation.Minimum = (decimal)(Filter.AO_FreqDeviation_Min);
 
@@ -239,19 +239,21 @@ namespace AOF_Controller
         }
         private void ReSweep(float p_data_CurrentWL)
         {
-            Filter.Set_Sweep_off();
+          //  Filter.Set_Sweep_off();
             
             float HZ_toset = Filter.Get_HZ_via_WL(p_data_CurrentWL);
-            System.Drawing.PointF data_for_sweep = Filter.Sweep_Recalculate_borders(HZ_toset, (float)AO_FreqDeviation);
+            System.Drawing.PointF Sweep_Params = Filter.Sweep_Recalculate_borders(HZ_toset, (float)AO_FreqDeviation);
 
             Log.Message(String.Format("ЛЧМ Параметры: ДВ:{0} / Частота:{1} / Девиация частоты:{2}", p_data_CurrentWL, HZ_toset, AO_FreqDeviation));
             Log.Message(String.Format("Доступные для установки ЛЧМ параметры:  ДВ: {0} / Частота:{1} / Девиация частоты: {2} ",
-                p_data_CurrentWL, HZ_toset, data_for_sweep.Y / 2));
-            Log.Message(String.Format("Пересчет:  {0}+{1}", data_for_sweep.X, data_for_sweep.Y));
+                p_data_CurrentWL, HZ_toset, Sweep_Params.Y / 2));
+            Log.Message(String.Format("Пересчет:  {0}+{1}", Sweep_Params.X, Sweep_Params.Y));
 
-            
+            int state = 0;
+            if (Filter.FilterType == AO_Lib.AO_Devices.FilterTypes.STC_Filter)
+                state = (Filter as AO_Lib.AO_Devices.STC_Filter).Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (int)NUD_Steps_on_Sweep.Value, (double)NUD_TimeFdev_up.Value, (double)NUD_TimeFdev_down.Value);
+            else state = Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev_up.Value, true);
 
-            var state = Filter.Set_Sweep_on(data_for_sweep.X, data_for_sweep.Y, AO_TimeDeviation, true);
             if (state != 0) throw new Exception(Filter.Implement_Error(state));
             Log.Message("Режим ЛЧМ около длины волны " + p_data_CurrentWL.ToString() + " нм запущен!");
         }
@@ -280,7 +282,13 @@ namespace AOF_Controller
             }
             else return DialogResult.Cancel;
         }
-
+        private void Init_sweep_ctrls()
+        {
+            NUD_TimeFdev_up.Minimum = NUD_Steps_on_Sweep.Value * (decimal)(4.0f / 350f);
+            NUD_TimeFdev_down.Minimum = NUD_Steps_on_Sweep.Value * (decimal)(4.0f / 350f);
+            NUD_TimeFdev_up.Maximum = NUD_Steps_on_Sweep.Value * 255 * (decimal)(4.0f / 350f);
+            NUD_TimeFdev_down.Maximum = NUD_Steps_on_Sweep.Value * 255 * (decimal)(4.0f / 350f);
+        }
         public class FieldsClass { }
         public class OneFildsClass<alpha> : FieldsClass
         {

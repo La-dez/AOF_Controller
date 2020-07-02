@@ -22,7 +22,7 @@ namespace AOF_Controller
 
         //Все для sweep
         double AO_FreqDeviation_Max_byTime = 0;
-        double AO_FreqDeviation = 0.5;
+        double AO_FreqDeviation = 5;
         double AO_TimeDeviation = 10;
         bool AO_Sweep_Needed = false;
         float[,] AO_All_CurveSweep_Params = new float[0, 0];
@@ -414,7 +414,9 @@ namespace AOF_Controller
             //   
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
-            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed /*&& AO_Sweep_CurveTuning_isEnabled*/;
+            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && false /*&& AO_Sweep_CurveTuning_isEnabled*/; // false while not released
+
+            Init_sweep_ctrls();
 
         }
 
@@ -714,8 +716,6 @@ namespace AOF_Controller
         private void B_SetSweep_Click(object sender, EventArgs e)
         {
             PointF Sweep_Params = Filter.Sweep_Recalculate_borders((float)NUD_CurMHz.Value, (float)NUD_FreqDeviation.Value);
-            //if(Filter.FilterType==FilterTypes.STC_Filter)
-           // Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev_up.Value, true);
            if(Filter.FilterType==FilterTypes.STC_Filter)
                 (Filter as STC_Filter).Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y,(int)NUD_Steps_on_Sweep.Value,(double)NUD_TimeFdev_up.Value,(double)NUD_TimeFdev_down.Value);
             else Filter.Set_Sweep_on(Sweep_Params.X, Sweep_Params.Y, (double)NUD_TimeFdev_up.Value, true);
@@ -784,6 +784,41 @@ namespace AOF_Controller
             {
                 var message = exc.Message;
             }
+        }
+
+        private void NUD_Steps_on_Sweep_ValueChanged(object sender, EventArgs e)
+        {
+            Init_sweep_ctrls();
+        }
+
+        private void TLP_Sweep_EasyMode_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void NUD_TimeFdev_down_ValueChanged(object sender, EventArgs e)
+        {
+            if ((double)(NUD_TimeFdev_down.Value - (NUD_Steps_on_Sweep.Value * (decimal)(4.0f / 350f))) < -1e-5) //если значение времени сейчас = минимальному, то 
+            {
+                NUD_TimeFdev_down.Value = 0;
+                NUD_TimeFdev_down.Increment = NUD_Steps_on_Sweep.Value * (decimal)(4.0f / 350f);
+                NUD_TimeFdev_down.Minimum = 0;
+            }
+            else if(NUD_TimeFdev_down.Value<(decimal)1e-5)
+            {
+                NUD_TimeFdev_down.Increment = NUD_Steps_on_Sweep.Value * (decimal)(4.0f / 350f);
+                NUD_TimeFdev_down.Minimum = 0;
+            }
+            else if ((double)System.Math.Abs(NUD_TimeFdev_down.Value - (NUD_Steps_on_Sweep.Value * (decimal)(4.0f / 350f))) < 1e-5)
+            {
+                NUD_TimeFdev_down.Increment = (decimal)0.001;
+                NUD_TimeFdev_down.Minimum = 0;
+            }
+            else
+            {
+                NUD_TimeFdev_down.Increment = (decimal)0.001;
+            }
+            
         }
     }
 }
