@@ -57,7 +57,18 @@ namespace AOF_Controller
             this.KeyPreview = true;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
-            Filter = AO_Lib.AO_Devices.AO_Filter.Find_and_connect_AnyFilter();
+            var Filters = AO_Lib.AO_Devices.AO_Filter.Find_all_filters();
+            if (Filters.Count > 0)
+            {
+                if (Filters.Count > 1) Log.Message("Обнаружено несколько фильтров. Будет подключен первый обнаруженный...");
+                Filter = Filters[0];
+            }
+            else if(Filters.Count == 0)
+            {
+                Log.Message("Не обнаружены именованные фильтры. Поиск неименнованного фильтра...");
+                Filter = AO_Lib.AO_Devices.AO_Filter.Find_and_connect_AnyFilter();                
+            }
+
             if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
             Filter.onSetHz += Filter_onSetHz1;
