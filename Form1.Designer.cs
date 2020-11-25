@@ -103,6 +103,7 @@
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
             this.BGW_ProgrammedTuning = new System.ComponentModel.BackgroundWorker();
+            this.B_Test = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -1047,6 +1048,7 @@
             this.TLP_STCspecial_Fun.Controls.Add(this.label4, 0, 0);
             this.TLP_STCspecial_Fun.Controls.Add(this.NUD_PowerDecrement, 0, 1);
             this.TLP_STCspecial_Fun.Controls.Add(this.ChB_Remember_AT, 1, 1);
+            this.TLP_STCspecial_Fun.Controls.Add(this.B_Test, 1, 0);
             this.TLP_STCspecial_Fun.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_STCspecial_Fun.Location = new System.Drawing.Point(0, 120);
             this.TLP_STCspecial_Fun.Margin = new System.Windows.Forms.Padding(0);
@@ -1181,6 +1183,16 @@
             this.BGW_ProgrammedTuning.WorkerSupportsCancellation = true;
             this.BGW_ProgrammedTuning.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGW_ProgrammedTuning_DoWork);
             // 
+            // B_Test
+            // 
+            this.B_Test.Location = new System.Drawing.Point(183, 3);
+            this.B_Test.Name = "B_Test";
+            this.B_Test.Size = new System.Drawing.Size(75, 19);
+            this.B_Test.TabIndex = 8;
+            this.B_Test.Text = "MF Test";
+            this.B_Test.UseVisualStyleBackColor = true;
+            this.B_Test.Click += new System.EventHandler(this.B_Test_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1310,6 +1322,7 @@
         private System.Windows.Forms.NumericUpDown NUD_Steps_on_Sweep;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button B_Test;
     }
 }
 

@@ -50,7 +50,7 @@ namespace AOF_Controller
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
+        {       
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Text = "AOF Controller v" + " " + version.Major + "." + (9).ToString() + " (build " + (version.Build + version.Revision) + ")"; //change form title
             // this.Text =  + version;
@@ -830,6 +830,29 @@ namespace AOF_Controller
                 NUD_TimeFdev_down.Increment = (decimal)0.001;
             }
             
+        }
+
+        private void B_Test_Click(object sender, EventArgs e)
+        {
+            var num_of_F = 10;
+            float _df = (Filter.HZ_Max - Filter.HZ_Min) / (num_of_F+2);
+
+            List<float> LoF = new List<float>();
+
+            for (int i =0;i< num_of_F;i++)
+            {
+                LoF.Add(Filter.HZ_Min + (i + 1) * _df);
+            }
+
+            try
+            {
+                (Filter as STC_Filter).Set_MF_test(LoF, 0.2f);
+            }   
+            catch
+            {
+                Log.Error("Error in testing!");
+            }        
+
         }
     }
 }
