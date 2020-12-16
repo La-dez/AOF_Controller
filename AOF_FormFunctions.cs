@@ -150,7 +150,7 @@ namespace AOF_Controller
                 NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
 
                 ChB_Power.Enabled = true;
-                TSMI_CreateCurve.Enabled = true;
+                //TSMI_CreateCurve.Enabled = true;
  
                 TRB_SoundFreq.Minimum = (int)(Filter.HZ_Min*1000);
                 NUD_CurMHz.Minimum = (decimal)Filter.HZ_Min;

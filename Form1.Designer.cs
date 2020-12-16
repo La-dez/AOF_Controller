@@ -95,7 +95,6 @@
             this.B_Quit = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSMI_CreateCurve = new System.Windows.Forms.ToolStripMenuItem();
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
             this.BGW_ProgrammedTuning = new System.ComponentModel.BackgroundWorker();
@@ -1088,8 +1087,7 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.файлToolStripMenuItem,
-            this.TSMI_CreateCurve});
+            this.файлToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(913, 24);
@@ -1101,13 +1099,6 @@
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
-            // 
-            // TSMI_CreateCurve
-            // 
-            this.TSMI_CreateCurve.Name = "TSMI_CreateCurve";
-            this.TSMI_CreateCurve.Size = new System.Drawing.Size(192, 20);
-            this.TSMI_CreateCurve.Text = "Изменить кривую перестройки";
-            this.TSMI_CreateCurve.Click += new System.EventHandler(this.TSMI_CreateCurve_Click);
             // 
             // BGW_Sweep_Curve
             // 
@@ -1209,7 +1200,6 @@
         private System.Windows.Forms.TrackBar TRB_SoundFreq;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem TSMI_CreateCurve;
         private System.Windows.Forms.RadioButton RB_Sweep_EasyMode;
         private System.Windows.Forms.CheckBox ChB_SweepEnabled;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;

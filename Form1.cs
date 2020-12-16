@@ -75,7 +75,7 @@ namespace AOF_Controller
             Filter.onSetWl += Filter_onSetWl1;
             ChB_Power.Enabled = false;
             GB_AllAOFControls.Enabled = false;
-            TSMI_CreateCurve.Enabled = false;
+            //TSMI_CreateCurve.Enabled = false;
             Test_datacalc();
             ReadData();
 
