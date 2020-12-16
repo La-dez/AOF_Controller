@@ -68,7 +68,6 @@
             this.ChB_SweepEnabled = new System.Windows.Forms.CheckBox();
             this.Pan_SweepControls = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.RB_Sweep_SpeciallMode = new System.Windows.Forms.RadioButton();
             this.RB_Sweep_EasyMode = new System.Windows.Forms.RadioButton();
             this.TLP_Sweep_EasyMode = new System.Windows.Forms.TableLayoutPanel();
             this.label9 = new System.Windows.Forms.Label();
@@ -86,15 +85,12 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.TLP_Sweep_ProgramMode = new System.Windows.Forms.TableLayoutPanel();
-            this.ChB_ProgrammSweep_toogler = new System.Windows.Forms.CheckBox();
-            this.B_BrowseCSVCurve = new System.Windows.Forms.Button();
-            this.TB_CSVCurveFolder = new System.Windows.Forms.TextBox();
-            this.B_EditCurve = new System.Windows.Forms.Button();
             this.TLP_STCspecial_Fun = new System.Windows.Forms.TableLayoutPanel();
             this.B_setHZSpecialSTC = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.NUD_PowerDecrement = new System.Windows.Forms.NumericUpDown();
             this.ChB_Remember_AT = new System.Windows.Forms.CheckBox();
+            this.B_Test = new System.Windows.Forms.Button();
             this.LBConsole = new System.Windows.Forms.ListBox();
             this.B_Quit = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -103,7 +99,6 @@
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
             this.BGW_ProgrammedTuning = new System.ComponentModel.BackgroundWorker();
-            this.B_Test = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -126,7 +121,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_up)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_down)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps_on_Sweep)).BeginInit();
-            this.TLP_Sweep_ProgramMode.SuspendLayout();
             this.TLP_STCspecial_Fun.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PowerDecrement)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -242,11 +236,11 @@
             this.L_RequiredDevName.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.L_RequiredDevName.AutoSize = true;
             this.tableLayoutPanel30.SetColumnSpan(this.L_RequiredDevName, 2);
-            this.L_RequiredDevName.Location = new System.Drawing.Point(831, 31);
+            this.L_RequiredDevName.Location = new System.Drawing.Point(810, 31);
             this.L_RequiredDevName.Name = "L_RequiredDevName";
-            this.L_RequiredDevName.Size = new System.Drawing.Size(67, 13);
+            this.L_RequiredDevName.Size = new System.Drawing.Size(88, 13);
             this.L_RequiredDevName.TabIndex = 13;
-            this.L_RequiredDevName.Text = "filename.dev";
+            this.L_RequiredDevName.Text = "ampl_aof_IR.dev";
             // 
             // label17
             // 
@@ -682,7 +676,6 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.RB_Sweep_SpeciallMode, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.RB_Sweep_EasyMode, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.TLP_Sweep_EasyMode, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.TLP_Sweep_ProgramMode, 1, 1);
@@ -694,17 +687,6 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(901, 144);
             this.tableLayoutPanel3.TabIndex = 0;
-            // 
-            // RB_Sweep_SpeciallMode
-            // 
-            this.RB_Sweep_SpeciallMode.AutoSize = true;
-            this.RB_Sweep_SpeciallMode.Location = new System.Drawing.Point(453, 3);
-            this.RB_Sweep_SpeciallMode.Name = "RB_Sweep_SpeciallMode";
-            this.RB_Sweep_SpeciallMode.Size = new System.Drawing.Size(143, 17);
-            this.RB_Sweep_SpeciallMode.TabIndex = 1;
-            this.RB_Sweep_SpeciallMode.Text = "По заданному массиву";
-            this.RB_Sweep_SpeciallMode.UseVisualStyleBackColor = true;
-            this.RB_Sweep_SpeciallMode.CheckedChanged += new System.EventHandler(this.RB_Sweep_SpeciallMode_CheckedChanged);
             // 
             // RB_Sweep_EasyMode
             // 
@@ -978,10 +960,6 @@
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.TLP_Sweep_ProgramMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.TLP_Sweep_ProgramMode.Controls.Add(this.ChB_ProgrammSweep_toogler, 0, 1);
-            this.TLP_Sweep_ProgramMode.Controls.Add(this.B_BrowseCSVCurve, 2, 0);
-            this.TLP_Sweep_ProgramMode.Controls.Add(this.TB_CSVCurveFolder, 0, 0);
-            this.TLP_Sweep_ProgramMode.Controls.Add(this.B_EditCurve, 2, 1);
             this.TLP_Sweep_ProgramMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Sweep_ProgramMode.Location = new System.Drawing.Point(450, 30);
             this.TLP_Sweep_ProgramMode.Margin = new System.Windows.Forms.Padding(0);
@@ -992,51 +970,6 @@
             this.TLP_Sweep_ProgramMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Sweep_ProgramMode.Size = new System.Drawing.Size(451, 114);
             this.TLP_Sweep_ProgramMode.TabIndex = 2;
-            // 
-            // ChB_ProgrammSweep_toogler
-            // 
-            this.ChB_ProgrammSweep_toogler.Appearance = System.Windows.Forms.Appearance.Button;
-            this.ChB_ProgrammSweep_toogler.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChB_ProgrammSweep_toogler.Location = new System.Drawing.Point(3, 43);
-            this.ChB_ProgrammSweep_toogler.Name = "ChB_ProgrammSweep_toogler";
-            this.ChB_ProgrammSweep_toogler.Size = new System.Drawing.Size(144, 34);
-            this.ChB_ProgrammSweep_toogler.TabIndex = 0;
-            this.ChB_ProgrammSweep_toogler.Text = "Перестройка";
-            this.ChB_ProgrammSweep_toogler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ChB_ProgrammSweep_toogler.UseVisualStyleBackColor = true;
-            this.ChB_ProgrammSweep_toogler.CheckedChanged += new System.EventHandler(this.ChB_ProgrammSweep_toogler_CheckedChanged);
-            // 
-            // B_BrowseCSVCurve
-            // 
-            this.B_BrowseCSVCurve.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.B_BrowseCSVCurve.Location = new System.Drawing.Point(303, 3);
-            this.B_BrowseCSVCurve.Name = "B_BrowseCSVCurve";
-            this.B_BrowseCSVCurve.Size = new System.Drawing.Size(145, 34);
-            this.B_BrowseCSVCurve.TabIndex = 2;
-            this.B_BrowseCSVCurve.Text = "Обзор...";
-            this.B_BrowseCSVCurve.UseVisualStyleBackColor = true;
-            this.B_BrowseCSVCurve.Click += new System.EventHandler(this.B_BrowseCSVCurve_Click);
-            // 
-            // TB_CSVCurveFolder
-            // 
-            this.TB_CSVCurveFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TLP_Sweep_ProgramMode.SetColumnSpan(this.TB_CSVCurveFolder, 2);
-            this.TB_CSVCurveFolder.Location = new System.Drawing.Point(3, 10);
-            this.TB_CSVCurveFolder.Name = "TB_CSVCurveFolder";
-            this.TB_CSVCurveFolder.Size = new System.Drawing.Size(294, 20);
-            this.TB_CSVCurveFolder.TabIndex = 1;
-            // 
-            // B_EditCurve
-            // 
-            this.B_EditCurve.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.B_EditCurve.Enabled = false;
-            this.B_EditCurve.Location = new System.Drawing.Point(302, 42);
-            this.B_EditCurve.Margin = new System.Windows.Forms.Padding(2);
-            this.B_EditCurve.Name = "B_EditCurve";
-            this.B_EditCurve.Size = new System.Drawing.Size(147, 36);
-            this.B_EditCurve.TabIndex = 3;
-            this.B_EditCurve.Text = "Редактировать кривую (coming soon)";
-            this.B_EditCurve.UseVisualStyleBackColor = true;
             // 
             // TLP_STCspecial_Fun
             // 
@@ -1117,6 +1050,16 @@
             this.ChB_Remember_AT.Text = "Запомнить для всех частот";
             this.ChB_Remember_AT.UseVisualStyleBackColor = true;
             // 
+            // B_Test
+            // 
+            this.B_Test.Location = new System.Drawing.Point(183, 3);
+            this.B_Test.Name = "B_Test";
+            this.B_Test.Size = new System.Drawing.Size(75, 19);
+            this.B_Test.TabIndex = 8;
+            this.B_Test.Text = "MF Test";
+            this.B_Test.UseVisualStyleBackColor = true;
+            this.B_Test.Click += new System.EventHandler(this.B_Test_Click);
+            // 
             // LBConsole
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.LBConsole, 3);
@@ -1183,16 +1126,6 @@
             this.BGW_ProgrammedTuning.WorkerSupportsCancellation = true;
             this.BGW_ProgrammedTuning.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGW_ProgrammedTuning_DoWork);
             // 
-            // B_Test
-            // 
-            this.B_Test.Location = new System.Drawing.Point(183, 3);
-            this.B_Test.Name = "B_Test";
-            this.B_Test.Size = new System.Drawing.Size(75, 19);
-            this.B_Test.TabIndex = 8;
-            this.B_Test.Text = "MF Test";
-            this.B_Test.UseVisualStyleBackColor = true;
-            this.B_Test.Click += new System.EventHandler(this.B_Test_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1235,8 +1168,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_up)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev_down)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps_on_Sweep)).EndInit();
-            this.TLP_Sweep_ProgramMode.ResumeLayout(false);
-            this.TLP_Sweep_ProgramMode.PerformLayout();
             this.TLP_STCspecial_Fun.ResumeLayout(false);
             this.TLP_STCspecial_Fun.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PowerDecrement)).EndInit();
@@ -1280,11 +1211,9 @@
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TSMI_CreateCurve;
         private System.Windows.Forms.RadioButton RB_Sweep_EasyMode;
-        private System.Windows.Forms.RadioButton RB_Sweep_SpeciallMode;
         private System.Windows.Forms.CheckBox ChB_SweepEnabled;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel TLP_Sweep_ProgramMode;
-        private System.Windows.Forms.CheckBox ChB_ProgrammSweep_toogler;
         private System.ComponentModel.BackgroundWorker BGW_Sweep_Curve;
         private System.Windows.Forms.Timer Timer_sweepChecker;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
@@ -1312,9 +1241,6 @@
         private System.Windows.Forms.NumericUpDown NUD_AO_Timeout_Value;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox ChB_TimeOut;
-        private System.Windows.Forms.TextBox TB_CSVCurveFolder;
-        private System.Windows.Forms.Button B_BrowseCSVCurve;
-        private System.Windows.Forms.Button B_EditCurve;
         private System.ComponentModel.BackgroundWorker BGW_ProgrammedTuning;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.NumericUpDown NUD_TimeFdev_down;

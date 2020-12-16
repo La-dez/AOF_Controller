@@ -425,7 +425,7 @@ namespace AOF_Controller
             //   
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
-            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && false /*&& AO_Sweep_CurveTuning_isEnabled*/; // false while not released
+            //RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && false /*&& AO_Sweep_CurveTuning_isEnabled*/; // false while not released
 
             Init_sweep_ctrls();
 
@@ -490,36 +490,36 @@ namespace AOF_Controller
 
         private void RB_Sweep_EasyMode_CheckedChanged(object sender, EventArgs e)
         {
-            ChB_SweepEnabled.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
+          /*  ChB_SweepEnabled.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
 
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !RB_Sweep_SpeciallMode.Checked;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled && RB_Sweep_SpeciallMode.Checked;
 
             TLP_WLSlidingControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
-            TLP_SetControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
+            TLP_SetControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;*/
         }
 
         private void RB_Sweep_SpeciallMode_CheckedChanged(object sender, EventArgs e)
         {
-            ChB_SweepEnabled.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
+          /*  ChB_SweepEnabled.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
 
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed && !RB_Sweep_SpeciallMode.Checked;
-            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && /*AO_Sweep_CurveTuning_isEnabled &&*/ RB_Sweep_SpeciallMode.Checked;
+            TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed &&  RB_Sweep_SpeciallMode.Checked;
 
             TLP_WLSlidingControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
-            TLP_SetControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;
+            TLP_SetControls.Enabled = RB_Sweep_EasyMode.Checked && !RB_Sweep_SpeciallMode.Checked;*/
         }
 
         private void ChB_ProgrammSweep_toogler_CheckedChanged(object sender, EventArgs e)
         {
-            if(ChB_ProgrammSweep_toogler.Checked)
+         /*   if(ChB_ProgrammSweep_toogler.Checked)
             {
                 BGW_ProgrammedTuning.RunWorkerAsync();
             }
             else
             {
                 BGW_ProgrammedTuning.CancelAsync();
-            }
+            }*/
             
             //предыдущая версия. Была основана на загрузке кривой из меню сверху. В дальнейшем нужно возродить
             /*if (AO_Sweep_CurveTuning_isEnabled)
@@ -647,7 +647,7 @@ namespace AOF_Controller
                 if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
                 AO_Sweep_CurveTuning_StopFlag = false;
                 AO_Sweep_CurveTuning_inProgress = false;
-                ChB_ProgrammSweep_toogler.Checked = false;
+                //ChB_ProgrammSweep_toogler.Checked = false;
             }
         }
 
@@ -712,11 +712,11 @@ namespace AOF_Controller
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((e.KeyCode == Keys.A) && e.Alt)
+           /* if ((e.KeyCode == Keys.A) && e.Alt)
             {
                 Admin_mode = !Admin_mode;
                     TLP_STCspecial_Fun.Visible = Admin_mode && ((Filter.FilterType == FilterTypes.STC_Filter)||(Filter.FilterType == FilterTypes.Emulator));
-            }
+            }*/
         }
 
         private void NUD_PowerDecrement_ValueChanged(object sender, EventArgs e)
@@ -756,7 +756,7 @@ namespace AOF_Controller
             var names =  ServiceFunctions.Files.OpenFiles("Select CSV AO curve", true, false, "csv");
             if (String.IsNullOrEmpty(names[0])) return; 
             Log.Message("Selected curve file: "+ names[0]);
-            TB_CSVCurveFolder.Text = names[0];
+            //TB_CSVCurveFolder.Text = names[0];
             ProgramMode_curve = Read_Frequencies_fromCSV(names[0],5,1);
             for (int i = 0; i < ProgramMode_curve.Count; i++)
             {
