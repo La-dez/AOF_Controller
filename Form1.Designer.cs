@@ -95,6 +95,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.NUD_PowerDecrement = new System.Windows.Forms.NumericUpDown();
             this.ChB_Remember_AT = new System.Windows.Forms.CheckBox();
+            this.B_Test = new System.Windows.Forms.Button();
             this.LBConsole = new System.Windows.Forms.ListBox();
             this.B_Quit = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -103,7 +104,6 @@
             this.BGW_Sweep_Curve = new System.ComponentModel.BackgroundWorker();
             this.Timer_sweepChecker = new System.Windows.Forms.Timer(this.components);
             this.BGW_ProgrammedTuning = new System.ComponentModel.BackgroundWorker();
-            this.B_Test = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
@@ -1117,6 +1117,16 @@
             this.ChB_Remember_AT.Text = "Запомнить для всех частот";
             this.ChB_Remember_AT.UseVisualStyleBackColor = true;
             // 
+            // B_Test
+            // 
+            this.B_Test.Location = new System.Drawing.Point(183, 3);
+            this.B_Test.Name = "B_Test";
+            this.B_Test.Size = new System.Drawing.Size(75, 19);
+            this.B_Test.TabIndex = 8;
+            this.B_Test.Text = "MF Test";
+            this.B_Test.UseVisualStyleBackColor = true;
+            this.B_Test.Click += new System.EventHandler(this.B_Test_Click);
+            // 
             // LBConsole
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.LBConsole, 3);
@@ -1182,16 +1192,6 @@
             // 
             this.BGW_ProgrammedTuning.WorkerSupportsCancellation = true;
             this.BGW_ProgrammedTuning.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGW_ProgrammedTuning_DoWork);
-            // 
-            // B_Test
-            // 
-            this.B_Test.Location = new System.Drawing.Point(183, 3);
-            this.B_Test.Name = "B_Test";
-            this.B_Test.Size = new System.Drawing.Size(75, 19);
-            this.B_Test.TabIndex = 8;
-            this.B_Test.Text = "MF Test";
-            this.B_Test.UseVisualStyleBackColor = true;
-            this.B_Test.Click += new System.EventHandler(this.B_Test_Click);
             // 
             // Form1
             // 

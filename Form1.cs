@@ -846,7 +846,7 @@ namespace AOF_Controller
 
             try
             {
-                //(Filter as STC_Filter).Set_MF_test(LoF, 0.2f);
+                (Filter as STC_Filter).Set_MF_test(LoF, 0.2f);
             }   
             catch
             {
