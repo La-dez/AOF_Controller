@@ -123,8 +123,9 @@ namespace AOF_Controller
 
                 L_RequiredDevName.Text = Filter.Ask_required_dev_file();
                 L_RealDevName.Text = Filter.Ask_loaded_dev_file();
-                float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
-                Filter.Set_Wl(data_CurWL);
+               
+                 float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
+               // Filter.Set_Wl(data_CurWL);
 
 
                 NUD_CurWL.Minimum = (decimal)Filter.WL_Min;
