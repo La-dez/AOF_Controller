@@ -135,7 +135,7 @@ namespace AOF_Controller
                 NUD_CurWL.Value = (decimal)data_CurWL;
                 TrB_CurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
 
-
+                RB_Sweep_EasyMode.Checked = true;
                 ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
                 var AOFWind_FreqDeviation_bkp = AO_FreqDeviation;

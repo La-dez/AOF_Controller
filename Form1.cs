@@ -633,6 +633,8 @@ namespace AOF_Controller
                 }
             }
         }
+
+       
         private void BGW_Sweep_Curve_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
@@ -750,24 +752,21 @@ namespace AOF_Controller
             if (NUD_AO_Timeout_Value.Enabled) Filter.InitTimer((int)NUD_AO_Timeout_Value.Value);
         }
 
-        List<byte[]> ByteList = new List<byte[]>();
+        
         private void B_BrowseCSVCurve_Click(object sender, EventArgs e)
         {
             var name =  ServiceFunctions.Files.OpenFile("Select CSV AO curve", false, "csv");
             if (String.IsNullOrEmpty(name)) return; 
             Log.Message("Selected curve file: "+ name);
             TB_CSVCurveFolder.Text = name;
-            ProgramMode_curve = CSV_MyHelper.Read_Frequencies_fromCSV(name,5,1);
-            for (int i = 0; i < ProgramMode_curve.Count; i++)
-            {
-                ByteList.Add((Filter as STC_Filter).Create_byteMass_forHzTune(ProgramMode_curve[i]));
-            }
+            Process_file(name);
 
         }
+        //старая версия функции. Была предназначена для проверки скорости перестройки
         double time_sum = 0;
-        private void BGW_ProgrammedTuning_DoWork(object sender, DoWorkEventArgs e)
+        private void BGW_ProgrammedTuning_DoWork2(object sender, DoWorkEventArgs e)
         {
-            int i = 0;
+           /* int i = 0;
             int number_of_runs = 0;
             try
             {
@@ -777,8 +776,7 @@ namespace AOF_Controller
                     STW.Start();
                     while (i < ProgramMode_curve.Count)
                     {
-                        //this.Invoke(new Action(() => Filter.Set_Hz(ProgramMode_curve[i])));
-                        this.Invoke(new Action(()=>(Filter as STC_Filter).Set_Hz_via_bytemass(ByteList[i])));
+                        this.Invoke(new Action(()=>(Filter as STC_Filter).Set_Hz_via_bytemass(ByteMass[i])));
                         i++;
                     }
                     STW.Stop();
@@ -794,9 +792,127 @@ namespace AOF_Controller
             catch(Exception exc)
             {
                 var message = exc.Message;
-            }
+            }*/
         }
+        private void BGW_ProgrammedTuning_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //MF_mode_freqs
+            if (Filter.FilterType != FilterTypes.STC_Filter && Filter.FilterType != FilterTypes.Emulator)
+            {
+                Log.Error("Реализация данного режима на этом типе фильтров невозможна!");
+                return;
+            }
+            int amp_max = (int)Filter.Intensity_Max;
+            int amp_min = (int)Filter.Intensity_Min;
+            int amp_delta = amp_max - amp_min;
 
+            if (amp_max < 1 || amp_min < 1)
+            {
+                Log.Error("Загрузите dev-файл с новыми амлитудами (целочисленные значения > 1000)!");
+                return;
+            }
+            if (amp_max == amp_min)
+            {
+                Log.Error("Выберете dev-файл, в которым будут разные значения амплитуд!");
+                return;
+            }
+            if (MF_mode_freqs.Count() < 2)
+            {
+                Log.Error("Задайте массив, в котором будет больше одной частоты!");
+                return;
+            }
+            int MF_mode_CountOfFreqs = MF_mode_freqs.Count();
+            double MF_mode_deltaT = MF_mode_times[1] - MF_mode_times[0];
+            int[] Amps = new int[MF_mode_CountOfFreqs];
+            for (int j = 0; j < MF_mode_CountOfFreqs; j++)
+                Amps[j] = (int)(amp_min + MF_mode_magnitudes[j] * amp_delta);
+
+            if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+
+            //precalculating
+            List<byte[]> ByteMass_list = new List<byte[]>();
+           
+            
+            int deleted_freqs = 0;
+            for (int j = 0; j < MF_mode_CountOfFreqs- deleted_freqs; j++)
+            {
+                if (MF_mode_freqs[j] < Filter.HZ_Min || MF_mode_freqs[j] > Filter.HZ_Max)
+                {
+                    MF_mode_freqs.RemoveAt(j);
+                    j--; deleted_freqs++;
+                }
+            }
+
+            if (Filter.FilterType == FilterTypes.STC_Filter)
+            {
+                for (int j = 0; j < MF_mode_CountOfFreqs; j++)
+                {
+                    if (MF_mode_freqs[j] >= Filter.HZ_Min || MF_mode_freqs[j] <= Filter.HZ_Max)
+                        ByteMass_list.Add((Filter as STC_Filter).Create_byteMass_forHzTune(MF_mode_freqs[j], (uint)Amps[j]));
+                }
+            }
+
+            if (Filter.FilterType == FilterTypes.STC_Filter) MF_mode_CountOfFreqs = ByteMass_list.Count;
+            else MF_mode_CountOfFreqs = MF_mode_freqs.Count; //поскольку часть частот могла быть выкинута, пересчитаем их
+            Log.Message(String.Format("Перестройка запущена."));
+            int i = 0;
+            if (Filter.FilterType == FilterTypes.STC_Filter)
+            {
+                while (!(sender as BackgroundWorker).CancellationPending)
+                {
+                    try
+                    {
+
+                        this.Invoke(new Action(() => (Filter as STC_Filter).Set_Hz_via_bytemass(ByteMass_list[i])));
+                        if (AO_Sweep_CurveTuning_StopFlag)
+                        {
+                            e.Cancel = true;
+                            break;
+                        }
+                        System.Threading.Thread.Sleep((int)(MF_mode_deltaT * 1000));
+
+
+                        i++;
+                        if (i == MF_mode_CountOfFreqs) i = 0;
+                    }
+                    catch (Exception exc)
+                    {
+                        e.Result = exc;
+                        break;
+                    }
+                }
+
+            }
+            else
+            {
+                while (!(sender as BackgroundWorker).CancellationPending)
+                {
+                    try
+                    {
+
+                        int time_ms = (int)(MF_mode_deltaT * 1000);
+                        this.Invoke(new Action(() => Filter.Set_Hz(MF_mode_freqs[i])));
+                        Filter.Set_Hz(MF_mode_freqs[i]);
+                        if (AO_Sweep_CurveTuning_StopFlag)
+                        {
+                            e.Cancel = true;
+                            break;
+                        }
+                        System.Threading.Thread.Sleep(time_ms);
+
+
+                        i++;
+                        if (i == MF_mode_CountOfFreqs) i = 0;
+                    }
+                    catch (Exception exc)
+                    {
+                        e.Result = exc;
+                        break;
+                    }
+                }
+            }
+
+        }
         private void NUD_Steps_on_Sweep_ValueChanged(object sender, EventArgs e)
         {
             Init_sweep_ctrls();
@@ -857,23 +973,44 @@ namespace AOF_Controller
 
         private void B_CreateData_Click(object sender, EventArgs e)
         {
-            var window = new AO_DataSynt(Get_FileName);
+            var window = new AO_DataSynt(Process_file);
             window.ShowDialog();
         }
-        private void Get_FileName(string FileName)
+        List<float> MF_mode_times;
+        List<float> MF_mode_freqs;
+        List<float> MF_mode_magnitudes;
+        private void Process_file(string FileName)
         {
             TB_CSVCurveFolder.Text = FileName;
             //some actions of loading
-            List<float> times = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 0);
-            List<float> freqs = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 1);
-            List<float> magnitudes = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 2);
+            MF_mode_times = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 0);
+            MF_mode_freqs = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 1);
+            MF_mode_magnitudes = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 2);
 
-            for(int i= freqs.Count-1; i>-1;i--)
+            for(int i= MF_mode_freqs.Count-1; i>-1;i--)
             {
-                Log.Message(String.Format("{0:0.000}\t{1:0.00000}\t\t{2:0.00000}", times[i], freqs[i], magnitudes[i]));
+                Log.Message(String.Format("{0:0.000}\t{1:0.00000}\t\t{2:0.00000}", MF_mode_times[i], MF_mode_freqs[i], MF_mode_magnitudes[i]));
             }
-            Log.Message("Количество прочитанных частот:" + freqs.Count); 
+            Log.Message("Количество прочитанных частот:" + MF_mode_freqs.Count); 
 
+        }
+
+        private void BGW_ProgrammedTuning_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                Log.Message(String.Format("Перестройка прервана пользователем."));
+                AO_Sweep_CurveTuning_StopFlag = false;
+                AO_Sweep_CurveTuning_inProgress = false;
+            }
+            else
+            {
+                Log.Message(String.Format("Перестройка прервана из-за внутренней ошибки."));
+                if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+                AO_Sweep_CurveTuning_StopFlag = false;
+                AO_Sweep_CurveTuning_inProgress = false;
+                ChB_ProgrammSweep_toogler.Checked = false;
+            }
         }
     }
 }
