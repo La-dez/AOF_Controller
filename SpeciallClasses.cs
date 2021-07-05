@@ -227,12 +227,26 @@ namespace LDZ_Code
                 string[] result = null;
                 OpenFileDialog OFD = new OpenFileDialog();
                 OFD.Filter = CreateFilter_ForFileDialog(AllowAllExtensions, extensions);
-                OFD.Title = "Select Files";
+                OFD.Title = w_Name;
                 OFD.Multiselect = Multiselect;
 
                 if (OFD.ShowDialog() == DialogResult.OK)
                 {
                     result = OFD.FileNames;
+                }
+                return result;
+            }
+            public static string OpenFile(string w_Name, bool AllowAllExtensions, params string[] extensions)
+            {
+                string result = null;
+                OpenFileDialog OFD = new OpenFileDialog();
+                OFD.Filter = CreateFilter_ForFileDialog(AllowAllExtensions, extensions);
+                OFD.Title = w_Name;
+                OFD.Multiselect = false;
+
+                if (OFD.ShowDialog() == DialogResult.OK)
+                {
+                    result = OFD.FileName;
                 }
                 return result;
             }

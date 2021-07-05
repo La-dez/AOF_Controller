@@ -112,6 +112,13 @@
     <Compile Include="AOF_FormFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AO_DataSynt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AO_DataSynt.Designer.cs">
+      <DependentUpon>AO_DataSynt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CSV_MyHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +134,9 @@
     <Compile Include="W_AO_SweepTuneCurve.Designer.cs">
       <DependentUpon>W_AO_SweepTuneCurve.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AO_DataSynt.resx">
+      <DependentUpon>AO_DataSynt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

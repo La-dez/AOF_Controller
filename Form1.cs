@@ -26,7 +26,7 @@ namespace AOF_Controller
         double AO_TimeDeviation = 10;
         bool AO_Sweep_Needed = false;
         float[,] AO_All_CurveSweep_Params = new float[0, 0];
-        bool AO_Sweep_CurveTuning_isEnabled = false;
+        bool AO_Sweep_CurveTuning_isEnabled = true;
         bool AO_Sweep_CurveTuning_inProgress = false;
         bool AO_Sweep_CurveTuning_StopFlag = false;
 
@@ -425,7 +425,7 @@ namespace AOF_Controller
             //   
             TLP_Sweep_EasyMode.Enabled = AO_Sweep_Needed;
             TLP_Sweep_ProgramMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled;
-            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && false /*&& AO_Sweep_CurveTuning_isEnabled*/; // false while not released
+            RB_Sweep_SpeciallMode.Enabled = AO_Sweep_Needed && AO_Sweep_CurveTuning_isEnabled; // false while not released
 
             Init_sweep_ctrls();
 
@@ -753,11 +753,11 @@ namespace AOF_Controller
         List<byte[]> ByteList = new List<byte[]>();
         private void B_BrowseCSVCurve_Click(object sender, EventArgs e)
         {
-            var names =  ServiceFunctions.Files.OpenFiles("Select CSV AO curve", true, false, "csv");
-            if (String.IsNullOrEmpty(names[0])) return; 
-            Log.Message("Selected curve file: "+ names[0]);
-            TB_CSVCurveFolder.Text = names[0];
-            ProgramMode_curve = Read_Frequencies_fromCSV(names[0],5,1);
+            var name =  ServiceFunctions.Files.OpenFile("Select CSV AO curve", false, "csv");
+            if (String.IsNullOrEmpty(name)) return; 
+            Log.Message("Selected curve file: "+ name);
+            TB_CSVCurveFolder.Text = name;
+            ProgramMode_curve = CSV_MyHelper.Read_Frequencies_fromCSV(name,5,1);
             for (int i = 0; i < ProgramMode_curve.Count; i++)
             {
                 ByteList.Add((Filter as STC_Filter).Create_byteMass_forHzTune(ProgramMode_curve[i]));
@@ -852,6 +852,27 @@ namespace AOF_Controller
             {
                 Log.Error("Error in testing!");
             }        
+
+        }
+
+        private void B_CreateData_Click(object sender, EventArgs e)
+        {
+            var window = new AO_DataSynt(Get_FileName);
+            window.ShowDialog();
+        }
+        private void Get_FileName(string FileName)
+        {
+            TB_CSVCurveFolder.Text = FileName;
+            //some actions of loading
+            List<float> times = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 0);
+            List<float> freqs = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 1);
+            List<float> magnitudes = CSV_MyHelper.Read_Frequencies_fromCSV(FileName, 1, 2);
+
+            for(int i= freqs.Count-1; i>-1;i--)
+            {
+                Log.Message(String.Format("{0:0.000}\t{1:0.00000}\t\t{2:0.00000}", times[i], freqs[i], magnitudes[i]));
+            }
+            Log.Message("Количество прочитанных частот:" + freqs.Count); 
 
         }
     }

@@ -152,3 +152,27 @@ C:\Users\Greg\Desktop\AOF_or_AOLib\AOF_Controller\obj\x86\Release\AOF_Controller
 C:\Users\Greg\Desktop\AOF_or_AOLib\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.CopyComplete
 C:\Users\Greg\Desktop\AOF_or_AOLib\AOF_Controller\obj\x86\Release\AOF Controller.exe
 C:\Users\Greg\Desktop\AOF_or_AOLib\AOF_Controller\obj\x86\Release\AOF Controller.pdb
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\favicon_stc.ico
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\AOF Controller.exe.config
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\AOF Controller.exe
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\AOF Controller.pdb
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\AO_Lib.dll
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\CsvHelper.dll
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\System.Runtime.CompilerServices.Unsafe.dll
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\System.Threading.Tasks.Extensions.dll
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\System.ValueTuple.dll
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\AO_Lib.pdb
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\CsvHelper.xml
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\System.Runtime.CompilerServices.Unsafe.xml
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\System.Threading.Tasks.Extensions.xml
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\bin\x86\Release\System.ValueTuple.xml
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.AssemblyReference.cache
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.AO_DataSynt.resources
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.Form1.resources
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.Properties.Resources.resources
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.W_AO_SweepTuneCurve.resources
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.GenerateResource.cache
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.CoreCompileInputs.cache
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF_Controller.csproj.CopyComplete
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF Controller.exe
+G:\Работа Саша\Мои разработки\AOD and AOF\AOF_Controller\obj\x86\Release\AOF Controller.pdb
